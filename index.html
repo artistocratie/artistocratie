@@ -200,28 +200,205 @@
     flex: 1; height: 0.5px; background: var(--border);
   }
 
-  /* TABS */
-  .gallery-tabs {
-    display: flex; gap: 0;
-    margin-bottom: 3rem;
-    border-bottom: 0.5px solid var(--border);
+  /* GALERIE ROOMS */
+  .gallery-rooms {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
   }
-  .gallery-tab {
+  .room-card {
+    position: relative; overflow: hidden;
+    aspect-ratio: 2/3;
+    cursor: none;
+    text-decoration: none;
+  }
+  .room-collage {
+    width: 100%; height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 2px;
+    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .room-card:hover .room-collage { transform: scale(1.04); }
+  .room-collage-item {
+    background: #1a1208;
+    overflow: hidden;
+  }
+  .room-collage-item:first-child {
+    grid-row: span 2;
+  }
+  .room-door {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(8,8,8,0.85) 0%, rgba(8,8,8,0.2) 50%, transparent 100%);
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem 1.5rem;
+    transition: background 0.4s;
+  }
+  .room-card:hover .room-door {
+    background: linear-gradient(to top, rgba(8,8,8,0.92) 0%, rgba(8,8,8,0.4) 60%, transparent 100%);
+  }
+  .room-number {
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 0.5rem;
+  }
+  .room-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px; letter-spacing: 3px; color: var(--cream);
+    line-height: 1;
+    margin-bottom: 0.8rem;
+  }
+  .room-count {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 13px; color: #777;
+    margin-bottom: 1.2rem;
+  }
+  .room-enter {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gold); opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .room-enter::after {
+    content: '→';
+    font-size: 14px;
+    transition: transform 0.3s;
+  }
+  .room-card:hover .room-enter {
+    opacity: 1; transform: translateY(0);
+  }
+  .room-card:hover .room-enter::after {
+    transform: translateX(4px);
+  }
+
+  /* LIGHTBOX */
+  .lightbox {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(8,8,8,0.97);
+    z-index: 500;
+    opacity: 0;
+    transition: opacity 0.4s;
+    overflow-y: auto;
+  }
+  .lightbox.open { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 0; }
+  .lightbox.visible { opacity: 1; }
+  .lightbox-close {
+    position: fixed; top: 1.5rem; right: 2rem;
     font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
-    color: var(--muted); padding: 0.8rem 2rem;
-    cursor: none; border: none; background: transparent;
-    border-bottom: 2px solid transparent;
-    transition: color 0.2s, border-color 0.2s;
-    font-family: 'Inter', sans-serif; font-weight: 300;
-    margin-bottom: -0.5px;
+    color: var(--muted); cursor: none; border: none; background: none;
+    font-family: 'Inter', sans-serif;
+    transition: color 0.2s; z-index: 10;
+    display: flex; align-items: center; gap: 0.5rem;
   }
-  .gallery-tab:hover { color: var(--cream); }
-  .gallery-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .lightbox-close::after { content: '✕'; font-size: 16px; }
+  .lightbox-close:hover { color: var(--gold); }
+  .lightbox-img-wrap {
+    width: 100%; max-height: 75vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 4rem 4rem 2rem;
+    flex-shrink: 0;
+  }
+  .lightbox-img-wrap img,
+  .lightbox-img-wrap .lightbox-placeholder {
+    max-width: 100%; max-height: 70vh;
+    object-fit: contain;
+    border: 0.5px solid #1e1e1e;
+  }
+  .lightbox-placeholder {
+    width: 500px; height: 600px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 14px; letter-spacing: 2px; color: #333;
+  }
+  .lightbox-info {
+    width: 100%; max-width: 680px;
+    padding: 2.5rem 4rem 4rem;
+    border-top: 0.5px solid var(--border);
+  }
+  .lightbox-tag {
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 0.8rem;
+  }
+  .lightbox-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 5vw, 64px);
+    letter-spacing: 3px; color: var(--cream);
+    line-height: 1; margin-bottom: 1.5rem;
+  }
+  .lightbox-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 18px;
+    line-height: 1.8; color: #888;
+    max-width: 520px;
+  }
+  .lightbox-meta {
+    margin-top: 2rem;
+    display: flex; gap: 2rem;
+  }
+  .lightbox-meta-item {
+    display: flex; flex-direction: column; gap: 0.3rem;
+  }
+  .lightbox-meta-label {
+    font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #444;
+  }
+  .lightbox-meta-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px; color: #777;
+  }
 
-  /* PANELS */
-  .gallery-panel { display: none; }
-  .gallery-panel.active { display: block; }
-
+  /* PAGE SALLE */
+  .room-page {
+    display: none;
+    position: fixed; inset: 0;
+    background: var(--black);
+    z-index: 200;
+    overflow-y: auto;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .room-page.open {
+    display: block;
+  }
+  .room-page.visible {
+    opacity: 1;
+  }
+  .room-page-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 3rem;
+    border-bottom: 0.5px solid var(--border);
+    position: sticky; top: 0;
+    background: rgba(8,8,8,0.95);
+    backdrop-filter: blur(8px);
+    z-index: 10;
+  }
+  .room-back {
+    display: flex; align-items: center; gap: 0.8rem;
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); cursor: none; border: none; background: none;
+    font-family: 'Inter', sans-serif;
+    transition: color 0.2s;
+  }
+  .room-back:hover { color: var(--gold); }
+  .room-back::before { content: '←'; font-size: 14px; }
+  .room-page-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px; letter-spacing: 4px; color: var(--cream);
+  }
+  .room-page-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    padding: 3rem;
+  }
+  .room-page-item {
+    position: relative; overflow: hidden;
+    aspect-ratio: 3/4; background: #111; cursor: none;
+  }
+  .room-page-item:first-child { grid-row: span 2; aspect-ratio: auto; }
+  .room-page-item:hover .gallery-overlay { opacity: 1; }
   .gallery-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -229,23 +406,7 @@
   }
   .gallery-item {
     position: relative; overflow: hidden;
-    aspect-ratio: 3/4;
-    background: #111;
-    cursor: none;
-  }
-  .gallery-item:first-child {
-    grid-row: span 2;
-    aspect-ratio: auto;
-  }
-  .gallery-item img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    transition: transform 0.6s ease, filter 0.4s;
-    filter: saturate(0.85);
-  }
-  .gallery-item:hover img {
-    transform: scale(1.04);
-    filter: saturate(1.1);
+    aspect-ratio: 3/4; background: #111; cursor: none;
   }
   .gallery-overlay {
     position: absolute; inset: 0;
@@ -468,90 +629,131 @@
     <div class="section-line"></div>
   </div>
 
-  <div class="gallery-tabs reveal">
-    <button class="gallery-tab active" data-tab="toiles">Toiles</button>
-    <button class="gallery-tab" data-tab="posters">Posters</button>
-    <button class="gallery-tab" data-tab="carnets">Carnets</button>
-  </div>
+  <div class="gallery-rooms reveal">
 
-  <!-- TOILES -->
-  <div class="gallery-panel active" id="tab-toiles">
-    <div class="gallery-grid">
-      <div class="gallery-item">
-        <div style="width:100%;height:100%;background:linear-gradient(135deg,#2a1a08,#D4533A,#C17A2A);display:flex;align-items:center;justify-content:center;color:#1a0808;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;letter-spacing:2px;">Toile 01</div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Titre de la toile</span></div>
+    <!-- SALLE TOILES -->
+    <div class="room-card" onclick="openRoom('toiles')">
+      <div class="room-collage">
+        <div class="room-collage-item" style="background:linear-gradient(135deg,#2a1a08,#D4533A);"></div>
+        <div class="room-collage-item" style="background:linear-gradient(135deg,#1a0808,#8B2020);"></div>
+        <div class="room-collage-item" style="background:linear-gradient(135deg,#C17A2A,#E8A84A);"></div>
+        <div class="room-collage-item" style="background:linear-gradient(135deg,#2A5FA8,#1a1a3a);"></div>
       </div>
-      <div class="gallery-item">
-        <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a0808,#8B2020,#D4533A);display:flex;align-items:center;justify-content:center;color:#0a0404;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;letter-spacing:2px;">Toile 02</div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Titre de la toile</span></div>
-      </div>
-      <div class="gallery-item">
-        <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1208,#C17A2A,#E8A84A);display:flex;align-items:center;justify-content:center;color:#0a0800;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;letter-spacing:2px;">Toile 03</div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Titre de la toile</span></div>
-      </div>
-      <div class="gallery-item">
-        <div style="width:100%;height:100%;background:linear-gradient(135deg,#081a2a,#2A5FA8,#1a1a3a);display:flex;align-items:center;justify-content:center;color:#08101a;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;letter-spacing:2px;">Toile 04</div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Titre de la toile</span></div>
-      </div>
-      <div class="gallery-item">
-        <div style="width:100%;height:100%;background:linear-gradient(135deg,#0a1a08,#2a5a10,#1a3a08);display:flex;align-items:center;justify-content:center;color:#040a04;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;letter-spacing:2px;">Toile 05</div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Titre de la toile</span></div>
+      <div class="room-door">
+        <div class="room-number">Salle 01</div>
+        <div class="room-name">TOILES</div>
+        <div class="room-count">5 œuvres originales</div>
+        <div class="room-enter">Entrer dans la salle</div>
       </div>
     </div>
-  </div>
 
-  <!-- POSTERS -->
-  <div class="gallery-panel" id="tab-posters">
-    <div class="gallery-grid">
-      <div class="gallery-item">
-        <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a0a1a,#8B2060,#D453A0);display:flex;align-items:center;justify-content:center;color:#0a0408;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;letter-spacing:2px;">Poster 01</div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Titre du poster</span></div>
+    <!-- SALLE POSTERS -->
+    <div class="room-card" onclick="openRoom('posters')">
+      <div class="room-collage">
+        <div class="room-collage-item" style="background:linear-gradient(135deg,#1a0a1a,#8B2060);"></div>
+        <div class="room-collage-item" style="background:linear-gradient(135deg,#1a1a08,#D4C453);"></div>
+        <div class="room-collage-item" style="background:linear-gradient(135deg,#081a18,#208B7A);"></div>
+        <div class="room-collage-item" style="background:linear-gradient(135deg,#180a1a,#6B2A8B);"></div>
       </div>
-      <div class="gallery-item">
-        <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1a08,#8B8020,#D4C453);display:flex;align-items:center;justify-content:center;color:#0a0a04;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;letter-spacing:2px;">Poster 02</div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Titre du poster</span></div>
-      </div>
-      <div class="gallery-item">
-        <div style="width:100%;height:100%;background:linear-gradient(135deg,#081a18,#208B7A,#53D4C4);display:flex;align-items:center;justify-content:center;color:#040a09;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;letter-spacing:2px;">Poster 03</div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Titre du poster</span></div>
-      </div>
-      <div class="gallery-item">
-        <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a0808,#C17A2A,#E8A84A);display:flex;align-items:center;justify-content:center;color:#0a0400;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;letter-spacing:2px;">Poster 04</div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Titre du poster</span></div>
-      </div>
-      <div class="gallery-item">
-        <div style="width:100%;height:100%;background:linear-gradient(135deg,#180a1a,#6B2A8B,#A853D4);display:flex;align-items:center;justify-content:center;color:#090408;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;letter-spacing:2px;">Poster 05</div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Titre du poster</span></div>
+      <div class="room-door">
+        <div class="room-number">Salle 02</div>
+        <div class="room-name">POSTERS</div>
+        <div class="room-count">5 créations imprimables</div>
+        <div class="room-enter">Entrer dans la salle</div>
       </div>
     </div>
-  </div>
 
-  <!-- CARNETS -->
-  <div class="gallery-panel" id="tab-carnets">
-    <div class="gallery-grid">
-      <div class="gallery-item">
-        <div style="width:100%;height:100%;background:linear-gradient(135deg,#0a1208,#2A5A1A,#53A84A);display:flex;align-items:center;justify-content:center;color:#040a04;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;letter-spacing:2px;">Carnet 01</div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Titre du carnet</span></div>
+    <!-- SALLE CARNETS -->
+    <div class="room-card" onclick="openRoom('carnets')">
+      <div class="room-collage">
+        <div class="room-collage-item" style="background:linear-gradient(135deg,#0a1208,#2A5A1A);"></div>
+        <div class="room-collage-item" style="background:linear-gradient(135deg,#08101a,#1A3A6B);"></div>
+        <div class="room-collage-item" style="background:linear-gradient(135deg,#1a1008,#D4A84A);"></div>
+        <div class="room-collage-item" style="background:linear-gradient(135deg,#1a0810,#D44A7A);"></div>
       </div>
-      <div class="gallery-item">
-        <div style="width:100%;height:100%;background:linear-gradient(135deg,#08101a,#1A3A6B,#4A7AD4);display:flex;align-items:center;justify-content:center;color:#04080a;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;letter-spacing:2px;">Carnet 02</div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Titre du carnet</span></div>
-      </div>
-      <div class="gallery-item">
-        <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1008,#6B4A1A,#D4A84A);display:flex;align-items:center;justify-content:center;color:#0a0804;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;letter-spacing:2px;">Carnet 03</div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Titre du carnet</span></div>
-      </div>
-      <div class="gallery-item">
-        <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a0810,#6B1A3A,#D44A7A);display:flex;align-items:center;justify-content:center;color:#0a0408;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;letter-spacing:2px;">Carnet 04</div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Titre du carnet</span></div>
-      </div>
-      <div class="gallery-item">
-        <div style="width:100%;height:100%;background:linear-gradient(135deg,#100a1a,#3A1A6B,#7A4AD4);display:flex;align-items:center;justify-content:center;color:#08040a;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;letter-spacing:2px;">Carnet 05</div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Titre du carnet</span></div>
+      <div class="room-door">
+        <div class="room-number">Salle 03</div>
+        <div class="room-name">CARNETS</div>
+        <div class="room-count">5 pages de carnet</div>
+        <div class="room-enter">Entrer dans la salle</div>
       </div>
     </div>
+
   </div>
 </section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">Fermer</button>
+  <div class="lightbox-img-wrap">
+    <div class="lightbox-placeholder" id="lightbox-img" style="background:linear-gradient(135deg,#1a1208,#2a1a08);">— Image —</div>
+  </div>
+  <div class="lightbox-info">
+    <div class="lightbox-tag" id="lightbox-tag">Toile</div>
+    <div class="lightbox-title" id="lightbox-title">Titre de l'œuvre</div>
+    <div class="lightbox-desc" id="lightbox-desc">Description de l'œuvre, son histoire, l'émotion qu'elle raconte.</div>
+    <div class="lightbox-meta">
+      <div class="lightbox-meta-item">
+        <span class="lightbox-meta-label">Médium</span>
+        <span class="lightbox-meta-value" id="lightbox-medium">Acrylique sur toile</span>
+      </div>
+      <div class="lightbox-meta-item">
+        <span class="lightbox-meta-label">Format</span>
+        <span class="lightbox-meta-value" id="lightbox-format">40 × 50 cm</span>
+      </div>
+      <div class="lightbox-meta-item">
+        <span class="lightbox-meta-label">Année</span>
+        <span class="lightbox-meta-value" id="lightbox-year">2025</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGES SALLES -->
+<div class="room-page" id="room-toiles">
+  <div class="room-page-nav">
+    <button class="room-back" onclick="closeRoom('toiles')">Retour à la galerie</button>
+    <div class="room-page-title">TOILES</div>
+    <div style="width:120px;"></div>
+  </div>
+  <div class="room-page-grid">
+    <div class="room-page-item" onclick="openLightbox('Toile 01','Toile','Acrylique sur toile','40 × 50 cm','2025','Une figure humaine expressée dans des tons chauds. L\'émotion avant tout.','linear-gradient(135deg,#2a1a08,#D4533A,#C17A2A)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#2a1a08,#D4533A,#C17A2A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Toile 01</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Toile 02','Toile','Acrylique sur toile','30 × 40 cm','2025','Les contrastes du rouge et du noir racontent une tension intérieure.','linear-gradient(135deg,#1a0808,#8B2020,#D4533A)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#1a0808,#8B2020,#D4533A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Toile 02</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Toile 03','Toile','Acrylique sur toile','50 × 60 cm','2024','L\'or et l\'ocre comme une lumière qui réchauffe même les jours gris.','linear-gradient(135deg,#1a1208,#C17A2A,#E8A84A)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1208,#C17A2A,#E8A84A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Toile 03</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Toile 04','Toile','Acrylique sur toile','40 × 40 cm','2024','Le bleu profond comme un voyage vers l\'intérieur.','linear-gradient(135deg,#081a2a,#2A5FA8,#1a1a3a)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#081a2a,#2A5FA8,#1a1a3a);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Toile 04</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Toile 05','Toile','Acrylique sur toile','60 × 80 cm','2024','La nature comme refuge, le vert comme espoir.','linear-gradient(135deg,#0a1a08,#2a5a10,#1a3a08)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#0a1a08,#2a5a10,#1a3a08);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Toile 05</span></div></div>
+  </div>
+</div>
+
+<div class="room-page" id="room-posters">
+  <div class="room-page-nav">
+    <button class="room-back" onclick="closeRoom('posters')">Retour à la galerie</button>
+    <div class="room-page-title">POSTERS</div>
+    <div style="width:120px;"></div>
+  </div>
+  <div class="room-page-grid">
+    <div class="room-page-item" onclick="openLightbox('Poster 01','Poster','Impression numérique','A3','2025','Une composition florale entre douceur et intensité.','linear-gradient(135deg,#1a0a1a,#8B2060,#D453A0)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#1a0a1a,#8B2060,#D453A0);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Poster 01</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Poster 02','Poster','Impression numérique','A2','2025','Des formes géométriques qui dansent dans les tons soleil.','linear-gradient(135deg,#1a1a08,#8B8020,#D4C453)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1a08,#8B8020,#D4C453);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Poster 02</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Poster 03','Poster','Impression numérique','A3','2024','L\'eau et la lumière capturées dans leurs nuances les plus fines.','linear-gradient(135deg,#081a18,#208B7A,#53D4C4)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#081a18,#208B7A,#53D4C4);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Poster 03</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Poster 04','Poster','Impression numérique','A2','2024','Chaleur, mouvement, vie — un hommage aux couleurs du Sud.','linear-gradient(135deg,#1a0808,#C17A2A,#E8A84A)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#1a0808,#C17A2A,#E8A84A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Poster 04</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Poster 05','Poster','Impression numérique','A3','2024','Le violet comme une méditation, un espace de silence intérieur.','linear-gradient(135deg,#180a1a,#6B2A8B,#A853D4)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#180a1a,#6B2A8B,#A853D4);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Poster 05</span></div></div>
+  </div>
+</div>
+
+<div class="room-page" id="room-carnets">
+  <div class="room-page-nav">
+    <button class="room-back" onclick="closeRoom('carnets')">Retour à la galerie</button>
+    <div class="room-page-title">CARNETS</div>
+    <div style="width:120px;"></div>
+  </div>
+  <div class="room-page-grid">
+    <div class="room-page-item" onclick="openLightbox('Carnet 01','Carnet','Aquarelle & encre','21 × 29 cm','2025','Une page de voyage, croquée sur le vif dans les rues de Montréal.','linear-gradient(135deg,#0a1208,#2A5A1A,#53A84A)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#0a1208,#2A5A1A,#53A84A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Carnet 01</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Carnet 02','Carnet','Aquarelle & encre','21 × 29 cm','2025','Le bleu du ciel un matin de janvier. Froid dehors, chaud dedans.','linear-gradient(135deg,#08101a,#1A3A6B,#4A7AD4)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#08101a,#1A3A6B,#4A7AD4);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Carnet 02</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Carnet 03','Carnet','Aquarelle & encre','21 × 29 cm','2024','L\'ocre des falaises au coucher du soleil — un souvenir de voyage.','linear-gradient(135deg,#1a1008,#6B4A1A,#D4A84A)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1008,#6B4A1A,#D4A84A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Carnet 03</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Carnet 04','Carnet','Aquarelle & encre','21 × 29 cm','2024','Un portrait rapide, une émotion capturée en quelques traits.','linear-gradient(135deg,#1a0810,#6B1A3A,#D44A7A)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#1a0810,#6B1A3A,#D44A7A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Carnet 04</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Carnet 05','Carnet','Aquarelle & encre','21 × 29 cm','2024','Mauve et mystère. Un rêve mis en page.','linear-gradient(135deg,#100a1a,#3A1A6B,#7A4AD4)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#100a1a,#3A1A6B,#7A4AD4);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Carnet 05</span></div></div>
+  </div>
+</div>
 
 <div class="deco-line"></div>
 
@@ -625,15 +827,45 @@
   }
   animateCursor();
 
-  // Gallery tabs
-  document.querySelectorAll('.gallery-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.gallery-tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.gallery-panel').forEach(p => p.classList.remove('active'));
-      tab.classList.add('active');
-      document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
-    });
+  // Lightbox
+  function openLightbox(title, tag, medium, format, year, desc, bg) {
+    const lb = document.getElementById('lightbox');
+    document.getElementById('lightbox-title').textContent = title;
+    document.getElementById('lightbox-tag').textContent = tag;
+    document.getElementById('lightbox-medium').textContent = medium;
+    document.getElementById('lightbox-format').textContent = format;
+    document.getElementById('lightbox-year').textContent = year;
+    document.getElementById('lightbox-desc').textContent = desc;
+    document.getElementById('lightbox-img').style.background = bg;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => lb.classList.add('visible'), 10);
+  }
+  function closeLightbox() {
+    const lb = document.getElementById('lightbox');
+    lb.classList.remove('visible');
+    document.body.style.overflow = '';
+    setTimeout(() => lb.classList.remove('open'), 400);
+  }
+  document.getElementById('lightbox').addEventListener('click', function(e) {
+    if (e.target === this) closeLightbox();
   });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  // Gallery rooms
+  function openRoom(name) {
+    const page = document.getElementById('room-' + name);
+    page.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => page.classList.add('visible'), 10);
+    page.scrollTop = 0;
+  }
+  function closeRoom(name) {
+    const page = document.getElementById('room-' + name);
+    page.classList.remove('visible');
+    document.body.style.overflow = '';
+    setTimeout(() => page.classList.remove('open'), 400);
+  }
 
   // Nav scroll
   window.addEventListener('scroll', () => {
