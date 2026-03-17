@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Artistocratie — Nino Minashvili</title>
+<title>Artistocratie — Minashvili</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -40,15 +40,15 @@
     transition: transform 0.1s, width 0.2s, height 0.2s;
   }
   .cursor-ring {
-    width: 36px; height: 36px;
+    width: 24px; height: 24px;
     border: 1px solid var(--gold);
     border-radius: 50%;
     position: fixed;
     pointer-events: none;
     z-index: 9998;
     transform: translate(-50%, -50%);
-    transition: transform 0.15s ease, width 0.3s, height 0.3s, opacity 0.3s;
-    opacity: 0.5;
+    transition: transform 0.08s ease, width 0.2s, height 0.2s, opacity 0.3s;
+    opacity: 0.6;
   }
 
   /* NAV */
@@ -183,11 +183,11 @@
 
   /* GALERIE */
   #galerie {
-    padding: 6rem 5rem;
+    padding: 2rem 5rem;
   }
   .section-header {
     display: flex; align-items: baseline; gap: 1.5rem;
-    margin-bottom: 3rem;
+    margin-bottom: 1.5rem;
   }
   .section-tag {
     font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold);
@@ -208,9 +208,15 @@
   }
   .room-card {
     position: relative; overflow: hidden;
-    aspect-ratio: 2/3;
+    aspect-ratio: auto;
+    height: calc(100vh - 230px);
     cursor: none;
     text-decoration: none;
+  }
+  .room-door * { pointer-events: none; }
+  .nav-links a, .hero-cta, .room-back, .lightbox-close, .unlock-btn, footer a {
+    padding: 0.8rem 1.2rem;
+    margin: -0.8rem -1.2rem;
   }
   .room-collage {
     width: 100%; height: 100%;
@@ -591,7 +597,7 @@
 
 <!-- NAV -->
 <nav id="navbar">
-  <a href="#" class="nav-logo">ARTIST<span>OCRATIE</span></a>
+  <a href="#" class="nav-logo">ARTISTO<span>CRATIE</span></a>
   <ul class="nav-links">
     <li><a href="#galerie">Galerie</a></li>
     <li><a href="#unlock">Œuvres exclusives</a></li>
@@ -603,8 +609,8 @@
 <section id="hero">
   <div class="hero-left">
     <div class="hero-tag">Peinture & Dessin — Montréal</div>
-    <div class="hero-title">ARTIST<br>OCRATIE</div>
-    <div class="hero-title-sub">par Nino Minashvili</div>
+    <div class="hero-title">ARTISTO<br>CRATIE</div>
+    <div class="hero-title-sub">par Minashvili</div>
     <p class="hero-quote">
       "Peindre, c'est laisser une trace que le temps ne peut pas effacer."
     </p>
@@ -821,7 +827,7 @@
   document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
   function animateCursor() {
     cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
-    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    rx += (mx - rx) * 0.25; ry += (my - ry) * 0.25;
     ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
     requestAnimationFrame(animateCursor);
   }
