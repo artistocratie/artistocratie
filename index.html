@@ -488,6 +488,51 @@
     font-size: 11px; color: #444; letter-spacing: 0.5px;
     font-style: italic;
   }
+
+  /* CONFIRMATION MODALE */
+  .confirm-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(8,8,8,0.85);
+    z-index: 600;
+    align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .confirm-overlay.open { display: flex; }
+  .confirm-overlay.visible { opacity: 1; }
+  .confirm-box {
+    background: #0f0f0f;
+    border: 0.5px solid var(--gold);
+    padding: 3rem 3.5rem;
+    max-width: 440px; width: 90%;
+    text-align: center;
+    transform: translateY(20px);
+    transition: transform 0.4s;
+  }
+  .confirm-overlay.visible .confirm-box { transform: translateY(0); }
+  .confirm-flower {
+    margin: 0 auto 1.5rem;
+    display: block;
+  }
+  .confirm-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px; letter-spacing: 3px; color: var(--cream);
+    margin-bottom: 1rem;
+  }
+  .confirm-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 17px;
+    line-height: 1.7; color: #888;
+    margin-bottom: 2rem;
+  }
+  .confirm-close {
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gold); cursor: none; border: 1px solid var(--gold);
+    background: none; padding: 0.7rem 2rem;
+    font-family: 'Inter', sans-serif;
+    transition: background 0.2s, color 0.2s;
+  }
+  .confirm-close:hover { background: var(--gold); color: var(--black); }
   .unlock-visual {
     display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
     opacity: 0.4; filter: blur(6px);
@@ -843,6 +888,35 @@
   </div>
 </section>
 
+<!-- CONFIRMATION MODALE -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <svg class="confirm-flower" width="64" height="64" viewBox="0 0 180 180">
+      <g transform="translate(90,90)">
+        <ellipse fill="none" stroke="#f0ece4" stroke-width="1.5" cx="0" cy="-28" rx="5" ry="12" transform="rotate(0)"/>
+        <ellipse fill="none" stroke="#f0ece4" stroke-width="1.5" cx="0" cy="-28" rx="5" ry="12" transform="rotate(30)"/>
+        <ellipse fill="none" stroke="#f0ece4" stroke-width="1.5" cx="0" cy="-28" rx="5" ry="12" transform="rotate(60)"/>
+        <ellipse fill="none" stroke="#f0ece4" stroke-width="1.5" cx="0" cy="-28" rx="5" ry="12" transform="rotate(90)"/>
+        <ellipse fill="none" stroke="#f0ece4" stroke-width="1.5" cx="0" cy="-28" rx="5" ry="12" transform="rotate(120)"/>
+        <ellipse fill="none" stroke="#f0ece4" stroke-width="1.5" cx="0" cy="-28" rx="5" ry="12" transform="rotate(150)"/>
+        <ellipse fill="none" stroke="#f0ece4" stroke-width="1.5" cx="0" cy="-28" rx="5" ry="12" transform="rotate(180)"/>
+        <ellipse fill="none" stroke="#f0ece4" stroke-width="1.5" cx="0" cy="-28" rx="5" ry="12" transform="rotate(210)"/>
+        <ellipse fill="none" stroke="#f0ece4" stroke-width="1.5" cx="0" cy="-28" rx="5" ry="12" transform="rotate(240)"/>
+        <ellipse fill="none" stroke="#f0ece4" stroke-width="1.5" cx="0" cy="-28" rx="5" ry="12" transform="rotate(270)"/>
+        <ellipse fill="none" stroke="#f0ece4" stroke-width="1.5" cx="0" cy="-28" rx="5" ry="12" transform="rotate(300)"/>
+        <ellipse fill="none" stroke="#f0ece4" stroke-width="1.5" cx="0" cy="-28" rx="5" ry="12" transform="rotate(330)"/>
+        <circle fill="#C17A2A" cx="0" cy="0" r="9"/>
+      </g>
+    </svg>
+    <div class="confirm-title">Bienvenue.</div>
+    <p class="confirm-text">
+      Tu fais maintenant partie du mouvement.<br>
+      Les prochaines créations arrivent dans ta boîte — en avant-première.
+    </p>
+    <button class="confirm-close" onclick="closeConfirm()">Fermer</button>
+  </div>
+</div>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">ARTISTOCRATIE</div>
@@ -866,6 +940,27 @@
     requestAnimationFrame(animateCursor);
   }
   animateCursor();
+
+  // Email form — confirmation modale
+  document.querySelector('.unlock-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = this.querySelector('input[type="email"]').value;
+    const url = 'https://gmail.us16.list-manage.com/subscribe/post?u=0969e850038a5cb2d641901fa&id=3973cd6d30&f_id=0093c2e1f0';
+    const data = new FormData(this);
+    fetch(url, { method: 'POST', body: data, mode: 'no-cors' });
+    const overlay = document.getElementById('confirmOverlay');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => overlay.classList.add('visible'), 10);
+    this.querySelector('input[type="email"]').value = '';
+  });
+
+  function closeConfirm() {
+    const overlay = document.getElementById('confirmOverlay');
+    overlay.classList.remove('visible');
+    document.body.style.overflow = '';
+    setTimeout(() => overlay.classList.remove('open'), 400);
+  }
 
   // Lightbox
   function openLightbox(title, tag, medium, format, year, desc, bg) {
