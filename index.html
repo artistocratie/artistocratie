@@ -489,7 +489,59 @@
     font-style: italic;
   }
 
-  /* CONFIRMATION MODALE */
+  /* CONTACT MODALE */
+  .contact-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(8,8,8,0.85);
+    z-index: 600;
+    align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .contact-overlay.open { display: flex; }
+  .contact-overlay.visible { opacity: 1; }
+  .contact-box {
+    background: #0f0f0f;
+    border: 0.5px solid var(--gold);
+    padding: 3rem 3.5rem;
+    max-width: 480px; width: 90%;
+    transform: translateY(20px);
+    transition: transform 0.4s;
+  }
+  .contact-overlay.visible .contact-box { transform: translateY(0); }
+  .contact-eyebrow {
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1rem;
+  }
+  .contact-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px; letter-spacing: 3px; color: var(--cream);
+    margin-bottom: 1.5rem; line-height: 1;
+  }
+  .contact-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 17px;
+    line-height: 1.8; color: #888;
+    margin-bottom: 2rem;
+    border-left: 1px solid var(--gold);
+    padding-left: 1rem;
+  }
+  .contact-email {
+    display: block;
+    font-size: 13px; letter-spacing: 1px;
+    color: var(--gold); text-decoration: none;
+    margin-bottom: 2rem;
+    transition: color 0.2s;
+  }
+  .contact-email:hover { color: var(--gold-light); }
+  .contact-close {
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); cursor: none; border: 0.5px solid #333;
+    background: none; padding: 0.7rem 2rem;
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .contact-close:hover { border-color: var(--gold); color: var(--gold); }
   .confirm-overlay {
     display: none;
     position: fixed; inset: 0;
@@ -888,6 +940,20 @@
   </div>
 </section>
 
+<!-- CONTACT MODALE -->
+<div class="contact-overlay" id="contactOverlay">
+  <div class="contact-box">
+    <div class="contact-eyebrow">Parlons-en</div>
+    <div class="contact-title">UN PROJET ?<br>UNE COLLAB ?</div>
+    <p class="contact-text">
+      Tu as un projet à illustrer, une idée à concrétiser, ou tout simplement l'envie de créer ensemble — je suis ouverte à la collaboration. N'hésite pas à me contacter.
+    </p>
+    <a class="contact-email" href="mailto:artistocratie.art@gmail.com">artistocratie.art@gmail.com</a>
+    <br>
+    <button class="contact-close" onclick="closeContact()">Fermer</button>
+  </div>
+</div>
+
 <!-- CONFIRMATION MODALE -->
 <div class="confirm-overlay" id="confirmOverlay">
   <div class="confirm-box">
@@ -921,8 +987,8 @@
 <footer>
   <div class="footer-logo">ARTISTOCRATIE</div>
   <ul class="footer-links">
-    <li><a href="#">Instagram</a></li>
-    <li><a href="#">Contact</a></li>
+    <li><a href="https://www.instagram.com/artistocratie_/">Instagram</a></li>
+    <li><a href="#" onclick="event.preventDefault();openContact()">Contact</a></li>
   </ul>
   <div class="footer-copy">© 2026 Minashvili</div>
 </footer>
@@ -940,6 +1006,23 @@
     requestAnimationFrame(animateCursor);
   }
   animateCursor();
+
+  // Contact modale
+  function openContact() {
+    const overlay = document.getElementById('contactOverlay');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => overlay.classList.add('visible'), 10);
+  }
+  function closeContact() {
+    const overlay = document.getElementById('contactOverlay');
+    overlay.classList.remove('visible');
+    document.body.style.overflow = '';
+    setTimeout(() => overlay.classList.remove('open'), 400);
+  }
+  document.getElementById('contactOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeContact();
+  });
 
   // Email form — confirmation modale
   document.querySelector('.unlock-form').addEventListener('submit', function(e) {
