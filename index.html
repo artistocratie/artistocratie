@@ -7,698 +7,192 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-  :root {
-    --black: #080808;
-    --gold: #C17A2A;
-    --gold-light: #E8A84A;
-    --cream: #f0ece4;
-    --muted: #555;
-    --border: #1e1e1e;
-  }
-
+  :root { --black: #080808; --gold: #C17A2A; --gold-light: #E8A84A; --cream: #f0ece4; --muted: #555; --border: #1e1e1e; }
   html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--black);
-    color: var(--cream);
-    font-family: 'Inter', sans-serif;
-    font-weight: 300;
-    overflow-x: hidden;
-    cursor: none;
-  }
-
-  /* Custom cursor */
-  .cursor {
-    width: 10px; height: 10px;
-    background: var(--gold);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: transform 0.1s, width 0.2s, height 0.2s;
-  }
-  .cursor-ring {
-    width: 24px; height: 24px;
-    border: 1px solid var(--gold);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9998;
-    transform: translate(-50%, -50%);
-    transition: transform 0.08s ease, width 0.2s, height 0.2s, opacity 0.3s;
-    opacity: 0.6;
-  }
-
-  /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 0 3rem;
-    height: 64px;
-    border-bottom: 0.5px solid transparent;
-    transition: border-color 0.3s, background 0.3s;
-    overflow: visible;
-  }
-  nav.scrolled {
-    background: rgba(8,8,8,0.95);
-    border-color: var(--border);
-    backdrop-filter: blur(8px);
-  }
-  .nav-logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    letter-spacing: 4px;
-    color: var(--cream);
-    text-decoration: none;
-  }
-  .nav-logo span { color: var(--gold); }
+  body { background: var(--black); color: var(--cream); font-family: 'Inter', sans-serif; font-weight: 300; overflow-x: hidden; cursor: none; }
+  .cursor { width: 10px; height: 10px; background: var(--gold); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); }
+  .cursor-ring { width: 24px; height: 24px; border: 1px solid var(--gold); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%); transition: transform 0.08s ease; opacity: 0.6; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 0 3rem; height: 64px; border-bottom: 0.5px solid transparent; transition: border-color 0.3s, background 0.3s; overflow: visible; }
+  nav.scrolled { background: rgba(8,8,8,0.95); border-color: var(--border); backdrop-filter: blur(8px); }
+  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 4px; color: var(--cream); text-decoration: none; }
   .logo-orange { color: var(--gold); }
-  #logo-text { transition: opacity 0.4s; }
-  #logo-svg { transition: opacity 0.4s; }
-  .nav-links {
-    display: flex; gap: 2.5rem;
-    list-style: none;
-  }
-  .nav-links a {
-    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
-    color: var(--muted); text-decoration: none;
-    transition: color 0.2s;
-  }
+  #logo-text, #logo-svg { transition: opacity 0.4s; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; padding: 0.8rem 1.2rem; margin: -0.8rem -1.2rem; }
   .nav-links a:hover { color: var(--gold); }
-
-  /* HERO */
-  #hero {
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding-top: 80px;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-left {
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 4rem 3rem 4rem 5rem;
-    position: relative; z-index: 2;
-  }
-  .hero-tag {
-    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 1.5rem;
-    opacity: 0; animation: fadeUp 0.8s 0.3s forwards;
-  }
-  .hero-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(60px, 8vw, 110px);
-    line-height: 0.95;
-    letter-spacing: 3px;
-    color: var(--cream);
-    margin-bottom: 0.5rem;
-    opacity: 0; animation: fadeUp 0.8s 0.5s forwards;
-  }
-  .hero-title-sub {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: clamp(18px, 2.5vw, 28px);
-    color: var(--gold);
-    margin-bottom: 2.5rem;
-    opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
-  }
-  .hero-quote {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(16px, 1.8vw, 22px);
-    font-style: italic;
-    line-height: 1.6;
-    color: #aaa;
-    max-width: 420px;
-    margin-bottom: 3rem;
-    padding-left: 1.5rem;
-    border-left: 1px solid var(--gold);
-    opacity: 0; animation: fadeUp 0.8s 0.8s forwards;
-  }
-  .hero-cta {
-    display: inline-block;
-    padding: 0.9rem 2.5rem;
-    border: 1px solid var(--gold);
-    color: var(--gold);
-    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
-    text-decoration: none;
-    transition: background 0.3s, color 0.3s;
-    opacity: 0; animation: fadeUp 0.8s 1s forwards;
-    width: fit-content;
-  }
+  #hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; padding-top: 80px; position: relative; overflow: hidden; }
+  .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 4rem 3rem 4rem 5rem; position: relative; z-index: 2; }
+  .hero-tag { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.8s 0.3s forwards; }
+  .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(60px, 8vw, 110px); line-height: 0.95; letter-spacing: 3px; color: var(--cream); margin-bottom: 0.5rem; opacity: 0; animation: fadeUp 0.8s 0.5s forwards; }
+  .hero-title-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(18px, 2.5vw, 28px); color: var(--gold); margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.8s 0.6s forwards; }
+  .hero-quote { font-family: 'Cormorant Garamond', serif; font-size: clamp(16px, 1.8vw, 22px); font-style: italic; line-height: 1.6; color: #aaa; max-width: 420px; margin-bottom: 3rem; padding-left: 1.5rem; border-left: 1px solid var(--gold); opacity: 0; animation: fadeUp 0.8s 0.8s forwards; }
+  .hero-cta { display: inline-block; padding: 0.9rem 2.5rem; border: 1px solid var(--gold); color: var(--gold); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; transition: background 0.3s, color 0.3s; opacity: 0; animation: fadeUp 0.8s 1s forwards; width: fit-content; margin: -0.8rem -1.2rem; padding: 1.7rem 3.7rem; }
   .hero-cta:hover { background: linear-gradient(135deg, #8B5210, #C17A2A, #E8A84A, #C17A2A); color: var(--black); }
-
-  .hero-right {
-    position: relative; display: flex; align-items: center; justify-content: center;
-    overflow: hidden;
-  }
-  .hero-img-wrap {
-    width: 100%; height: 100%;
-    position: absolute; inset: 0;
-    opacity: 0; animation: fadeIn 1.2s 0.4s forwards;
-  }
-  .hero-img-wrap::after {
-    content: '';
-    position: absolute; inset: 0;
-    background: linear-gradient(to right, var(--black) 0%, transparent 30%),
-                linear-gradient(to top, var(--black) 0%, transparent 20%);
-  }
-  .hero-placeholder {
-    width: 100%; height: 100%;
-    background:
-      repeating-linear-gradient(
-        45deg,
-        #1a1208 0px, #1a1208 2px,
-        transparent 2px, transparent 20px
-      ),
-      linear-gradient(135deg, #1a0e04 0%, #0d1a1a 50%, #1a0808 100%);
-    display: flex; align-items: center; justify-content: center;
-    color: #2a2a2a; font-size: 13px; letter-spacing: 2px; text-transform: uppercase;
-    font-family: 'Cormorant Garamond', serif; font-style: italic;
-  }
-
-  /* LIGNE DÉCO */
-  .deco-line {
-    width: 100%; height: 1px;
-    background: linear-gradient(to right, transparent, var(--gold), transparent);
-    opacity: 0.3;
-  }
-
-  /* GALERIE */
-  #galerie {
-    padding: 2rem 5rem;
-  }
-  .section-header {
-    display: flex; align-items: baseline; gap: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-  .section-tag {
-    font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold);
-  }
-  .section-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 48px; letter-spacing: 3px; color: var(--cream);
-  }
-  .section-line {
-    flex: 1; height: 0.5px; background: var(--border);
-  }
-
-  /* GALERIE ROOMS */
-  .gallery-rooms {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3px;
-  }
-  .room-card {
-    position: relative; overflow: hidden;
-    aspect-ratio: auto;
-    height: calc(100vh - 230px);
-    cursor: none;
-    text-decoration: none;
-  }
+  .hero-right { position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .hero-img-wrap { width: 100%; height: 100%; position: absolute; inset: 0; opacity: 0; animation: fadeIn 1.2s 0.4s forwards; }
+  .hero-img-wrap::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, var(--black) 0%, transparent 30%), linear-gradient(to top, var(--black) 0%, transparent 20%); }
+  .hero-placeholder { width: 100%; height: 100%; background: repeating-linear-gradient(45deg, #1a1208 0px, #1a1208 2px, transparent 2px, transparent 20px), linear-gradient(135deg, #1a0e04 0%, #0d1a1a 50%, #1a0808 100%); display: flex; align-items: center; justify-content: center; color: #2a2a2a; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; font-family: 'Cormorant Garamond', serif; font-style: italic; }
+  .deco-line { width: 100%; height: 1px; background: linear-gradient(to right, transparent, var(--gold), transparent); opacity: 0.3; }
+  #galerie { padding: 2rem 5rem; scroll-margin-top: 80px; }
+  .section-header { display: flex; align-items: baseline; gap: 1.5rem; margin-bottom: 1.5rem; }
+  .section-tag { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); }
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: 3px; color: var(--cream); }
+  .section-line { flex: 1; height: 0.5px; background: var(--border); }
+  .gallery-rooms { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
+  .room-card { position: relative; overflow: hidden; height: calc(100vh - 230px); cursor: none; }
   .room-door * { pointer-events: none; }
-  .nav-links a, .hero-cta, .room-back, .lightbox-close, footer a {
-    padding: 0.8rem 1.2rem;
-    margin: -0.8rem -1.2rem;
-  }
-  .room-collage {
-    width: 100%; height: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 2px;
-    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
+  .room-collage { width: 100%; height: 100%; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 2px; transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
   .room-card:hover .room-collage { transform: scale(1.04); }
-  .room-collage-item {
-    background: #1a1208;
-    overflow: hidden;
-  }
-  .room-collage-item:first-child {
-    grid-row: span 2;
-  }
-  .room-door {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(8,8,8,0.85) 0%, rgba(8,8,8,0.2) 50%, transparent 100%);
-    display: flex; flex-direction: column;
-    justify-content: flex-end;
-    padding: 2rem 1.5rem;
-    transition: background 0.4s;
-  }
-  .room-card:hover .room-door {
-    background: linear-gradient(to top, rgba(8,8,8,0.92) 0%, rgba(8,8,8,0.4) 60%, transparent 100%);
-  }
-  .room-number {
-    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 0.5rem;
-  }
-  .room-name {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 42px; letter-spacing: 3px; color: var(--cream);
-    line-height: 1;
-    margin-bottom: 0.8rem;
-  }
-  .room-count {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic; font-size: 13px; color: #777;
-    margin-bottom: 1.2rem;
-  }
-  .room-enter {
-    display: flex; align-items: center; gap: 0.6rem;
-    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
-    color: var(--gold); opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 0.3s, transform 0.3s;
-  }
-  .room-enter::after {
-    content: '→';
-    font-size: 14px;
-    transition: transform 0.3s;
-  }
-  .room-card:hover .room-enter {
-    opacity: 1; transform: translateY(0);
-  }
-  .room-card:hover .room-enter::after {
-    transform: translateX(4px);
-  }
-
-  /* LIGHTBOX */
-  .lightbox {
-    display: none;
-    position: fixed; inset: 0;
-    background: rgba(8,8,8,0.97);
-    z-index: 500;
-    opacity: 0;
-    transition: opacity 0.4s;
-    overflow-y: auto;
-  }
-  .lightbox.open { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 0; }
+  .room-collage-item { background: #1a1208; overflow: hidden; }
+  .room-collage-item:first-child { grid-row: span 2; }
+  .room-door { position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,8,8,0.85) 0%, rgba(8,8,8,0.2) 50%, transparent 100%); display: flex; flex-direction: column; justify-content: flex-end; padding: 2rem 1.5rem; transition: background 0.4s; }
+  .room-card:hover .room-door { background: linear-gradient(to top, rgba(8,8,8,0.92) 0%, rgba(8,8,8,0.4) 60%, transparent 100%); }
+  .room-number { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
+  .room-name { font-family: 'Bebas Neue', sans-serif; font-size: 42px; letter-spacing: 3px; color: var(--cream); line-height: 1; margin-bottom: 0.8rem; }
+  .room-count { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 13px; color: #777; margin-bottom: 1.2rem; }
+  .room-enter { display: flex; align-items: center; gap: 0.6rem; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); opacity: 0; transform: translateY(8px); transition: opacity 0.3s, transform 0.3s; }
+  .room-enter::after { content: '→'; font-size: 14px; transition: transform 0.3s; }
+  .room-card:hover .room-enter { opacity: 1; transform: translateY(0); }
+  .room-card:hover .room-enter::after { transform: translateX(4px); }
+  .lightbox { display: none; position: fixed; inset: 0; background: rgba(8,8,8,0.97); z-index: 500; opacity: 0; transition: opacity 0.4s; overflow-y: auto; }
+  .lightbox.open { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; }
   .lightbox.visible { opacity: 1; }
-  .lightbox-close {
-    position: fixed; top: 1.5rem; right: 2rem;
-    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
-    color: var(--muted); cursor: none; border: none; background: none;
-    font-family: 'Inter', sans-serif;
-    transition: color 0.2s; z-index: 10;
-    display: flex; align-items: center; gap: 0.5rem;
-  }
+  .lightbox-close { position: fixed; top: 1.5rem; right: 2rem; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); cursor: none; border: none; background: none; font-family: 'Inter', sans-serif; transition: color 0.2s; z-index: 10; display: flex; align-items: center; gap: 0.5rem; padding: 0.8rem 1.2rem; margin: -0.8rem -1.2rem; }
   .lightbox-close::after { content: '✕'; font-size: 16px; }
   .lightbox-close:hover { color: var(--gold); }
-  .lightbox-img-wrap {
-    width: 100%; max-height: 75vh;
-    display: flex; align-items: center; justify-content: center;
-    padding: 4rem 4rem 2rem;
-    flex-shrink: 0;
-  }
-  .lightbox-img-wrap img,
-  .lightbox-img-wrap .lightbox-placeholder {
-    max-width: 100%; max-height: 70vh;
-    object-fit: contain;
-    border: 0.5px solid #1e1e1e;
-  }
-  .lightbox-placeholder {
-    width: 500px; height: 600px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Cormorant Garamond', serif; font-style: italic;
-    font-size: 14px; letter-spacing: 2px; color: #333;
-  }
-  .lightbox-info {
-    width: 100%; max-width: 680px;
-    padding: 2.5rem 4rem 4rem;
-    border-top: 0.5px solid var(--border);
-  }
-  .lightbox-tag {
-    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 0.8rem;
-  }
-  .lightbox-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(36px, 5vw, 64px);
-    letter-spacing: 3px; color: var(--cream);
-    line-height: 1; margin-bottom: 1.5rem;
-  }
-  .lightbox-desc {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic; font-size: 18px;
-    line-height: 1.8; color: #888;
-    max-width: 520px;
-  }
-  .lightbox-meta {
-    margin-top: 2rem;
-    display: flex; gap: 2rem;
-  }
-  .lightbox-meta-item {
-    display: flex; flex-direction: column; gap: 0.3rem;
-  }
-  .lightbox-meta-label {
-    font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #444;
-  }
-  .lightbox-meta-value {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 15px; color: #777;
-  }
-
-  /* PAGE SALLE */
-  .room-page {
-    display: none;
-    position: fixed; inset: 0;
-    background: var(--black);
-    z-index: 200;
-    overflow-y: auto;
-    opacity: 0;
-    transition: opacity 0.4s;
-  }
-  .room-page.open {
-    display: block;
-  }
-  .room-page.visible {
-    opacity: 1;
-  }
-  .room-page-nav {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1.5rem 3rem;
-    border-bottom: 0.5px solid var(--border);
-    position: sticky; top: 0;
-    background: rgba(8,8,8,0.95);
-    backdrop-filter: blur(8px);
-    z-index: 10;
-  }
-  .room-back {
-    display: flex; align-items: center; gap: 0.8rem;
-    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
-    color: var(--muted); cursor: none; border: none; background: none;
-    font-family: 'Inter', sans-serif;
-    transition: color 0.2s;
-  }
+  .lightbox-img-wrap { width: 100%; max-height: 75vh; display: flex; align-items: center; justify-content: center; padding: 4rem 4rem 2rem; flex-shrink: 0; }
+  .lightbox-img-wrap img, .lightbox-placeholder { max-width: 100%; max-height: 70vh; object-fit: contain; border: 0.5px solid #1e1e1e; }
+  .lightbox-placeholder { width: 500px; height: 600px; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; letter-spacing: 2px; color: #333; }
+  .lightbox-info { width: 100%; max-width: 680px; padding: 2.5rem 4rem 4rem; border-top: 0.5px solid var(--border); }
+  .lightbox-tag { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; }
+  .lightbox-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px, 5vw, 64px); letter-spacing: 3px; color: var(--cream); line-height: 1; margin-bottom: 1.5rem; }
+  .lightbox-desc { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 18px; line-height: 1.8; color: #888; max-width: 520px; }
+  .lightbox-meta { margin-top: 2rem; display: flex; gap: 2rem; }
+  .lightbox-meta-item { display: flex; flex-direction: column; gap: 0.3rem; }
+  .lightbox-meta-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #444; }
+  .lightbox-meta-value { font-family: 'Cormorant Garamond', serif; font-size: 15px; color: #777; }
+  .room-page { display: none; position: fixed; inset: 0; background: var(--black); z-index: 200; overflow-y: auto; opacity: 0; transition: opacity 0.4s; }
+  .room-page.open { display: block; }
+  .room-page.visible { opacity: 1; }
+  .room-page-nav { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 3rem; border-bottom: 0.5px solid var(--border); position: sticky; top: 0; background: rgba(8,8,8,0.95); backdrop-filter: blur(8px); z-index: 10; }
+  .room-back { display: flex; align-items: center; gap: 0.8rem; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); cursor: none; border: none; background: none; font-family: 'Inter', sans-serif; transition: color 0.2s; padding: 0.8rem 1.2rem; margin: -0.8rem -1.2rem; }
   .room-back:hover { color: var(--gold); }
   .room-back::before { content: '←'; font-size: 14px; }
-  .room-page-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px; letter-spacing: 4px; color: var(--cream);
-  }
-  .room-page-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    padding: 3rem;
-  }
-  .room-page-item {
-    position: relative; overflow: hidden;
-    aspect-ratio: 3/4; background: #111; cursor: none;
-  }
+  .room-page-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 4px; color: var(--cream); }
+  .room-page-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; padding: 3rem; }
+  .room-page-item { position: relative; overflow: hidden; aspect-ratio: 3/4; background: #111; cursor: none; }
   .room-page-item:first-child { grid-row: span 2; aspect-ratio: auto; }
   .room-page-item:hover .gallery-overlay { opacity: 1; }
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-  }
-  .gallery-item {
-    position: relative; overflow: hidden;
-    aspect-ratio: 3/4; background: #111; cursor: none;
-  }
-  .gallery-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(8,8,8,0.7) 0%, transparent 60%);
-    opacity: 0; transition: opacity 0.3s;
-    display: flex; align-items: flex-end; padding: 1.5rem;
-  }
-  .gallery-item:hover .gallery-overlay { opacity: 1; }
-  .gallery-overlay-text {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic; font-size: 14px; color: var(--cream);
-    letter-spacing: 1px;
-  }
-
-  /* LEAD MAGNET */
-  #unlock {
-    padding: 5rem;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
-    align-items: center;
-    background: #0d0d0d;
-    border-top: 0.5px solid var(--border);
-    border-bottom: 0.5px solid var(--border);
-  }
-  .unlock-text {}
-  .unlock-eyebrow {
-    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 1rem;
-  }
-  .unlock-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(32px, 4vw, 52px);
-    line-height: 1.1;
-    margin-bottom: 1.5rem;
-    color: var(--cream);
-  }
+  .gallery-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,8,8,0.7) 0%, transparent 60%); opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 1.5rem; }
+  .gallery-overlay-text { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; color: var(--cream); letter-spacing: 1px; }
+  #unlock { padding: 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; background: #0d0d0d; border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); }
+  .unlock-eyebrow { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+  .unlock-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 4vw, 52px); line-height: 1.1; margin-bottom: 1.5rem; color: var(--cream); }
   .unlock-title em { color: var(--gold); font-style: italic; }
-  .unlock-desc {
-    font-size: 14px; line-height: 1.8; color: #777;
-    margin-bottom: 2rem; max-width: 380px;
-  }
+  .unlock-desc { font-size: 14px; line-height: 1.8; color: #777; margin-bottom: 2rem; max-width: 380px; }
   .unlock-form { display: flex; flex-direction: column; gap: 1rem; }
-  .unlock-input {
-    background: transparent;
-    border: 0.5px solid #333;
-    border-radius: 0;
-    padding: 1rem 1.2rem;
-    color: var(--cream);
-    font-family: 'Inter', sans-serif;
-    font-size: 13px; letter-spacing: 0.5px;
-    outline: none; transition: border-color 0.2s;
-    width: 100%;
-  }
+  .unlock-input { background: transparent; border: 0.5px solid #333; border-radius: 0; padding: 1rem 1.2rem; color: var(--cream); font-family: 'Inter', sans-serif; font-size: 13px; letter-spacing: 0.5px; outline: none; transition: border-color 0.2s; width: 100%; }
   .unlock-input:focus { border-color: var(--gold); }
   .unlock-input::placeholder { color: #444; }
-  .unlock-btn {
-    background: linear-gradient(135deg, #8B5210, #C17A2A, #E8A84A, #C17A2A);
-    border: none; color: var(--black);
-    padding: 1rem 2rem;
-    font-family: 'Inter', sans-serif;
-    font-size: 11px; font-weight: 400;
-    letter-spacing: 3px; text-transform: uppercase;
-    cursor: none; transition: background 0.3s, box-shadow 0.3s;
-    width: 100%;
-    box-shadow: inset 0 1px 0 rgba(255,220,120,0.3), inset 0 -1px 0 rgba(0,0,0,0.3);
-  }
-  .unlock-btn:hover { background: linear-gradient(135deg, #C17A2A, #E8A84A, #F5C06A, #E8A84A); box-shadow: inset 0 1px 0 rgba(255,230,140,0.5), inset 0 -1px 0 rgba(0,0,0,0.4); }
-  .unlock-spam {
-    font-size: 11px; color: #444; letter-spacing: 0.5px;
-    font-style: italic;
-  }
-
-  /* CONTACT MODALE */
-  .contact-overlay {
-    display: none;
-    position: fixed; inset: 0;
-    background: rgba(8,8,8,0.85);
-    z-index: 600;
-    align-items: center; justify-content: center;
-    opacity: 0; transition: opacity 0.4s;
-  }
-  .contact-overlay.open { display: flex; }
-  .contact-overlay.visible { opacity: 1; }
-  .contact-box {
-    background: #0f0f0f;
-    border: 0.5px solid var(--gold);
-    padding: 3rem 3.5rem;
-    max-width: 480px; width: 90%;
-    transform: translateY(20px);
-    transition: transform 0.4s;
-  }
-  .contact-overlay.visible .contact-box { transform: translateY(0); }
-  .contact-eyebrow {
-    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 1rem;
-  }
-  .contact-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 40px; letter-spacing: 3px; color: var(--cream);
-    margin-bottom: 1.5rem; line-height: 1;
-  }
-  .contact-text {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic; font-size: 17px;
-    line-height: 1.8; color: #888;
-    margin-bottom: 2rem;
-    border-left: 1px solid var(--gold);
-    padding-left: 1rem;
-  }
-  .contact-email {
-    display: block;
-    font-size: 13px; letter-spacing: 1px;
-    color: var(--gold); text-decoration: none;
-    margin-bottom: 2rem;
-    transition: color 0.2s;
-  }
-  .contact-email:hover { color: var(--gold-light); }
-  .contact-close {
-    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
-    color: var(--muted); cursor: none; border: 0.5px solid #333;
-    background: none; padding: 0.7rem 2rem;
-    font-family: 'Inter', sans-serif;
-    transition: border-color 0.2s, color 0.2s;
-  }
-  .contact-close:hover { border-color: var(--gold); color: var(--gold); }
-  .confirm-overlay {
-    display: none;
-    position: fixed; inset: 0;
-    background: rgba(8,8,8,0.85);
-    z-index: 600;
-    align-items: center; justify-content: center;
-    opacity: 0; transition: opacity 0.4s;
-  }
-  .confirm-overlay.open { display: flex; }
-  .confirm-overlay.visible { opacity: 1; }
-  .confirm-box {
-    background: #0f0f0f;
-    border: 0.5px solid var(--gold);
-    padding: 3rem 3.5rem;
-    max-width: 440px; width: 90%;
-    text-align: center;
-    transform: translateY(20px);
-    transition: transform 0.4s;
-  }
-  .confirm-overlay.visible .confirm-box { transform: translateY(0); }
-  .confirm-flower {
-    margin: 0 auto 1.5rem;
-    display: block;
-  }
-  .confirm-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 36px; letter-spacing: 3px; color: var(--cream);
-    margin-bottom: 1rem;
-  }
-  .confirm-text {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic; font-size: 17px;
-    line-height: 1.7; color: #888;
-    margin-bottom: 2rem;
-  }
-  .confirm-close {
-    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
-    color: var(--gold); cursor: none; border: 1px solid var(--gold);
-    background: none; padding: 0.7rem 2rem;
-    font-family: 'Inter', sans-serif;
-    transition: background 0.2s, color 0.2s;
-  }
-  .confirm-close:hover { background: var(--gold); color: var(--black); }
-  .unlock-visual {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
-    opacity: 0.4; filter: blur(6px);
-    transition: opacity 0.4s, filter 0.4s;
-    pointer-events: none;
-  }
-  .unlock-visual-item {
-    aspect-ratio: 1;
-    background: #1a1208;
-  }
+  .unlock-btn { background: linear-gradient(135deg, #8B5210, #C17A2A, #E8A84A, #C17A2A); border: none; color: var(--black); padding: 1rem 2rem; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 400; letter-spacing: 3px; text-transform: uppercase; cursor: none; transition: background 0.3s; width: 100%; box-shadow: inset 0 1px 0 rgba(255,220,120,0.3), inset 0 -1px 0 rgba(0,0,0,0.3); }
+  .unlock-btn:hover { background: linear-gradient(135deg, #C17A2A, #E8A84A, #F5C06A, #E8A84A); }
+  .unlock-spam { font-size: 11px; color: #444; letter-spacing: 0.5px; font-style: italic; }
+  .unlock-visual { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; opacity: 0.4; filter: blur(6px); pointer-events: none; }
+  .unlock-visual-item { aspect-ratio: 1; }
   .unlock-visual-item:nth-child(1) { background: linear-gradient(135deg, #2a1a08, #1a0808); }
   .unlock-visual-item:nth-child(2) { background: linear-gradient(135deg, #081a1a, #08081a); }
   .unlock-visual-item:nth-child(3) { background: linear-gradient(135deg, #1a0a0a, #2a1208); }
   .unlock-visual-item:nth-child(4) { background: linear-gradient(135deg, #0a1a08, #1a1a08); }
-  .unlock-locked-label {
-    text-align: center; margin-top: 1rem;
-    font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #333;
-    font-family: 'Cormorant Garamond', serif; font-style: italic;
-  }
-
-  /* À PROPOS */
-  #apropos {
-    padding: 6rem 5rem;
-    display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem;
-    align-items: center;
-  }
-  .apropos-img {
-    position: relative;
-  }
-  .apropos-img-frame {
-    width: 100%; aspect-ratio: 3/4;
-    background: #111;
-    border: 0.5px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    color: #2a2a2a; font-size: 12px; letter-spacing: 2px;
-    font-family: 'Cormorant Garamond', serif; font-style: italic;
-    text-transform: uppercase;
-    position: relative; overflow: hidden;
-  }
-  .apropos-img-frame::before {
-    content: '';
-    position: absolute; top: 12px; right: 12px; bottom: -12px; left: -12px;
-    border: 0.5px solid var(--gold);
-    opacity: 0.3; pointer-events: none;
-  }
-  .apropos-content {}
-  .apropos-name {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 52px; letter-spacing: 4px; color: var(--cream);
-    margin-bottom: 0.3rem;
-  }
-  .apropos-role {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic; font-size: 18px; color: var(--gold);
-    margin-bottom: 2rem;
-  }
-  .apropos-text {
-    font-size: 15px; line-height: 1.9; color: #888;
-    margin-bottom: 2rem;
-  }
+  .unlock-locked-label { text-align: center; margin-top: 1rem; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #333; font-family: 'Cormorant Garamond', serif; font-style: italic; }
+  .contact-overlay, .confirm-overlay { display: none; position: fixed; inset: 0; background: rgba(8,8,8,0.85); z-index: 600; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s; }
+  .contact-overlay.open, .confirm-overlay.open { display: flex; }
+  .contact-overlay.visible, .confirm-overlay.visible { opacity: 1; }
+  .contact-box, .confirm-box { background: #0f0f0f; border: 0.5px solid var(--gold); padding: 3rem 3.5rem; width: 90%; transform: translateY(20px); transition: transform 0.4s; }
+  .contact-box { max-width: 480px; }
+  .confirm-box { max-width: 440px; text-align: center; }
+  .contact-overlay.visible .contact-box, .confirm-overlay.visible .confirm-box { transform: translateY(0); }
+  .contact-eyebrow { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+  .contact-title { font-family: 'Bebas Neue', sans-serif; font-size: 40px; letter-spacing: 3px; color: var(--cream); margin-bottom: 1.5rem; line-height: 1; }
+  .contact-text { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 17px; line-height: 1.8; color: #888; margin-bottom: 2rem; border-left: 1px solid var(--gold); padding-left: 1rem; }
+  .contact-email { display: block; font-size: 13px; letter-spacing: 1px; color: var(--gold); text-decoration: none; margin-bottom: 2rem; }
+  .contact-email:hover { color: var(--gold-light); }
+  .contact-close { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); cursor: none; border: 0.5px solid #333; background: none; padding: 0.7rem 2rem; font-family: 'Inter', sans-serif; transition: border-color 0.2s, color 0.2s; }
+  .contact-close:hover { border-color: var(--gold); color: var(--gold); }
+  .confirm-flower { margin: 0 auto 1.5rem; display: block; }
+  .confirm-title { font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 3px; color: var(--cream); margin-bottom: 1rem; }
+  .confirm-text { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 17px; line-height: 1.7; color: #888; margin-bottom: 2rem; }
+  .confirm-close { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); cursor: none; border: 1px solid var(--gold); background: none; padding: 0.7rem 2rem; font-family: 'Inter', sans-serif; transition: background 0.2s, color 0.2s; }
+  .confirm-close:hover { background: var(--gold); color: var(--black); }
+  #apropos { padding: 6rem 5rem; display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem; align-items: center; }
+  .apropos-img { position: relative; }
+  .apropos-img-frame { width: 100%; aspect-ratio: 3/4; background: #111; border: 0.5px solid var(--border); display: flex; align-items: center; justify-content: center; color: #2a2a2a; font-size: 12px; letter-spacing: 2px; font-family: 'Cormorant Garamond', serif; font-style: italic; text-transform: uppercase; position: relative; overflow: hidden; }
+  .apropos-img-frame::before { content: ''; position: absolute; top: 12px; right: 12px; bottom: -12px; left: -12px; border: 0.5px solid var(--gold); opacity: 0.3; pointer-events: none; }
+  .apropos-name { font-family: 'Bebas Neue', sans-serif; font-size: 52px; letter-spacing: 4px; color: var(--cream); margin-bottom: 0.3rem; }
+  .apropos-role { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 18px; color: var(--gold); margin-bottom: 2rem; }
+  .apropos-text { font-size: 15px; line-height: 1.9; color: #888; margin-bottom: 2rem; }
   .apropos-text strong { color: var(--cream); font-weight: 400; }
-  .apropos-signature {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic; font-size: 32px; color: var(--gold);
-    opacity: 0.6;
-  }
-
-  /* FOOTER */
-  footer {
-    border-top: 0.5px solid var(--border);
-    padding: 2.5rem 5rem;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  .footer-logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 18px; letter-spacing: 4px; color: var(--muted);
-  }
-  .footer-copy {
-    font-size: 11px; color: #333; letter-spacing: 1px;
-  }
-  .footer-links {
-    display: flex; gap: 1.5rem; list-style: none;
-  }
-  .footer-links a {
-    font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
-    color: #444; text-decoration: none; transition: color 0.2s;
-  }
+  .apropos-signature { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 32px; color: var(--gold); opacity: 0.6; }
+  footer { border-top: 0.5px solid var(--border); padding: 2.5rem 5rem; display: flex; justify-content: space-between; align-items: center; }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 4px; color: var(--muted); }
+  .footer-copy { font-size: 11px; color: #333; letter-spacing: 1px; }
+  .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+  .footer-links a { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #444; text-decoration: none; transition: color 0.2s; padding: 0.8rem 1.2rem; margin: -0.8rem -1.2rem; }
   .footer-links a:hover { color: var(--gold); }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
 
-  /* ANIMATIONS */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    #hero { grid-template-columns: 1fr; min-height: auto; padding-top: 64px; }
+    .hero-left { padding: 3rem 2rem; }
+    .hero-right { display: none; }
+    #galerie { padding: 2rem 2rem; }
+    .gallery-rooms { grid-template-columns: 1fr; }
+    .room-card { height: 320px; }
+    #unlock { grid-template-columns: 1fr; padding: 3rem 2rem; gap: 2rem; }
+    .unlock-visual { display: none; }
+    #apropos { grid-template-columns: 1fr; padding: 3rem 2rem; gap: 2rem; }
+    .apropos-img-frame { aspect-ratio: 4/3; }
+    footer { padding: 2rem; flex-direction: column; gap: 1rem; text-align: center; }
+    .lightbox-img-wrap { padding: 4rem 1.5rem 1.5rem; }
+    .lightbox-info { padding: 2rem 1.5rem; }
+    .lightbox-meta { flex-wrap: wrap; gap: 1rem; }
+    .room-page-grid { grid-template-columns: 1fr 1fr; padding: 1.5rem; }
+    .room-page-item:first-child { grid-row: span 1; aspect-ratio: 3/4; }
+    .room-page-nav { padding: 1rem 1.5rem; }
+    .contact-box, .confirm-box { padding: 2rem 1.5rem; }
   }
 
-  .reveal {
-    opacity: 0; transform: translateY(32px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-  }
-  .reveal.visible {
-    opacity: 1; transform: translateY(0);
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    .hero-left { padding: 2rem 1.5rem 3rem; }
+    .hero-title { font-size: 52px; }
+    .hero-title-sub { font-size: 16px; }
+    .hero-quote { font-size: 15px; }
+    .section-title { font-size: 32px; }
+    .section-line { display: none; }
+    #galerie { padding: 1.5rem; }
+    .room-card { height: 260px; }
+    .room-name { font-size: 30px; }
+    #unlock { padding: 2.5rem 1.5rem; }
+    #apropos { padding: 2.5rem 1.5rem; }
+    .apropos-name { font-size: 36px; }
+    .room-page-grid { grid-template-columns: 1fr; padding: 1rem; }
+    .room-page-item { aspect-ratio: 4/3; }
+    .room-page-item:first-child { aspect-ratio: 4/3; }
+    .lightbox-title { font-size: 32px; }
+    .lightbox-desc { font-size: 15px; }
   }
 </style>
 </head>
 <body>
-
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
-<!-- NAV -->
 <nav id="navbar">
   <a href="#" class="nav-logo" id="nav-logo-wrap">
     <span id="logo-text">ARTISTO<span class="logo-orange">CRATIE</span></span>
@@ -733,39 +227,30 @@
   </ul>
 </nav>
 
-<!-- HERO -->
 <section id="hero">
   <div class="hero-left">
     <div class="hero-tag">Peinture & Dessin — Montréal</div>
     <div class="hero-title">ARTISTO<br>CRATIE</div>
     <div class="hero-title-sub">par Minashvili</div>
-    <p class="hero-quote">
-      "Peindre, c'est laisser une trace que le temps ne peut pas effacer."
-    </p>
+    <p class="hero-quote">"Peindre, c'est laisser une trace que le temps ne peut pas effacer."</p>
     <a href="#galerie" class="hero-cta">Découvrir les œuvres</a>
   </div>
   <div class="hero-right">
     <div class="hero-img-wrap">
-      <div class="hero-placeholder">
-        — Votre œuvre phare ici —
-      </div>
+      <div class="hero-placeholder">— Votre œuvre phare ici —</div>
     </div>
   </div>
 </section>
 
 <div class="deco-line"></div>
 
-<!-- GALERIE -->
 <section id="galerie">
   <div class="section-header reveal">
     <span class="section-tag">Portfolio</span>
     <h2 class="section-title">GALERIE</h2>
     <div class="section-line"></div>
   </div>
-
   <div class="gallery-rooms reveal">
-
-    <!-- SALLE TOILES -->
     <div class="room-card" onclick="openRoom('toiles')">
       <div class="room-collage">
         <div class="room-collage-item" style="background:linear-gradient(135deg,#2a1a08,#D4533A);"></div>
@@ -780,8 +265,6 @@
         <div class="room-enter">Entrer dans la salle</div>
       </div>
     </div>
-
-    <!-- SALLE POSTERS -->
     <div class="room-card" onclick="openRoom('posters')">
       <div class="room-collage">
         <div class="room-collage-item" style="background:linear-gradient(135deg,#1a0a1a,#8B2060);"></div>
@@ -796,8 +279,6 @@
         <div class="room-enter">Entrer dans la salle</div>
       </div>
     </div>
-
-    <!-- SALLE CARNETS -->
     <div class="room-card" onclick="openRoom('carnets')">
       <div class="room-collage">
         <div class="room-collage-item" style="background:linear-gradient(135deg,#0a1208,#2A5A1A);"></div>
@@ -812,11 +293,9 @@
         <div class="room-enter">Entrer dans la salle</div>
       </div>
     </div>
-
   </div>
 </section>
 
-<!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" onclick="closeLightbox()">Fermer</button>
   <div class="lightbox-img-wrap">
@@ -825,25 +304,15 @@
   <div class="lightbox-info">
     <div class="lightbox-tag" id="lightbox-tag">Toile</div>
     <div class="lightbox-title" id="lightbox-title">Titre de l'œuvre</div>
-    <div class="lightbox-desc" id="lightbox-desc">Description de l'œuvre, son histoire, l'émotion qu'elle raconte.</div>
+    <div class="lightbox-desc" id="lightbox-desc">Description.</div>
     <div class="lightbox-meta">
-      <div class="lightbox-meta-item">
-        <span class="lightbox-meta-label">Médium</span>
-        <span class="lightbox-meta-value" id="lightbox-medium">Acrylique sur toile</span>
-      </div>
-      <div class="lightbox-meta-item">
-        <span class="lightbox-meta-label">Format</span>
-        <span class="lightbox-meta-value" id="lightbox-format">40 × 50 cm</span>
-      </div>
-      <div class="lightbox-meta-item">
-        <span class="lightbox-meta-label">Année</span>
-        <span class="lightbox-meta-value" id="lightbox-year">2025</span>
-      </div>
+      <div class="lightbox-meta-item"><span class="lightbox-meta-label">Médium</span><span class="lightbox-meta-value" id="lightbox-medium"></span></div>
+      <div class="lightbox-meta-item"><span class="lightbox-meta-label">Format</span><span class="lightbox-meta-value" id="lightbox-format"></span></div>
+      <div class="lightbox-meta-item"><span class="lightbox-meta-label">Année</span><span class="lightbox-meta-value" id="lightbox-year"></span></div>
     </div>
   </div>
 </div>
 
-<!-- PAGES SALLES -->
 <div class="room-page" id="room-toiles">
   <div class="room-page-nav">
     <button class="room-back" onclick="closeRoom('toiles')">Retour à la galerie</button>
@@ -891,19 +360,14 @@
 
 <div class="deco-line"></div>
 
-<!-- LEAD MAGNET -->
 <section id="unlock">
   <div class="unlock-text reveal">
     <div class="unlock-eyebrow">Accès exclusif</div>
     <h2 class="unlock-title">Il y a <em>plus</em><br>à voir.</h2>
-    <p class="unlock-desc">
-      Accède à l'intégralité de mes œuvres — celles que je ne montre pas sur les réseaux. Pièces inédites, travaux en cours, coulisses de l'atelier.
-    </p>
+    <p class="unlock-desc">Accède à l'intégralité de mes œuvres — celles que je ne montre pas sur les réseaux. Pièces inédites, travaux en cours, coulisses de l'atelier.</p>
     <form class="unlock-form" action="https://gmail.us16.list-manage.com/subscribe/post?u=0969e850038a5cb2d641901fa&amp;id=3973cd6d30&amp;f_id=0093c2e1f0" method="post" target="_blank">
       <input class="unlock-input" type="email" name="EMAIL" placeholder="votre@email.com" required>
-      <div aria-hidden="true" style="position:absolute;left:-5000px;">
-        <input type="text" name="b_0969e850038a5cb2d641901fa_3973cd6d30" tabindex="-1" value="">
-      </div>
+      <div aria-hidden="true" style="position:absolute;left:-5000px;"><input type="text" name="b_0969e850038a5cb2d641901fa_3973cd6d30" tabindex="-1" value=""></div>
       <button type="submit" class="unlock-btn">Rejoins le mouvement</button>
       <span class="unlock-spam">Je déteste les spams autant que toi. Un email de temps en temps, rien de plus.</span>
     </form>
@@ -921,40 +385,29 @@
 
 <div class="deco-line"></div>
 
-<!-- À PROPOS -->
 <section id="apropos">
   <div class="apropos-img reveal">
-    <div class="apropos-img-frame">
-      — Votre photo ici —
-    </div>
+    <div class="apropos-img-frame">— Votre photo ici —</div>
   </div>
   <div class="apropos-content reveal">
     <div class="apropos-name">MINASHVILI</div>
     <div class="apropos-role">Peintre & Dessinatrice</div>
-    <p class="apropos-text">
-      Je peins des <strong>figures, des émotions, des instants</strong> qui résistent au temps.
-      Mon univers mêle couleurs chaudes et formes expressives — une façon de dire ce que les mots n'arrivent pas à formuler.<br><br>
-      Artistocratie, c'est ma conviction que <strong>l'art n'est pas un luxe</strong>. C'est une nécessité. Un langage universel qui traverse les cultures et les époques.
-    </p>
+    <p class="apropos-text">Je peins des <strong>figures, des émotions, des instants</strong> qui résistent au temps. Mon univers mêle couleurs chaudes et formes expressives — une façon de dire ce que les mots n'arrivent pas à formuler.<br><br>Artistocratie, c'est ma conviction que <strong>l'art n'est pas un luxe</strong>. C'est une nécessité. Un langage universel qui traverse les cultures et les époques.</p>
     <div class="apropos-signature">Minashvili</div>
   </div>
 </section>
 
-<!-- CONTACT MODALE -->
 <div class="contact-overlay" id="contactOverlay">
   <div class="contact-box">
     <div class="contact-eyebrow">Parlons-en</div>
     <div class="contact-title">UN PROJET ?<br>UNE COLLAB ?</div>
-    <p class="contact-text">
-      Tu as un projet à illustrer, une idée à concrétiser, ou tout simplement l'envie de créer ensemble — je suis ouverte à la collaboration. N'hésite pas à me contacter.
-    </p>
+    <p class="contact-text">Tu as un projet à illustrer, une idée à concrétiser, ou tout simplement l'envie de créer ensemble — je suis ouverte à la collaboration. N'hésite pas à me contacter.</p>
     <a class="contact-email" href="mailto:artistocratie.art@gmail.com">artistocratie.art@gmail.com</a>
     <br>
     <button class="contact-close" onclick="closeContact()">Fermer</button>
   </div>
 </div>
 
-<!-- CONFIRMATION MODALE -->
 <div class="confirm-overlay" id="confirmOverlay">
   <div class="confirm-box">
     <svg class="confirm-flower" width="64" height="64" viewBox="0 0 180 180">
@@ -975,15 +428,11 @@
       </g>
     </svg>
     <div class="confirm-title">Bienvenue.</div>
-    <p class="confirm-text">
-      Tu fais maintenant partie du mouvement.<br>
-      Les prochaines créations arrivent dans ta boîte — en avant-première.
-    </p>
+    <p class="confirm-text">Tu fais maintenant partie du mouvement.<br>Les prochaines créations arrivent dans ta boîte — en avant-première.</p>
     <button class="confirm-close" onclick="closeConfirm()">Fermer</button>
   </div>
 </div>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-logo">ARTISTOCRATIE</div>
   <ul class="footer-links">
@@ -994,157 +443,58 @@
 </footer>
 
 <script>
-  // Cursor
   const cursor = document.getElementById('cursor');
   const ring = document.getElementById('cursorRing');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-  function animateCursor() {
-    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
-    rx += (mx - rx) * 0.25; ry += (my - ry) * 0.25;
-    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-    requestAnimationFrame(animateCursor);
-  }
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  function animateCursor(){cursor.style.left=mx+'px';cursor.style.top=my+'px';rx+=(mx-rx)*0.25;ry+=(my-ry)*0.25;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animateCursor);}
   animateCursor();
 
-  // Contact modale
-  function openContact() {
-    const overlay = document.getElementById('contactOverlay');
-    overlay.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    setTimeout(() => overlay.classList.add('visible'), 10);
-  }
-  function closeContact() {
-    const overlay = document.getElementById('contactOverlay');
-    overlay.classList.remove('visible');
-    document.body.style.overflow = '';
-    setTimeout(() => overlay.classList.remove('open'), 400);
-  }
-  document.getElementById('contactOverlay').addEventListener('click', function(e) {
-    if (e.target === this) closeContact();
-  });
+  function openContact(){const o=document.getElementById('contactOverlay');o.classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>o.classList.add('visible'),10);}
+  function closeContact(){const o=document.getElementById('contactOverlay');o.classList.remove('visible');document.body.style.overflow='';setTimeout(()=>o.classList.remove('open'),400);}
+  document.getElementById('contactOverlay').addEventListener('click',function(e){if(e.target===this)closeContact();});
 
-  // Email form — confirmation modale
-  document.querySelector('.unlock-form').addEventListener('submit', function(e) {
+  document.querySelector('.unlock-form').addEventListener('submit',function(e){
     e.preventDefault();
-    const email = this.querySelector('input[type="email"]').value;
-    const url = 'https://gmail.us16.list-manage.com/subscribe/post?u=0969e850038a5cb2d641901fa&id=3973cd6d30&f_id=0093c2e1f0';
-    const data = new FormData(this);
-    fetch(url, { method: 'POST', body: data, mode: 'no-cors' });
-    const overlay = document.getElementById('confirmOverlay');
-    overlay.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    setTimeout(() => overlay.classList.add('visible'), 10);
-    this.querySelector('input[type="email"]').value = '';
+    fetch('https://gmail.us16.list-manage.com/subscribe/post?u=0969e850038a5cb2d641901fa&id=3973cd6d30&f_id=0093c2e1f0',{method:'POST',body:new FormData(this),mode:'no-cors'});
+    const o=document.getElementById('confirmOverlay');o.classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>o.classList.add('visible'),10);
+    this.querySelector('input[type="email"]').value='';
   });
+  function closeConfirm(){const o=document.getElementById('confirmOverlay');o.classList.remove('visible');document.body.style.overflow='';setTimeout(()=>o.classList.remove('open'),400);}
 
-  function closeConfirm() {
-    const overlay = document.getElementById('confirmOverlay');
-    overlay.classList.remove('visible');
-    document.body.style.overflow = '';
-    setTimeout(() => overlay.classList.remove('open'), 400);
+  function openLightbox(title,tag,medium,format,year,desc,bg){
+    const lb=document.getElementById('lightbox');
+    document.getElementById('lightbox-title').textContent=title;
+    document.getElementById('lightbox-tag').textContent=tag;
+    document.getElementById('lightbox-medium').textContent=medium;
+    document.getElementById('lightbox-format').textContent=format;
+    document.getElementById('lightbox-year').textContent=year;
+    document.getElementById('lightbox-desc').textContent=desc;
+    document.getElementById('lightbox-img').style.background=bg;
+    lb.classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>lb.classList.add('visible'),10);
   }
+  function closeLightbox(){const lb=document.getElementById('lightbox');lb.classList.remove('visible');document.body.style.overflow='';setTimeout(()=>lb.classList.remove('open'),400);}
+  document.getElementById('lightbox').addEventListener('click',function(e){if(e.target===this)closeLightbox();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
 
-  // Lightbox
-  function openLightbox(title, tag, medium, format, year, desc, bg) {
-    const lb = document.getElementById('lightbox');
-    document.getElementById('lightbox-title').textContent = title;
-    document.getElementById('lightbox-tag').textContent = tag;
-    document.getElementById('lightbox-medium').textContent = medium;
-    document.getElementById('lightbox-format').textContent = format;
-    document.getElementById('lightbox-year').textContent = year;
-    document.getElementById('lightbox-desc').textContent = desc;
-    document.getElementById('lightbox-img').style.background = bg;
-    lb.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    setTimeout(() => lb.classList.add('visible'), 10);
-  }
-  function closeLightbox() {
-    const lb = document.getElementById('lightbox');
-    lb.classList.remove('visible');
-    document.body.style.overflow = '';
-    setTimeout(() => lb.classList.remove('open'), 400);
-  }
-  document.getElementById('lightbox').addEventListener('click', function(e) {
-    if (e.target === this) closeLightbox();
+  function openRoom(name){const p=document.getElementById('room-'+name);p.classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>p.classList.add('visible'),10);p.scrollTop=0;}
+  function closeRoom(name){const p=document.getElementById('room-'+name);p.classList.remove('visible');document.body.style.overflow='';setTimeout(()=>p.classList.remove('open'),400);}
+
+  let logoMorphed=false,svgRaf=null,svgCurrent=0,svgTarget=0;
+  const logoTp=document.getElementById('logo-tp');
+  function animateSvgText(){svgCurrent+=(svgTarget-svgCurrent)*0.06;logoTp.setAttribute('startOffset',svgCurrent.toFixed(2)+'%');if(Math.abs(svgCurrent-svgTarget)>0.05){svgRaf=requestAnimationFrame(animateSvgText);}else{svgCurrent=svgTarget;svgRaf=null;}}
+
+  window.addEventListener('scroll',()=>{
+    const scrolled=window.scrollY>60;
+    document.getElementById('navbar').classList.toggle('scrolled',scrolled);
+    if(scrolled&&!logoMorphed){logoMorphed=true;const t=document.getElementById('logo-text'),s=document.getElementById('logo-svg');t.style.opacity='0';setTimeout(()=>{t.style.display='none';s.style.display='block';setTimeout(()=>{s.style.opacity='1';},10);},300);}
+    else if(!scrolled&&logoMorphed){logoMorphed=false;const t=document.getElementById('logo-text'),s=document.getElementById('logo-svg');s.style.opacity='0';setTimeout(()=>{s.style.display='none';t.style.display='';setTimeout(()=>{t.style.opacity='1';},10);},300);}
   });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+  document.getElementById('logo-svg').addEventListener('mouseenter',()=>{svgTarget=50;if(!svgRaf)svgRaf=requestAnimationFrame(animateSvgText);});
+  document.getElementById('logo-svg').addEventListener('mouseleave',()=>{svgTarget=0;if(!svgRaf)svgRaf=requestAnimationFrame(animateSvgText);});
 
-  // Gallery rooms
-  function openRoom(name) {
-    const page = document.getElementById('room-' + name);
-    page.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    setTimeout(() => page.classList.add('visible'), 10);
-    page.scrollTop = 0;
-  }
-  function closeRoom(name) {
-    const page = document.getElementById('room-' + name);
-    page.classList.remove('visible');
-    document.body.style.overflow = '';
-    setTimeout(() => page.classList.remove('open'), 400);
-  }
-
-  // Nav scroll + logo morph
-  let logoMorphed = false;
-  let svgRaf = null;
-  let svgCurrent = 0, svgTarget = 0;
-  const logoTp = document.getElementById('logo-tp');
-
-  function animateSvgText() {
-    svgCurrent += (svgTarget - svgCurrent) * 0.06;
-    logoTp.setAttribute('startOffset', svgCurrent.toFixed(2) + '%');
-    if (Math.abs(svgCurrent - svgTarget) > 0.05) {
-      svgRaf = requestAnimationFrame(animateSvgText);
-    } else {
-      svgCurrent = svgTarget;
-      svgRaf = null;
-    }
-  }
-
-  window.addEventListener('scroll', () => {
-    const scrolled = window.scrollY > 60;
-    document.getElementById('navbar').classList.toggle('scrolled', scrolled);
-
-    if (scrolled && !logoMorphed) {
-      logoMorphed = true;
-      const text = document.getElementById('logo-text');
-      const svg = document.getElementById('logo-svg');
-      text.style.opacity = '0';
-      setTimeout(() => {
-        text.style.display = 'none';
-        svg.style.display = 'block';
-        setTimeout(() => { svg.style.opacity = '1'; }, 10);
-      }, 300);
-    } else if (!scrolled && logoMorphed) {
-      logoMorphed = false;
-      const text = document.getElementById('logo-text');
-      const svg = document.getElementById('logo-svg');
-      svg.style.opacity = '0';
-      setTimeout(() => {
-        svg.style.display = 'none';
-        text.style.display = '';
-        setTimeout(() => { text.style.opacity = '1'; }, 10);
-      }, 300);
-    }
-  });
-
-  // SVG logo hover spin
-  document.getElementById('logo-svg').addEventListener('mouseenter', () => {
-    svgTarget = 50;
-    if (!svgRaf) svgRaf = requestAnimationFrame(animateSvgText);
-  });
-  document.getElementById('logo-svg').addEventListener('mouseleave', () => {
-    svgTarget = 0;
-    if (!svgRaf) svgRaf = requestAnimationFrame(animateSvgText);
-  });
-
-  // Reveal on scroll
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.15 });
-  reveals.forEach(r => observer.observe(r));
+  const reveals=document.querySelectorAll('.reveal');
+  new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.15}).observe&&reveals.forEach(r=>new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.15}).observe(r));
 </script>
 </body>
 </html>
