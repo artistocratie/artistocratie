@@ -365,7 +365,7 @@
     <div class="unlock-eyebrow">Accès exclusif</div>
     <h2 class="unlock-title">Il y a <em>plus</em><br>à voir.</h2>
     <p class="unlock-desc">Accède à l'intégralité de mes œuvres — celles que je ne montre pas sur les réseaux. Pièces inédites, travaux en cours, coulisses de l'atelier.</p>
-    <form class="unlock-form" action="https://gmail.us16.list-manage.com/subscribe/post?u=0969e850038a5cb2d641901fa&amp;id=3973cd6d30&amp;f_id=0093c2e1f0" method="post" target="_blank">
+    <form class="unlock-form" action="https://gmail.us16.list-manage.com/subscribe/post?u=0969e850038a5cb2d641901fa&amp;id=3973cd6d30&amp;f_id=0093c2e1f0" method="post" >
       <input class="unlock-input" type="email" name="EMAIL" placeholder="votre@email.com" required>
       <div aria-hidden="true" style="position:absolute;left:-5000px;"><input type="text" name="b_0969e850038a5cb2d641901fa_3973cd6d30" tabindex="-1" value=""></div>
       <button type="submit" class="unlock-btn">Rejoins le mouvement</button>
@@ -454,12 +454,14 @@
   function closeContact(){const o=document.getElementById('contactOverlay');o.classList.remove('visible');document.body.style.overflow='';setTimeout(()=>o.classList.remove('open'),400);}
   document.getElementById('contactOverlay').addEventListener('click',function(e){if(e.target===this)closeContact();});
 
-  document.querySelector('.unlock-form').addEventListener('submit',function(e){
+document.querySelector('.unlock-form').addEventListener('submit', function(e){
     e.preventDefault();
-    fetch('https://gmail.us16.list-manage.com/subscribe/post?u=0969e850038a5cb2d641901fa&id=3973cd6d30&f_id=0093c2e1f0',{method:'POST',body:new FormData(this),mode:'no-cors'});
-    const o=document.getElementById('confirmOverlay');o.classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>o.classList.add('visible'),10);
-    this.querySelector('input[type="email"]').value='';
-  });
+    const email = this.querySelector('input[type="email"]').value;
+    const action = this.getAttribute('action');
+    fetch(action + '&EMAIL=' + encodeURIComponent(email), {mode: 'no-cors'});
+    // Affiche confirmation inline
+    this.innerHTML = '<p style="color:var(--gold);font-family:\'Cormorant Garamond\',serif;font-style:italic;font-size:18px;line-height:1.8;">Parfait. Vérifie ta boîte mail —<br>le lien vers la salle privée t\'attend.</p>';
+});
   function closeConfirm(){const o=document.getElementById('confirmOverlay');o.classList.remove('visible');document.body.style.overflow='';setTimeout(()=>o.classList.remove('open'),400);}
 
   function openLightbox(title,tag,medium,format,year,desc,bg){
