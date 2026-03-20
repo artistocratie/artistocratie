@@ -61,8 +61,8 @@
   .lightbox-close::after { content: '✕'; font-size: 16px; }
   .lightbox-close:hover { color: var(--gold); }
   .lightbox-img-wrap { width: 100%; max-height: 75vh; display: flex; align-items: center; justify-content: center; padding: 4rem 4rem 2rem; flex-shrink: 0; }
-  .lightbox-img-wrap img, .lightbox-placeholder { max-width: 100%; max-height: 70vh; object-fit: contain; border: 0.5px solid #1e1e1e; }
-  .lightbox-placeholder { width: 500px; height: 600px; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; letter-spacing: 2px; color: #333; }
+  .lightbox-img-wrap img { max-width: 100%; max-height: 70vh; object-fit: contain; border: 0.5px solid #1e1e1e; }
+  .lightbox-placeholder { width: 500px; height: 600px; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; letter-spacing: 2px; color: #333; max-width: 100%; max-height: 70vh; object-fit: contain; border: 0.5px solid #1e1e1e; }
   .lightbox-info { width: 100%; max-width: 680px; padding: 2.5rem 4rem 4rem; border-top: 0.5px solid var(--border); }
   .lightbox-tag { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; }
   .lightbox-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px, 5vw, 64px); letter-spacing: 3px; color: var(--cream); line-height: 1; margin-bottom: 1.5rem; }
@@ -253,24 +253,24 @@
   <div class="gallery-rooms reveal">
     <div class="room-card" onclick="openRoom('toiles')">
       <div class="room-collage">
-        <div class="room-collage-item" style="background:linear-gradient(135deg,#2a1a08,#D4533A);"></div>
-        <div class="room-collage-item" style="background:linear-gradient(135deg,#1a0808,#8B2020);"></div>
+        <div class="room-collage-item" style="background:url('toile-01.JPG') center/cover;"></div>
+        <div class="room-collage-item" style="background:url('toile-02.JPG') center/cover;"></div>
         <div class="room-collage-item" style="background:linear-gradient(135deg,#C17A2A,#E8A84A);"></div>
         <div class="room-collage-item" style="background:linear-gradient(135deg,#2A5FA8,#1a1a3a);"></div>
       </div>
       <div class="room-door">
         <div class="room-number">Salle 01</div>
         <div class="room-name">TOILES</div>
-        <div class="room-count">5 œuvres originales</div>
+        <div class="room-count">2 œuvres originales</div>
         <div class="room-enter">Entrer dans la salle</div>
       </div>
     </div>
     <div class="room-card" onclick="openRoom('posters')">
       <div class="room-collage">
-        <div class="room-collage-item" style="background:linear-gradient(135deg,#1a0a1a,#8B2060);"></div>
-        <div class="room-collage-item" style="background:linear-gradient(135deg,#1a1a08,#D4C453);"></div>
-        <div class="room-collage-item" style="background:linear-gradient(135deg,#081a18,#208B7A);"></div>
-        <div class="room-collage-item" style="background:linear-gradient(135deg,#180a1a,#6B2A8B);"></div>
+        <div class="room-collage-item" style="background:url('poster-01.JPG') center/cover;"></div>
+        <div class="room-collage-item" style="background:url('poster-02.JPG') center/cover;"></div>
+        <div class="room-collage-item" style="background:url('poster-03.JPG') center/cover;"></div>
+        <div class="room-collage-item" style="background:url('poster-04.JPG') center/cover;"></div>
       </div>
       <div class="room-door">
         <div class="room-number">Salle 02</div>
@@ -281,7 +281,7 @@
     </div>
     <div class="room-card" onclick="openRoom('carnets')">
       <div class="room-collage">
-        <div class="room-collage-item" style="background:linear-gradient(135deg,#0a1208,#2A5A1A);"></div>
+        <div class="room-collage-item" style="background:url('carnet-01.JPG') center/cover;"></div>
         <div class="room-collage-item" style="background:linear-gradient(135deg,#08101a,#1A3A6B);"></div>
         <div class="room-collage-item" style="background:linear-gradient(135deg,#1a1008,#D4A84A);"></div>
         <div class="room-collage-item" style="background:linear-gradient(135deg,#1a0810,#D44A7A);"></div>
@@ -289,7 +289,7 @@
       <div class="room-door">
         <div class="room-number">Salle 03</div>
         <div class="room-name">CARNETS</div>
-        <div class="room-count">5 pages de carnet</div>
+        <div class="room-count">1 page de carnet</div>
         <div class="room-enter">Entrer dans la salle</div>
       </div>
     </div>
@@ -299,7 +299,8 @@
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" onclick="closeLightbox()">Fermer</button>
   <div class="lightbox-img-wrap">
-    <div class="lightbox-placeholder" id="lightbox-img" style="background:linear-gradient(135deg,#1a1208,#2a1a08);">— Image —</div>
+    <img id="lightbox-img" src="" alt="" style="display:none;">
+    <div class="lightbox-placeholder" id="lightbox-placeholder" style="background:linear-gradient(135deg,#1a1208,#2a1a08);">— Image —</div>
   </div>
   <div class="lightbox-info">
     <div class="lightbox-tag" id="lightbox-tag">Toile</div>
@@ -320,11 +321,11 @@
     <div style="width:120px;"></div>
   </div>
   <div class="room-page-grid">
-    <div class="room-page-item" onclick="openLightbox('Toile 01','Toile','Acrylique sur toile','40 × 50 cm','2025','Une figure humaine expressée dans des tons chauds. L\'émotion avant tout.','linear-gradient(135deg,#2a1a08,#D4533A,#C17A2A)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#2a1a08,#D4533A,#C17A2A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Toile 01</span></div></div>
-    <div class="room-page-item" onclick="openLightbox('Toile 02','Toile','Acrylique sur toile','30 × 40 cm','2025','Les contrastes du rouge et du noir racontent une tension intérieure.','linear-gradient(135deg,#1a0808,#8B2020,#D4533A)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#1a0808,#8B2020,#D4533A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Toile 02</span></div></div>
-    <div class="room-page-item" onclick="openLightbox('Toile 03','Toile','Acrylique sur toile','50 × 60 cm','2024','L\'or et l\'ocre comme une lumière qui réchauffe même les jours gris.','linear-gradient(135deg,#1a1208,#C17A2A,#E8A84A)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1208,#C17A2A,#E8A84A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Toile 03</span></div></div>
-    <div class="room-page-item" onclick="openLightbox('Toile 04','Toile','Acrylique sur toile','40 × 40 cm','2024','Le bleu profond comme un voyage vers l\'intérieur.','linear-gradient(135deg,#081a2a,#2A5FA8,#1a1a3a)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#081a2a,#2A5FA8,#1a1a3a);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Toile 04</span></div></div>
-    <div class="room-page-item" onclick="openLightbox('Toile 05','Toile','Acrylique sur toile','60 × 80 cm','2024','La nature comme refuge, le vert comme espoir.','linear-gradient(135deg,#0a1a08,#2a5a10,#1a3a08)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#0a1a08,#2a5a10,#1a3a08);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Toile 05</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Toile 01','Toile','Acrylique sur toile','40 × 50 cm','2025','Une figure humaine expressée dans des tons chauds. L\'émotion avant tout.','toile-01.JPG')"><div style="width:100%;height:100%;background:url('toile-01.JPG') center/cover;"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Toile 01</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Toile 02','Toile','Acrylique sur toile','30 × 40 cm','2025','Les contrastes du rouge et du noir racontent une tension intérieure.','toile-02.JPG')"><div style="width:100%;height:100%;background:url('toile-02.JPG') center/cover;"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Toile 02</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Toile 03','Toile','Acrylique sur toile','50 × 60 cm','2024','L\'or et l\'ocre comme une lumière qui réchauffe même les jours gris.','')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1208,#C17A2A,#E8A84A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Toile 03</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Toile 04','Toile','Acrylique sur toile','40 × 40 cm','2024','Le bleu profond comme un voyage vers l\'intérieur.','')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#081a2a,#2A5FA8,#1a1a3a);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Toile 04</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Toile 05','Toile','Acrylique sur toile','60 × 80 cm','2024','La nature comme refuge, le vert comme espoir.','')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#0a1a08,#2a5a10,#1a3a08);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Toile 05</span></div></div>
   </div>
 </div>
 
@@ -335,11 +336,11 @@
     <div style="width:120px;"></div>
   </div>
   <div class="room-page-grid">
-    <div class="room-page-item" onclick="openLightbox('Poster 01','Poster','Impression numérique','A3','2025','Une composition florale entre douceur et intensité.','linear-gradient(135deg,#1a0a1a,#8B2060,#D453A0)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#1a0a1a,#8B2060,#D453A0);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Poster 01</span></div></div>
-    <div class="room-page-item" onclick="openLightbox('Poster 02','Poster','Impression numérique','A2','2025','Des formes géométriques qui dansent dans les tons soleil.','linear-gradient(135deg,#1a1a08,#8B8020,#D4C453)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1a08,#8B8020,#D4C453);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Poster 02</span></div></div>
-    <div class="room-page-item" onclick="openLightbox('Poster 03','Poster','Impression numérique','A3','2024','L\'eau et la lumière capturées dans leurs nuances les plus fines.','linear-gradient(135deg,#081a18,#208B7A,#53D4C4)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#081a18,#208B7A,#53D4C4);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Poster 03</span></div></div>
-    <div class="room-page-item" onclick="openLightbox('Poster 04','Poster','Impression numérique','A2','2024','Chaleur, mouvement, vie — un hommage aux couleurs du Sud.','linear-gradient(135deg,#1a0808,#C17A2A,#E8A84A)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#1a0808,#C17A2A,#E8A84A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Poster 04</span></div></div>
-    <div class="room-page-item" onclick="openLightbox('Poster 05','Poster','Impression numérique','A3','2024','Le violet comme une méditation, un espace de silence intérieur.','linear-gradient(135deg,#180a1a,#6B2A8B,#A853D4)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#180a1a,#6B2A8B,#A853D4);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Poster 05</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Poster 01','Poster','Impression numérique','A3','2025','Une composition florale entre douceur et intensité.','poster-01.JPG')"><div style="width:100%;height:100%;background:url('poster-01.JPG') center/cover;"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Poster 01</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Poster 02','Poster','Impression numérique','A2','2025','Des formes géométriques qui dansent dans les tons soleil.','poster-02.JPG')"><div style="width:100%;height:100%;background:url('poster-02.JPG') center/cover;"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Poster 02</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Poster 03','Poster','Impression numérique','A3','2024','L\'eau et la lumière capturées dans leurs nuances les plus fines.','poster-03.JPG')"><div style="width:100%;height:100%;background:url('poster-03.JPG') center/cover;"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Poster 03</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Poster 04','Poster','Impression numérique','A2','2024','Chaleur, mouvement, vie — un hommage aux couleurs du Sud.','poster-04.JPG')"><div style="width:100%;height:100%;background:url('poster-04.JPG') center/cover;"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Poster 04</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Poster 05','Poster','Impression numérique','A3','2024','Le violet comme une méditation, un espace de silence intérieur.','poster-05.JPG')"><div style="width:100%;height:100%;background:url('poster-05.JPG') center/cover;"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Poster 05</span></div></div>
   </div>
 </div>
 
@@ -350,11 +351,11 @@
     <div style="width:120px;"></div>
   </div>
   <div class="room-page-grid">
-    <div class="room-page-item" onclick="openLightbox('Carnet 01','Carnet','Aquarelle & encre','21 × 29 cm','2025','Une page de voyage, croquée sur le vif dans les rues de Montréal.','linear-gradient(135deg,#0a1208,#2A5A1A,#53A84A)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#0a1208,#2A5A1A,#53A84A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Carnet 01</span></div></div>
-    <div class="room-page-item" onclick="openLightbox('Carnet 02','Carnet','Aquarelle & encre','21 × 29 cm','2025','Le bleu du ciel un matin de janvier. Froid dehors, chaud dedans.','linear-gradient(135deg,#08101a,#1A3A6B,#4A7AD4)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#08101a,#1A3A6B,#4A7AD4);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Carnet 02</span></div></div>
-    <div class="room-page-item" onclick="openLightbox('Carnet 03','Carnet','Aquarelle & encre','21 × 29 cm','2024','L\'ocre des falaises au coucher du soleil — un souvenir de voyage.','linear-gradient(135deg,#1a1008,#6B4A1A,#D4A84A)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1008,#6B4A1A,#D4A84A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Carnet 03</span></div></div>
-    <div class="room-page-item" onclick="openLightbox('Carnet 04','Carnet','Aquarelle & encre','21 × 29 cm','2024','Un portrait rapide, une émotion capturée en quelques traits.','linear-gradient(135deg,#1a0810,#6B1A3A,#D44A7A)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#1a0810,#6B1A3A,#D44A7A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Carnet 04</span></div></div>
-    <div class="room-page-item" onclick="openLightbox('Carnet 05','Carnet','Aquarelle & encre','21 × 29 cm','2024','Mauve et mystère. Un rêve mis en page.','linear-gradient(135deg,#100a1a,#3A1A6B,#7A4AD4)')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#100a1a,#3A1A6B,#7A4AD4);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Carnet 05</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Carnet 01','Carnet','Aquarelle & encre','21 × 29 cm','2025','Une page de voyage, croquée sur le vif dans les rues de Montréal.','carnet-01.JPG')"><div style="width:100%;height:100%;background:url('carnet-01.JPG') center/cover;"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Carnet 01</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Carnet 02','Carnet','Aquarelle & encre','21 × 29 cm','2025','Le bleu du ciel un matin de janvier. Froid dehors, chaud dedans.','')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#08101a,#1A3A6B,#4A7AD4);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Carnet 02</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Carnet 03','Carnet','Aquarelle & encre','21 × 29 cm','2024','L\'ocre des falaises au coucher du soleil — un souvenir de voyage.','')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1008,#6B4A1A,#D4A84A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Carnet 03</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Carnet 04','Carnet','Aquarelle & encre','21 × 29 cm','2024','Un portrait rapide, une émotion capturée en quelques traits.','')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#1a0810,#6B1A3A,#D44A7A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Carnet 04</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Carnet 05','Carnet','Aquarelle & encre','21 × 29 cm','2024','Mauve et mystère. Un rêve mis en page.','')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#100a1a,#3A1A6B,#7A4AD4);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Carnet 05</span></div></div>
   </div>
 </div>
 
@@ -365,7 +366,7 @@
     <div class="unlock-eyebrow">Accès exclusif</div>
     <h2 class="unlock-title">Il y a <em>plus</em><br>à voir.</h2>
     <p class="unlock-desc">Accède à l'intégralité de mes œuvres — celles que je ne montre pas sur les réseaux. Pièces inédites, travaux en cours, coulisses de l'atelier.</p>
-    <form class="unlock-form" action="https://gmail.us16.list-manage.com/subscribe/post?u=0969e850038a5cb2d641901fa&amp;id=3973cd6d30&amp;f_id=0093c2e1f0" method="post" >
+    <form class="unlock-form" action="https://gmail.us16.list-manage.com/subscribe/post?u=0969e850038a5cb2d641901fa&amp;id=3973cd6d30&amp;f_id=0093c2e1f0" method="post">
       <input class="unlock-input" type="email" name="EMAIL" placeholder="votre@email.com" required>
       <div aria-hidden="true" style="position:absolute;left:-5000px;"><input type="text" name="b_0969e850038a5cb2d641901fa_3973cd6d30" tabindex="-1" value=""></div>
       <button type="submit" class="unlock-btn">Rejoins le mouvement</button>
@@ -454,17 +455,16 @@
   function closeContact(){const o=document.getElementById('contactOverlay');o.classList.remove('visible');document.body.style.overflow='';setTimeout(()=>o.classList.remove('open'),400);}
   document.getElementById('contactOverlay').addEventListener('click',function(e){if(e.target===this)closeContact();});
 
-document.querySelector('.unlock-form').addEventListener('submit', function(e){
+  document.querySelector('.unlock-form').addEventListener('submit', function(e){
     e.preventDefault();
     const email = this.querySelector('input[type="email"]').value;
     const action = this.getAttribute('action');
     fetch(action + '&EMAIL=' + encodeURIComponent(email), {mode: 'no-cors'});
-    // Affiche confirmation inline
     this.innerHTML = '<p style="color:var(--gold);font-family:\'Cormorant Garamond\',serif;font-style:italic;font-size:18px;line-height:1.8;">Parfait. Vérifie ta boîte mail —<br>le lien vers la salle privée t\'attend.</p>';
-});
+  });
   function closeConfirm(){const o=document.getElementById('confirmOverlay');o.classList.remove('visible');document.body.style.overflow='';setTimeout(()=>o.classList.remove('open'),400);}
 
-  function openLightbox(title,tag,medium,format,year,desc,bg){
+  function openLightbox(title,tag,medium,format,year,desc,imgSrc){
     const lb=document.getElementById('lightbox');
     document.getElementById('lightbox-title').textContent=title;
     document.getElementById('lightbox-tag').textContent=tag;
@@ -472,7 +472,16 @@ document.querySelector('.unlock-form').addEventListener('submit', function(e){
     document.getElementById('lightbox-format').textContent=format;
     document.getElementById('lightbox-year').textContent=year;
     document.getElementById('lightbox-desc').textContent=desc;
-    document.getElementById('lightbox-img').style.background=bg;
+    const img=document.getElementById('lightbox-img');
+    const placeholder=document.getElementById('lightbox-placeholder');
+    if(imgSrc){
+      img.src=imgSrc;
+      img.style.display='block';
+      placeholder.style.display='none';
+    } else {
+      img.style.display='none';
+      placeholder.style.display='flex';
+    }
     lb.classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>lb.classList.add('visible'),10);
   }
   function closeLightbox(){const lb=document.getElementById('lightbox');lb.classList.remove('visible');document.body.style.overflow='';setTimeout(()=>lb.classList.remove('open'),400);}
