@@ -1,0 +1,20 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+# Backup files
+*.bak
+*.swp
+*~
+
+# IDE
+.vscode/
+.idea/
+
+# Sources originales lourdes (on garde seulement les WebP optimisés versionnés)
+*.psd
+*.ai
+*.sketch
