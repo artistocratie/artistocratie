@@ -13,18 +13,25 @@ En ligne sur **[artistocratie.com](https://artistocratie.com)**.
 
 ```
 .
-├── index.html              # Page unique
+├── index.html              # ACCUEIL : 2 choix (Œuvres / Artiste) + newsletter
+├── artiste.html            # Bio de Nino
+├── oeuvres.html            # HUB : 8 boutons en cercle autour d'un médaillon central
+│   ├── defi-24h.html
+│   ├── appart-galerie.html
+│   ├── edition-jazz.html
+│   ├── carnet-voyage.html
+│   ├── pastels-huile.html
+│   ├── projets-en-cours.html
+│   ├── projets-a-venir.html
+│   └── collaborer.html     # page contact / collaboration
 ├── 404.html                # Page d'erreur custom
 ├── CNAME                   # artistocratie.com
 ├── favicon.{ico,svg}
 └── assets/
-    ├── css/style.css       # Styles
-    ├── js/main.js          # Interactions
+    ├── css/style.css       # Styles (palette claire, orange #FF5400)
+    ├── js/main.js          # Interactions partagées (null-safe, multi-pages)
     └── img/
-        ├── hero.webp
-        ├── toiles/
-        ├── posters/
-        └── carnets/
+        ├── hero.webp · toiles/ · posters/ · carnets/
 ```
 
 ## Développement local
@@ -39,7 +46,7 @@ Pas de build, pas de hot reload — c'est volontaire.
 ## Ajouter une œuvre
 
 1. Optimiser l'image : `cwebp -q 80 -resize 1600 0 source.jpg -o assets/img/toiles/toile-XX.webp`
-2. Ajouter une entrée dans la `room-page-grid` correspondante dans `index.html`
+2. Ajouter une entrée dans la `col-grid` de la page de série correspondante (ex. `carnet-voyage.html`)
 3. Commit + push → GitHub Pages déploie automatiquement (~30s)
 
 ## Réseaux

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PASTELS À L’HUILE — Artistocratie</title>
+<meta name="description" content="La matière grasse du pastel, les couleurs qui se fondent sous les doigts. Une technique tactile, chaude, sensuelle.">
+<link rel="canonical" href="https://artistocratie.com/pastels-huile.html">
+<meta name="theme-color" content="#F7F2E8">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+<nav id="navbar" aria-label="Navigation principale">
+  <a href="index.html" class="nav-logo">ARTISTO<span class="logo-orange">CRATIE</span></a>
+  <ul class="nav-links">
+    <li><a href="oeuvres.html">Œuvres</a></li>
+    <li><a href="artiste.html">Artiste</a></li>
+    <li><a href="https://www.instagram.com/artistocratie_/" target="_blank" rel="noopener">Instagram</a></li>
+    <li><a href="https://www.tiktok.com/@artistocratie_" target="_blank" rel="noopener">TikTok</a></li>
+  </ul>
+</nav>
+
+<div class="page-backbar"><a href="oeuvres.html" class="back-link">Retour à la galerie</a></div>
+
+<section class="page-top" style="padding-top:1.5rem;">
+  <div class="page-eyebrow">Série · Matière</div>
+  <h1 class="page-title">PASTELS À L’HUILE</h1>
+  <p class="page-intro">La matière grasse du pastel, les couleurs qui se fondent sous les doigts. Une technique tactile, chaude, sensuelle.</p>
+</section>
+
+<div class="col-wrap">
+  <div class="col-grid reveal">
+    <div class="room-page-item" onclick="openLightbox('Pastel · 01','Pastels huile','Pastel à l’huile','Variable','2026','Les couleurs fondues sous les doigts, toute la chaleur du pastel gras.','')"><div style="width:100%;height:100%;background:;"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Pastel · 01</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Pastel · 02','Pastels huile','Pastel à l’huile','Variable','2026','Les couleurs fondues sous les doigts, toute la chaleur du pastel gras.','')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#FFB07A,#FF6A1A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Pastel · 02</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Pastel · 03','Pastels huile','Pastel à l’huile','Variable','2026','Les couleurs fondues sous les doigts, toute la chaleur du pastel gras.','')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#FFD8A8,#F2671A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Pastel · 03</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Pastel · 04','Pastels huile','Pastel à l’huile','Variable','2026','Les couleurs fondues sous les doigts, toute la chaleur du pastel gras.','')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#F1EADC,#E8A84A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Pastel · 04</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Pastel · 05','Pastels huile','Pastel à l’huile','Variable','2026','Les couleurs fondues sous les doigts, toute la chaleur du pastel gras.','')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#FF8A3D,#C73600);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Pastel · 05</span></div></div>
+    <div class="room-page-item" onclick="openLightbox('Pastel · 06','Pastels huile','Pastel à l’huile','Variable','2026','Les couleurs fondues sous les doigts, toute la chaleur du pastel gras.','')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#FAF3E9,#FF9A55);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Pastel · 06</span></div></div>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-title">
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="Fermer">Fermer</button>
+  <div class="lightbox-img-wrap">
+    <img id="lightbox-img" src="" alt="" style="display:none;">
+    <div class="lightbox-placeholder" id="lightbox-placeholder" style="background:linear-gradient(135deg,#FFE0C0,#FF9A55);">— Image à venir —</div>
+  </div>
+  <div class="lightbox-info">
+    <div class="lightbox-tag" id="lightbox-tag">Œuvre</div>
+    <div class="lightbox-title" id="lightbox-title">Titre</div>
+    <div class="lightbox-desc" id="lightbox-desc">Description.</div>
+    <div class="lightbox-meta">
+      <div class="lightbox-meta-item"><span class="lightbox-meta-label">Médium</span><span class="lightbox-meta-value" id="lightbox-medium"></span></div>
+      <div class="lightbox-meta-item"><span class="lightbox-meta-label">Format</span><span class="lightbox-meta-value" id="lightbox-format"></span></div>
+      <div class="lightbox-meta-item"><span class="lightbox-meta-label">Année</span><span class="lightbox-meta-value" id="lightbox-year"></span></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">ARTISTOCRATIE</div>
+  <ul class="footer-links">
+    <li><a href="oeuvres.html">Œuvres</a></li>
+    <li><a href="artiste.html">Artiste</a></li>
+    <li><a href="collaborer.html">Collaborer</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Nino Minashvili</div>
+</footer>
+
+<script src="assets/js/main.js" defer></script>
+</body>
+</html>
