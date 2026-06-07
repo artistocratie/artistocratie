@@ -46,24 +46,32 @@
 <div class="cursor" id="cursor" aria-hidden="true"></div>
 <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
 
-<a class="landing-brand" href="index.html" aria-label="Artistocratie — accueil">ARTISTO<span>CRATIE</span></a>
+<nav id="navbar" aria-label="Navigation principale">
+  <a href="index.html" class="nav-logo">ARTISTO<span class="logo-orange">CRATIE</span></a>
+  <ul class="nav-links">
+    <li><a href="oeuvres.html">Œuvres</a></li>
+    <li><a href="artiste.html">Artiste</a></li>
+    <li><a href="https://www.instagram.com/artistocratie_/" target="_blank" rel="noopener">Instagram</a></li>
+    <li><a href="https://www.tiktok.com/@artistocratie_" target="_blank" rel="noopener">TikTok</a></li>
+  </ul>
+</nav>
 
-<main id="landing">
-  <a class="landing-panel" href="oeuvres.html" aria-label="Découvrir les œuvres">
-    <div class="landing-bg" style="background-image:url('assets/img/hero.webp');"></div>
-    <div class="landing-eyebrow">La galerie</div>
-    <div class="landing-h">DÉCOUVRIR<br>LES ŒUVRES</div>
-    <p class="landing-sub">Toiles, séries, carnets — entre dans l'atelier.</p>
-    <span class="btn-line">Entrer dans la galerie</span>
-  </a>
-  <a class="landing-panel" href="artiste.html" aria-label="Découvrir l'artiste">
-    <div class="landing-bg" style="background-image:url('assets/img/toiles/toile-01.webp');"></div>
-    <div class="landing-eyebrow">La personne</div>
-    <div class="landing-h">DÉCOUVRIR<br>L'ARTISTE</div>
-    <p class="landing-sub">Qui est Nino Minashvili ? Son histoire, son univers.</p>
-    <span class="btn-line">Faire connaissance</span>
-  </a>
-</main>
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Peinture &amp; Dessin — Montréal</div>
+    <h1 class="hero-title">ARTISTO<br>CRATIE</h1>
+    <div class="hero-title-sub">par Nino Minashvili</div>
+    <div class="hero-actions">
+      <a href="oeuvres.html" class="hero-cta">Découvrir les œuvres</a>
+      <a href="artiste.html" class="hero-cta">Découvrir l'artiste</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-img-wrap">
+      <img src="assets/img/hero.webp" alt="Œuvre phare — Artistocratie par Nino Minashvili" style="width:100%;height:100%;object-fit:cover;object-position:center;" fetchpriority="high">
+    </div>
+  </div>
+</section>
 
 <div class="deco-line"></div>
 

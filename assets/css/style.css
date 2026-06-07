@@ -24,7 +24,8 @@
   .nav-links { display: flex; gap: 2.5rem; list-style: none; }
   .nav-links a { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-soft); text-decoration: none; transition: color 0.2s; padding: 0.8rem 1.2rem; margin: -0.8rem -1.2rem; }
   .nav-links a:hover { color: var(--orange); }
-  #hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; padding-top: 80px; position: relative; overflow: hidden; }
+  #hero { min-height: 100vh; display: grid; grid-template-columns: 0.72fr 1.28fr; padding-top: 80px; position: relative; overflow: hidden; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 0.5rem; }
   .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 4rem 3rem 4rem 5rem; position: relative; z-index: 2; }
   .hero-tag { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--orange); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.8s 0.3s forwards; }
   .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(60px, 8vw, 110px); line-height: 0.95; letter-spacing: 3px; color: var(--ink); margin-bottom: 0.5rem; opacity: 0; animation: fadeUp 0.8s 0.5s forwards; }
@@ -198,7 +199,7 @@
   @media (hover: none), (pointer: coarse) {
     .cursor, .cursor-ring { display: none !important; }
     body, .room-card, .room-back, .lightbox-close, .room-page-item, .contact-close, .confirm-close, .unlock-btn { cursor: auto !important; }
-    button, a, .room-card, .room-page-item, .btn-line, .landing-panel, .const-node a, .hub-back { cursor: pointer !important; }
+    button, a, .room-card, .room-page-item, .btn-line, .hero-cta, .const-node a, .hub-back { cursor: pointer !important; }
   }
 
   /* ====================================================
@@ -210,20 +211,6 @@
   .btn-line:hover { background: var(--btn-fill); color: var(--ink); border-color: transparent; box-shadow: var(--btn-fill-shadow); transform: translateY(-2px); }
   .btn-line:active { transform: translateY(0); }
   .btn-line.small { padding: 0.85rem 1.5rem; font-size: 10px; letter-spacing: 2px; }
-
-  /* ---- ACCUEIL (landing split) ---- */
-  .landing-brand { position: fixed; top: 1.8rem; left: 50%; transform: translateX(-50%); z-index: 20; font-family: 'Bebas Neue', sans-serif; letter-spacing: 5px; font-size: 22px; color: var(--ink); text-decoration: none; }
-  .landing-brand span { color: var(--orange); }
-  #landing { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; }
-  .landing-panel { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 4rem 2rem; overflow: hidden; cursor: none; text-decoration: none; }
-  .landing-panel + .landing-panel { border-left: 0.5px solid var(--line); }
-  .landing-bg { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0.16; transition: opacity 0.6s ease, transform 0.8s ease; }
-  .landing-panel:hover .landing-bg { opacity: 0.32; transform: scale(1.06); }
-  .landing-panel > * { position: relative; z-index: 2; }
-  .landing-eyebrow { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--orange); margin-bottom: 1.2rem; }
-  .landing-h { font-family: 'Bebas Neue', sans-serif; font-size: clamp(34px, 4.2vw, 64px); letter-spacing: 3px; color: var(--ink); line-height: 0.98; margin-bottom: 1.4rem; }
-  .landing-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 16px; line-height: 1.6; color: var(--ink-soft); max-width: 300px; margin-bottom: 2.2rem; }
-  .landing-panel:hover .btn-line { background: var(--btn-fill); color: var(--ink); border-color: transparent; box-shadow: var(--btn-fill-shadow); transform: translateY(-2px); }
 
   /* ---- En-tête de sous-page ---- */
   .page-top { padding: 9rem 5rem 1.5rem; text-align: center; }
@@ -278,9 +265,6 @@
 
   /* ---- RESPONSIVE multi-pages ---- */
   @media (max-width: 900px) {
-    #landing { grid-template-columns: 1fr; }
-    .landing-panel { min-height: 50vh; padding: 5rem 2rem; }
-    .landing-panel + .landing-panel { border-left: none; border-top: 0.5px solid var(--line); }
     .page-top { padding: 7.5rem 2rem 1rem; }
     .page-backbar { padding: 6rem 2rem 0; }
     .traits { grid-template-columns: 1fr; padding: 1rem 2rem; }
