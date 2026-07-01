@@ -477,12 +477,14 @@
   /* ================= Le mur des artistes (Supabase) ================= */
 
   // ---- Configuration : à remplir après création du projet Supabase ----
-  const SUPABASE_URL = 'https://VOTRE-PROJET.supabase.co';
-  const SUPABASE_ANON_KEY = 'VOTRE_CLE_ANON_PUBLIQUE';
+  const SUPABASE_URL = 'https://uyvglalrvvozrtrmpehr.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable__qCBAfMJX_QeP7V3419gHg_JY2hwj2k';
   const BUCKET = 'dessins';
   // ---------------------------------------------------------------------
 
-  const configured = !SUPABASE_URL.includes('VOTRE-PROJET') && !!window.supabase;
+  const configured = !SUPABASE_URL.includes('VOTRE-PROJET')
+    && !SUPABASE_ANON_KEY.includes('VOTRE_CLE')
+    && !!window.supabase;
   const sb = configured ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
   const board = document.getElementById('board');
