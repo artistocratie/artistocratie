@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roulette d'artistes — Artistocratie</title>
+<meta name="description" content="La roulette d'artistes : tire un défi de dessin au hasard — un sujet, un style, une contrainte. Le meilleur remède à la page blanche.">
+<link rel="canonical" href="https://artistocratie.com/roulette.html">
+<meta name="theme-color" content="#F7F2E8">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://artistocratie.com/roulette.html">
+<meta property="og:title" content="Roulette d'artistes — Artistocratie">
+<meta property="og:description" content="Tire un défi de dessin au hasard. Fini la page blanche.">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Artistocratie">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css?v=102">
+
+<style>
+  /* ---- Roulette d'artistes (styles propres à la page) ---- */
+  .roulette-wrap { max-width: 720px; margin: 2.5rem auto 0; padding: 0 2rem 5rem; --reel-h: clamp(82px, 12vw, 104px); }
+
+  .machine {
+    background: var(--bg-alt);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 2.2rem 2rem;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 24px 60px -30px rgba(80,50,20,0.4);
+  }
+
+  .reel-row { display: flex; align-items: stretch; gap: 1.2rem; margin-bottom: 0.9rem; }
+  .reel-row:last-of-type { margin-bottom: 0; }
+
+  .reel-label {
+    flex: 0 0 92px;
+    display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 0.55rem;
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--orange);
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* interrupteur activer / désactiver un rouleau */
+  .reel-toggle {
+    width: 36px; height: 19px; border-radius: 999px;
+    border: 1px solid var(--line); background: var(--bg);
+    position: relative; cursor: none; padding: 0;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .reel-toggle::after {
+    content: ''; position: absolute; top: 2px; left: 2px;
+    width: 13px; height: 13px; border-radius: 50%;
+    background: var(--ink-faint); transition: left 0.2s, background 0.2s;
+  }
+  .reel-toggle[aria-pressed="true"] { background: var(--orange); border-color: var(--orange); }
+  .reel-toggle[aria-pressed="true"]::after { left: 19px; background: #fff; }
+
+  .reel.off { opacity: 0.4; }
+  .reel.off .reel-item { color: var(--ink-faint); }
+
+  .reel {
+    flex: 1; position: relative; overflow: hidden;
+    height: var(--reel-h);
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+  }
+  /* voile haut/bas pour l'effet "fenêtre" */
+  .reel::before, .reel::after {
+    content: ''; position: absolute; left: 0; right: 0; height: 26px; z-index: 2; pointer-events: none;
+  }
+  .reel::before { top: 0; background: linear-gradient(to bottom, var(--bg), transparent); }
+  .reel::after { bottom: 0; background: linear-gradient(to top, var(--bg), transparent); }
+
+  .reel-strip { position: absolute; left: 0; right: 0; top: 0; will-change: transform; }
+  .reel-item {
+    height: var(--reel-h); display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 0 1rem;
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: clamp(18px, 2.6vw, 24px); line-height: 1.25; color: var(--ink);
+  }
+
+  .machine-actions { margin-top: 1.8rem; text-align: center; }
+  .roulette-btn {
+    display: inline-block; position: relative; overflow: hidden;
+    padding: 1.3rem 3.2rem;
+    background: transparent; border: 1px solid var(--orange); border-radius: 12px;
+    color: var(--orange); font-family: 'Inter', sans-serif;
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    cursor: none;
+    transition: background 0.45s ease, color 0.3s ease, box-shadow 0.4s ease, transform 0.25s ease;
+  }
+  .roulette-btn:hover:not(:disabled) {
+    background: var(--btn-fill); color: var(--ink); border-color: transparent;
+    box-shadow: var(--btn-fill-shadow); transform: translateY(-2px);
+  }
+  .roulette-btn:disabled { opacity: 0.5; }
+
+  .roulette-copy {
+    display: block; margin: 1.1rem auto 0; background: none; border: none;
+    font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--ink-faint); cursor: none; transition: color 0.2s;
+  }
+  .roulette-copy:hover { color: var(--orange); }
+
+  .roulette-hint {
+    text-align: center; margin: 1.6rem auto 0; max-width: 460px;
+    font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 15px; color: var(--ink-soft);
+  }
+  .roulette-hint a { color: var(--orange); text-decoration: none; }
+
+  /* ---- Le mur des artistes ---- */
+  .board-section { max-width: 1100px; margin: 1rem auto 0; padding: 4rem 2rem 5rem; }
+  .board-head { text-align: center; margin-bottom: 2.6rem; }
+  .board-head h2 {
+    font-family: 'Bebas Neue', sans-serif; font-size: clamp(34px, 5vw, 56px);
+    letter-spacing: 3px; color: var(--ink); line-height: 1;
+  }
+  .board-head p {
+    max-width: 520px; margin: 1rem auto 1.8rem;
+    font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 17px; color: var(--ink-soft);
+  }
+
+  .board-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+  .board-card {
+    background: var(--bg-alt); border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .board-card img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; background: var(--bg-tint); }
+  .board-card-body { padding: 0.9rem 1rem 1.1rem; }
+  .board-card-name { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 2px; color: var(--ink); }
+  .board-card-challenge {
+    margin-top: 0.35rem; font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 13px; line-height: 1.4; color: var(--ink-soft);
+  }
+  .board-empty {
+    grid-column: 1 / -1; text-align: center; padding: 3rem 1rem;
+    font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 16px; color: var(--ink-faint);
+  }
+
+  /* ---- Overlay "poster mon dessin" ---- */
+  .post-overlay {
+    position: fixed; inset: 0; z-index: 200; display: none;
+    align-items: center; justify-content: center; padding: 1.5rem;
+    background: rgba(43,38,32,0.55); backdrop-filter: blur(4px);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .post-overlay.open { display: flex; }
+  .post-overlay.visible { opacity: 1; }
+  .post-modal {
+    width: 100%; max-width: 460px; max-height: 90vh; overflow-y: auto;
+    background: var(--bg); border: 1px solid var(--line); border-radius: 18px;
+    padding: 2.4rem 2rem; position: relative;
+    box-shadow: 0 30px 80px -30px rgba(43,38,32,0.6);
+  }
+  .post-close {
+    position: absolute; top: 1rem; right: 1.2rem; background: none; border: none;
+    font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--ink-soft); cursor: none; transition: color 0.2s;
+  }
+  .post-close:hover { color: var(--orange); }
+  .post-modal h3 {
+    font-family: 'Bebas Neue', sans-serif; font-size: 30px; letter-spacing: 2px; color: var(--ink);
+  }
+  .post-challenge {
+    margin: 0.6rem 0 1.6rem; padding: 0.8rem 1rem; border-left: 2px solid var(--orange);
+    background: var(--bg-alt); border-radius: 0 8px 8px 0;
+    font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 15px; color: var(--ink-soft);
+  }
+  .post-file {
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    min-height: 130px; padding: 1.2rem; margin-bottom: 1rem;
+    border: 1.5px dashed var(--line); border-radius: 12px; background: var(--bg-alt);
+    font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 1px; color: var(--ink-soft);
+    cursor: none; transition: border-color 0.2s, color 0.2s;
+  }
+  .post-file:hover { border-color: var(--orange); color: var(--orange); }
+  .post-file input { display: none; }
+  .post-preview { display: none; margin-bottom: 1rem; }
+  .post-preview img { width: 100%; border-radius: 12px; display: block; }
+  .post-input {
+    width: 100%; padding: 0.9rem 1rem; margin-bottom: 0.9rem;
+    background: var(--bg-alt); border: 1px solid var(--line); border-radius: 10px;
+    font-family: 'Inter', sans-serif; font-size: 14px; color: var(--ink); cursor: none;
+  }
+  .post-input:disabled { opacity: 0.45; }
+  .post-input:focus { outline: none; border-color: var(--orange); }
+  .post-anon {
+    display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.4rem;
+    font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 0.5px; color: var(--ink-soft); cursor: none;
+  }
+  .post-anon input { width: 16px; height: 16px; accent-color: var(--orange); cursor: none; }
+  .post-modal .roulette-btn { width: 100%; }
+  .post-status {
+    margin-top: 1rem; text-align: center;
+    font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 15px; color: var(--orange);
+  }
+
+  @media (max-width: 900px) { .board-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  @media (max-width: 600px) {
+    .roulette-wrap { padding: 0 1.1rem 4rem; }
+    .machine { padding: 1.6rem 1.1rem; border-radius: 16px; }
+    .reel-row { gap: 0.7rem; }
+    .reel-label { flex-basis: 66px; font-size: 9px; letter-spacing: 2px; }
+    .board-section { padding: 2.5rem 1.1rem 4rem; }
+    .board-grid { grid-template-columns: repeat(2, 1fr); gap: 0.7rem; }
+  }
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+<nav id="navbar" aria-label="Navigation principale">
+  <a href="index.html" class="nav-logo">ARTISTO<span class="logo-orange">CRATIE</span></a>
+  <ul class="nav-links">
+    <li><a href="oeuvres.html">Œuvres</a></li>
+    <li><a href="artiste.html">Artiste</a></li>
+    <li><a href="https://www.instagram.com/artistocratie_/" target="_blank" rel="noopener">Instagram</a></li>
+    <li><a href="https://www.tiktok.com/@artistocratie_" target="_blank" rel="noopener">TikTok</a></li>
+  </ul>
+</nav>
+
+<div class="page-backbar"><a href="index.html" class="back-link">Retour à l'accueil</a></div>
+
+<section class="page-top" style="padding-top:1.5rem;">
+  <div class="page-eyebrow">Jeu · Défi de dessin</div>
+  <h1 class="page-title">ROULETTE D'ARTISTES</h1>
+  <p class="page-intro">La page blanche te nargue ? Lance la roulette. Elle tire un sujet, un style et une contrainte au hasard — à toi de relever le défi. Aucune excuse, juste le crayon.</p>
+</section>
+
+<div class="roulette-wrap">
+  <div class="machine reveal">
+    <div class="reel-row">
+      <div class="reel-label">Sujet</div>
+      <div class="reel" id="reel-sujet"><div class="reel-strip"></div></div>
+    </div>
+    <div class="reel-row">
+      <div class="reel-label">
+        <span>Style</span>
+        <button class="reel-toggle" type="button" data-toggle="style" aria-pressed="true" aria-label="Activer ou désactiver le style"></button>
+      </div>
+      <div class="reel" id="reel-style"><div class="reel-strip"></div></div>
+    </div>
+    <div class="reel-row">
+      <div class="reel-label">
+        <span>Défi</span>
+        <button class="reel-toggle" type="button" data-toggle="defi" aria-pressed="true" aria-label="Activer ou désactiver le défi"></button>
+      </div>
+      <div class="reel" id="reel-defi"><div class="reel-strip"></div></div>
+    </div>
+
+    <div class="machine-actions">
+      <button class="roulette-btn" id="spinBtn" type="button" aria-live="polite">Lancer la roulette</button>
+      <button class="roulette-copy" id="copyBtn" type="button" hidden>Copier le défi</button>
+    </div>
+  </div>
+
+  <p class="roulette-hint">
+    Tu as relevé le défi ? Ajoute ton dessin au mur ci-dessous — ou publie-le en taguant
+    <a href="https://www.instagram.com/artistocratie_/" target="_blank" rel="noopener">@artistocratie_</a>.
+  </p>
+</div>
+
+<section class="board-section">
+  <div class="board-head reveal">
+    <h2>LE MUR DES ARTISTES</h2>
+    <p>Ce que la communauté a dessiné avec la roulette. Ajoute le tien — avec ton nom ou en anonyme.</p>
+    <button class="roulette-btn" id="openPost" type="button">Poster mon dessin</button>
+  </div>
+  <div class="board-grid" id="board">
+    <p class="board-empty" id="boardEmpty">Sois le premier à relever un défi et à l'afficher ici.</p>
+  </div>
+</section>
+
+<div class="post-overlay" id="postOverlay" role="dialog" aria-modal="true" aria-labelledby="postTitle">
+  <div class="post-modal">
+    <button class="post-close" id="postClose" type="button" aria-label="Fermer">Fermer ✕</button>
+    <h3 id="postTitle">Poste ton dessin</h3>
+    <p class="post-challenge" id="postChallenge">—</p>
+    <form id="postForm">
+      <label class="post-file" id="postFileLabel">
+        <span id="postFileText">＋ Choisir une photo de ton dessin</span>
+        <input type="file" id="postFile" accept="image/*" required>
+      </label>
+      <div class="post-preview" id="postPreview"><img id="postPreviewImg" src="" alt="Aperçu du dessin"></div>
+      <input class="post-input" type="text" id="postName" placeholder="Ton nom ou pseudo" maxlength="40">
+      <label class="post-anon">
+        <input type="checkbox" id="postAnon"> Rester anonyme
+      </label>
+      <button class="roulette-btn" type="submit" id="postSubmit">Publier au mur</button>
+      <p class="post-status" id="postStatus"></p>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">ARTISTOCRATIE</div>
+  <ul class="footer-links">
+    <li><a href="oeuvres.html">Œuvres</a></li>
+    <li><a href="artiste.html">Artiste</a></li>
+    <li><a href="collaborer.html">Collaborer</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Nino Minashvili</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ---- Roulette d'artistes ---- */
+(function () {
+  const REELS = {
+    sujet: {
+      el: document.getElementById('reel-sujet'),
+      items: [
+        "un renard", "un chat endormi", "tes propres mains", "un autoportrait",
+        "une paire d'yeux", "un vieux téléphone", "une plante grasse", "un crâne",
+        "une danseuse en mouvement", "un oiseau en plein vol", "une tasse de café fumante",
+        "un visage de profil", "une méduse", "des chaussures usées", "un cheval au galop",
+        "un poisson rouge", "une bouche qui parle", "un arbre mort", "une chaise vide",
+        "un nuage d'orage", "une pomme croquée", "un vieil homme qui rit", "une clé rouillée",
+        "une vague qui déferle", "un masque de théâtre", "une main qui tient une allumette"
+      ]
+    },
+    style: {
+      el: document.getElementById('reel-style'),
+      items: [
+        "dans le style Art nouveau", "à la manière de Picasso", "en cubisme",
+        "en une seule ligne continue", "sans lever le crayon", "en ombres chinoises",
+        "en pointillisme", "façon manga", "en camaïeu monochrome", "à l'encre de Chine",
+        "en négatif, sur fond noir", "façon vitrail", "en pop art", "à la sanguine",
+        "en gribouillage expressif", "façon gravure", "en formes géométriques pures",
+        "de la main non-dominante", "en trois couleurs maximum", "en style enfantin assumé"
+      ]
+    },
+    defi: {
+      el: document.getElementById('reel-defi'),
+      items: [
+        "en 30 secondes chrono", "en 2 minutes", "en 15 minutes montre en main",
+        "sans jamais gommer", "sans regarder ta feuille", "sur un format timbre-poste",
+        "en très grand format", "en 10 traits maximum", "à l'aveugle, les yeux fermés",
+        "avec un seul outil", "en te chronométrant", "jusqu'à ce que ça te plaise vraiment",
+        "sans lâcher le crayon une seule fois", "en commençant par les ombres"
+      ]
+    }
+  };
+
+  const spinBtn = document.getElementById('spinBtn');
+  const copyBtn = document.getElementById('copyBtn');
+  let spinning = false;
+  let hasSpun = false;
+
+  function setReelText(reel, text) {
+    reel.el.querySelector('.reel-strip').innerHTML = '<div class="reel-item">' + text + '</div>';
+  }
+
+  // Remplit chaque rouleau avec un premier item aléatoire (au repos)
+  Object.values(REELS).forEach(r => {
+    r.enabled = true;
+    const start = Math.floor(pseudoRand(r.items.length));
+    setReelText(r, r.items[start]);
+    r.chosen = start;
+  });
+
+  // Interrupteurs Style / Défi (le Sujet est toujours tiré)
+  document.querySelectorAll('.reel-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (spinning) return;
+      const reel = REELS[btn.dataset.toggle];
+      const on = btn.getAttribute('aria-pressed') !== 'true';
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      reel.enabled = on;
+      reel.el.classList.toggle('off', !on);
+      setReelText(reel, on ? reel.items[reel.chosen] : '—');
+    });
+  });
+
+  // Petit "clac" discret (Web Audio), déclenché par l'utilisateur — donc autorisé
+  let audioCtx = null;
+  function tick() {
+    try {
+      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.type = 'square'; o.frequency.value = 220;
+      g.gain.value = 0.04;
+      o.connect(g); g.connect(audioCtx.destination);
+      const t = audioCtx.currentTime;
+      g.gain.setValueAtTime(0.04, t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.06);
+      o.start(t); o.stop(t + 0.07);
+    } catch (e) { /* audio indisponible : on ignore */ }
+  }
+
+  // Générateur pseudo-aléatoire (Math.random via une fonction pour rester lisible)
+  function pseudoRand(max) { return Math.random() * max; }
+
+  function spinReel(reel, duration) {
+    return new Promise(resolve => {
+      const strip = reel.el.querySelector('.reel-strip');
+      const list = reel.items;
+      const finalIndex = Math.floor(pseudoRand(list.length));
+      reel.chosen = finalIndex;
+
+      // Construit une longue bande : plusieurs tours + l'item final tout en bas
+      const LOOPS = 6;
+      let html = '';
+      for (let l = 0; l < LOOPS; l++) {
+        for (let i = 0; i < list.length; i++) html += '<div class="reel-item">' + list[i] + '</div>';
+      }
+      html += '<div class="reel-item">' + list[finalIndex] + '</div>';
+      strip.innerHTML = html;
+
+      const itemH = reel.el.clientHeight; // 1 item visible = hauteur du rouleau
+      const totalItems = LOOPS * list.length + 1;
+      const endY = -(totalItems - 1) * itemH;
+
+      // Reset puis lance la transition (reflow forcé pour que le navigateur prenne le point de départ)
+      strip.style.transition = 'none';
+      strip.style.transform = 'translateY(0px)';
+      void strip.offsetHeight;
+      strip.style.transition = 'transform ' + duration + 'ms cubic-bezier(0.15, 0.75, 0.25, 1)';
+      strip.style.transform = 'translateY(' + endY + 'px)';
+
+      const onEnd = () => {
+        strip.removeEventListener('transitionend', onEnd);
+        tick();
+        // Nettoie : ne garde que l'item final, remis en position visible
+        strip.style.transition = 'none';
+        strip.style.transform = 'translateY(0px)';
+        strip.innerHTML = '<div class="reel-item">' + list[finalIndex] + '</div>';
+        resolve();
+      };
+      strip.addEventListener('transitionend', onEnd);
+    });
+  }
+
+  function spin() {
+    if (spinning) return;
+    spinning = true;
+    spinBtn.disabled = true;
+    spinBtn.textContent = 'Ça tourne…';
+    copyBtn.hidden = true;
+
+    // Ne tire que les rouleaux activés, avec des arrêts échelonnés : clac… clac… clac
+    const order = ['sujet', 'style', 'defi'].filter(k => REELS[k].enabled);
+    const spins = order.map((k, i) => spinReel(REELS[k], 1500 + i * 600));
+    Promise.all(spins).then(() => {
+      spinning = false;
+      hasSpun = true;
+      spinBtn.disabled = false;
+      spinBtn.textContent = 'Relancer la roulette';
+      copyBtn.hidden = false;
+    });
+  }
+
+  function currentChallenge() {
+    let s = 'Dessine ' + REELS.sujet.items[REELS.sujet.chosen];
+    if (REELS.style.enabled) s += ' ' + REELS.style.items[REELS.style.chosen];
+    if (REELS.defi.enabled) s += ', ' + REELS.defi.items[REELS.defi.chosen];
+    return s + '.';
+  }
+
+  spinBtn.addEventListener('click', spin);
+
+  copyBtn.addEventListener('click', function () {
+    const text = currentChallenge() + ' — via artistocratie.com';
+    const done = () => { copyBtn.textContent = 'Défi copié ✓'; setTimeout(() => copyBtn.textContent = 'Copier le défi', 1800); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(done);
+    } else { done(); }
+  });
+
+  /* ================= Le mur des artistes (Supabase) ================= */
+
+  // ---- Configuration : à remplir après création du projet Supabase ----
+  const SUPABASE_URL = 'https://VOTRE-PROJET.supabase.co';
+  const SUPABASE_ANON_KEY = 'VOTRE_CLE_ANON_PUBLIQUE';
+  const BUCKET = 'dessins';
+  // ---------------------------------------------------------------------
+
+  const configured = !SUPABASE_URL.includes('VOTRE-PROJET') && !!window.supabase;
+  const sb = configured ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+  const board = document.getElementById('board');
+  const boardEmpty = document.getElementById('boardEmpty');
+  const openPost = document.getElementById('openPost');
+  const overlay = document.getElementById('postOverlay');
+  const postClose = document.getElementById('postClose');
+  const postForm = document.getElementById('postForm');
+  const postFile = document.getElementById('postFile');
+  const postFileText = document.getElementById('postFileText');
+  const postPreview = document.getElementById('postPreview');
+  const postPreviewImg = document.getElementById('postPreviewImg');
+  const postName = document.getElementById('postName');
+  const postAnon = document.getElementById('postAnon');
+  const postSubmit = document.getElementById('postSubmit');
+  const postStatus = document.getElementById('postStatus');
+  const postChallenge = document.getElementById('postChallenge');
+  const FILE_PLACEHOLDER = '＋ Choisir une photo de ton dessin';
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  }
+
+  async function loadBoard() {
+    if (!configured) return;
+    const { data, error } = await sb.from('posts')
+      .select('image_path,name,anonymous,challenge')
+      .eq('approved', true)
+      .order('created_at', { ascending: false })
+      .limit(60);
+    if (error || !data || !data.length) return;
+    board.innerHTML = data.map(p => {
+      const url = sb.storage.from(BUCKET).getPublicUrl(p.image_path).data.publicUrl;
+      const who = (!p.anonymous && p.name) ? escapeHtml(p.name) : 'Anonyme';
+      const ch = p.challenge ? '<div class="board-card-challenge">' + escapeHtml(p.challenge) + '</div>' : '';
+      return '<div class="board-card"><img loading="lazy" src="' + url + '" alt="Dessin de ' + who + '">' +
+             '<div class="board-card-body"><div class="board-card-name">' + who + '</div>' + ch + '</div></div>';
+    }).join('');
+  }
+
+  function openOverlay() {
+    postStatus.textContent = '';
+    postChallenge.textContent = currentChallenge();
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => overlay.classList.add('visible'), 10);
+  }
+  function closeOverlay() {
+    overlay.classList.remove('visible');
+    document.body.style.overflow = '';
+    setTimeout(() => overlay.classList.remove('open'), 300);
+  }
+
+  if (openPost) openPost.addEventListener('click', openOverlay);
+  if (postClose) postClose.addEventListener('click', closeOverlay);
+  if (overlay) overlay.addEventListener('click', e => { if (e.target === overlay) closeOverlay(); });
+
+  if (postAnon) postAnon.addEventListener('change', () => {
+    postName.disabled = postAnon.checked;
+    if (postAnon.checked) postName.value = '';
+  });
+
+  if (postFile) postFile.addEventListener('change', () => {
+    const f = postFile.files[0];
+    if (!f) return;
+    postFileText.textContent = f.name;
+    const reader = new FileReader();
+    reader.onload = e => { postPreviewImg.src = e.target.result; postPreview.style.display = 'block'; };
+    reader.readAsDataURL(f);
+  });
+
+  if (postForm) postForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!configured) { postStatus.textContent = 'Le mur sera activé très bientôt.'; return; }
+    const file = postFile.files[0];
+    if (!file) { postStatus.textContent = 'Ajoute d\'abord une photo de ton dessin.'; return; }
+    if (file.size > 8 * 1024 * 1024) { postStatus.textContent = 'Image trop lourde (max 8 Mo).'; return; }
+
+    postSubmit.disabled = true;
+    postStatus.textContent = 'Envoi en cours…';
+    try {
+      const ext = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg';
+      const rand = Math.random().toString(36).slice(2, 10);
+      const path = Date.now() + '-' + rand + '.' + ext;
+
+      const up = await sb.storage.from(BUCKET).upload(path, file, { contentType: file.type });
+      if (up.error) throw up.error;
+
+      const anonymous = postAnon.checked;
+      const name = anonymous ? null : (postName.value.trim() || null);
+      const ins = await sb.from('posts').insert({
+        image_path: path, name: name, anonymous: anonymous,
+        challenge: currentChallenge(), approved: false
+      });
+      if (ins.error) throw ins.error;
+
+      postForm.reset();
+      postPreview.style.display = 'none';
+      postFileText.textContent = FILE_PLACEHOLDER;
+      postName.disabled = false;
+      postStatus.textContent = 'Reçu ! Ton dessin sera affiché après validation. Merci 🧡';
+    } catch (err) {
+      postStatus.textContent = 'Oups, l\'envoi a échoué. Réessaie dans un instant.';
+    }
+    postSubmit.disabled = false;
+  });
+
+  loadBoard();
+})();
+</script>
+
+<script src="assets/js/main.js?v=7" defer></script>
+</body>
+</html>
