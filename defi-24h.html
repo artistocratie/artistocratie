@@ -36,16 +36,202 @@
   <p class="page-intro">Une œuvre, vingt-quatre heures, zéro retouche. Le défi que je me lance pour laisser parler l'instinct — sans réfléchir, sans corriger. Ce qui sort, sort.</p>
 </section>
 
-<div class="col-wrap">
-  <div class="col-grid reveal">
-    <div class="room-page-item" onclick="openLightbox('24h · 01','Défi 24h','Acrylique','40 × 50 cm','2026','Première heure, premier élan. La couleur posée d\'un seul geste.','')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#FFB07A,#FF6A1A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">24h · 01</span></div></div>
-    <div class="room-page-item" onclick="openLightbox('24h · 02','Défi 24h','Acrylique','30 × 40 cm','2026','Une figure surgie de nulle part, capturée avant le doute.','')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#FFD8A8,#F2671A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">24h · 02</span></div></div>
-    <div class="room-page-item" onclick="openLightbox('24h · 03','Défi 24h','Encre','A3','2026','Le noir et l\'orange en tension, faits en une nuit.','')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#F1EADC,#E8A84A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">24h · 03</span></div></div>
-    <div class="room-page-item" onclick="openLightbox('24h · 04','Défi 24h','Acrylique','40 × 40 cm','2026','Le chrono tourne, la main suit. Pas le temps d\'hésiter.','')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#FF8A3D,#C73600);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">24h · 04</span></div></div>
-    <div class="room-page-item" onclick="openLightbox('24h · 05','Défi 24h','Aquarelle','A4','2026','Dernière ligne droite. L\'émotion brute avant la fin du compte à rebours.','')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#FAF3E9,#FF9A55);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">24h · 05</span></div></div>
-    <div class="room-page-item" onclick="openLightbox('24h · 06','Défi 24h','Technique mixte','50 × 60 cm','2026','La 24e heure. Fatiguée, mais l\'œuvre est née.','')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#EDE4D3,#D8420A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">24h · 06</span></div></div>
-  </div>
+<style>
+/* ===== Mur d'atelier — galerie Défi 24h ===== */
+.wall-wrap { max-width: 1280px; margin: 0 auto; padding: .5rem clamp(1rem,4vw,3rem) 4rem; }
+.wall { position: relative; width: 100%; will-change: transform; }
+.wall-item {
+  position: absolute; top: 0; left: 0;
+  transform: rotate(var(--rot,0deg));
+  transition: transform .45s cubic-bezier(.2,.85,.25,1), box-shadow .45s, filter .45s;
+  -webkit-user-select: none; user-select: none; touch-action: none;
+}
+.wall-item .wf { display: block; animation: wfloat var(--dur,7s) ease-in-out var(--del,0s) infinite; }
+.wall-item img {
+  display: block; width: 100%; height: auto;
+  background: #fdfcf8; padding: 6px 6px 26px; border-radius: 2px;
+  box-shadow: 0 8px 22px rgba(40,20,0,.16);
+  transition: box-shadow .45s; pointer-events: none;
+}
+.wall-item .tag {
+  position: absolute; left: 12px; right: 12px; bottom: 12px;
+  font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 15px;
+  color: #3a2f26; text-align: center; opacity: 0; transform: translateY(4px);
+  transition: opacity .35s, transform .35s; pointer-events: none;
+}
+.wall-item:hover, .wall-item:focus-visible {
+  transform: rotate(0deg) scale(1.055) translateY(-8px); z-index: 60; outline: none;
+}
+.wall-item:hover img, .wall-item:focus-visible img { box-shadow: 0 26px 58px rgba(40,20,0,.34); }
+.wall-item:hover .tag, .wall-item:focus-visible .tag { opacity: 1; transform: translateY(0); }
+.wall-item:hover .wf { animation-play-state: paused; }
+.wall-item.dragging { transition: none; z-index: 80; transform: rotate(0deg) scale(1.06); }
+.wall-item.dragging .wf { animation-play-state: paused; }
+.wall-item.dragging img { box-shadow: 0 30px 70px rgba(40,20,0,.4); }
+@keyframes wfloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+.wall-hint {
+  text-align: center; margin-top: 2.5rem;
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  color: var(--ink-faint,#a99b83); font-size: 15px; letter-spacing: .3px;
+}
+@media (max-width: 760px) {
+  .wall-wrap { overflow-x: clip; }
+  .wall { height: auto !important; display: flex; flex-direction: column; align-items: center; gap: 28px; transform: none !important; }
+  .wall-item { position: relative !important; left: auto !important; top: auto !important; width: 80% !important; transform: rotate(calc(var(--rot,0deg) * .4)); }
+  .wall-item:hover, .wall-item:focus-visible { transform: rotate(calc(var(--rot,0deg) * .4)); }
+  .wall-item .wf { animation: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wall-item .wf { animation: none; }
+}
+</style>
+
+<div class="wall-wrap">
+  <div class="wall" id="wall"></div>
+  <p class="wall-hint">✦ Attrape les œuvres et déplace-les — clique pour les voir en grand</p>
 </div>
+
+<script>
+/* Défi des 24h — mur d'atelier. Œuvres dans "works" (ordre = ordre d'accrochage).
+   Réordonner : déplace les lignes. Renommer : change "t". */
+(function () {
+  const M = 'Gouache & acrylique sur papier';
+  const F = '≈ 15 × 20 cm';
+  const works = [
+    { f:'defi-01.webp', t:'Carpes koï',            m:M, fmt:F, d:'Deux carpes qui glissent entre les nénuphars — la couleur posée sans repentir.' },
+    { f:'defi-02.webp', t:'Fil rouge I',           m:M, fmt:F, d:'La ligne qui court, libre, sur le jaune. Un seul geste, sans lever la main.' },
+    { f:'defi-03.webp', t:'Fil rouge II',          m:M, fmt:F, d:'Variation sur le même souffle : le trait noir et les éclats de rouge.' },
+    { f:'defi-04.webp', t:'Dionées',               m:M, fmt:F, d:'Des plantes carnivores qui s’étirent sur le rose — étranges et tendres.' },
+    { f:'defi-05.webp', t:'Bergerie au soleil',    m:M, fmt:F, d:'Triptyque des montagnes I — le troupeau qui descend dans la lumière.' },
+    { f:'defi-06.webp', t:'Le sommet',             m:M, fmt:F, d:'Triptyque des montagnes II — une brebis, seule, sous la crête verte.' },
+    { f:'defi-07.webp', t:'Le chalet',             m:M, fmt:F, d:'Triptyque des montagnes III — la petite maison au toit rouge au creux du vallon.' },
+    { f:'defi-08.webp', t:'Citron',                m:M, fmt:F, d:'Un citron gorgé de lumière sur les rayures vertes.' },
+    { f:'defi-09.webp', t:'Nuit nuageuse',         m:M, fmt:F, d:'Le croissant de feu au-dessus des nuages roses et gris.' },
+    { f:'defi-10.webp', t:'Nu bleu',               m:M, fmt:F, d:'Une silhouette en aplat bleu sur le rose — hommage au geste de Matisse.' },
+    { f:'defi-11.webp', t:'Main & vrille I',       m:M, fmt:F, d:'Une main qui retient un fil vert — l’équilibre fragile d’un instant.' },
+    { f:'defi-12.webp', t:'Le temps qui file',     m:M, fmt:F, d:'Une horloge molle, les aiguilles qui s’emballent : le compte à rebours des 24h.' },
+    { f:'defi-13.webp', t:'L’oiseau et la vague', m:M, fmt:F, d:'Un oiseau blanc jaillit de l’écume — mouvement pur.' },
+    { f:'defi-14.webp', t:'Rose & noir',           m:M, fmt:F, d:'Rubans noirs et rouges qui dansent sur le rose.' },
+    { f:'defi-15.webp', t:'Fleur géométrique',     m:M, fmt:F, d:'Une fleur aux pétales colorés posée sur des blocs de couleur.' },
+    { f:'defi-16.webp', t:'Champ fleuri',          m:M, fmt:F, d:'Une pluie de petites fleurs sur le vert profond.' },
+    { f:'defi-17.webp', t:'Chats curieux',         m:M, fmt:F, d:'Trois chats noirs qui surgissent du rose — regards en coin.' },
+    { f:'defi-18.webp', t:'Main & vrille II',      m:M, fmt:F, d:'Deux doigts, une vrille verte qui s’enroule — la suite du duo.' },
+  ];
+
+  const wall = document.getElementById('wall');
+  if (!wall) return;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isMobile = () => matchMedia('(max-width: 760px)').matches;
+  const rnd = (a,b) => a + Math.random()*(b-a);
+  const items = [];
+
+  works.forEach(w => {
+    const src = 'assets/img/defi/' + w.f;
+    const el = document.createElement('div');
+    el.className = 'wall-item';
+    el.tabIndex = 0;
+    el.setAttribute('role','button');
+    el.setAttribute('aria-label', w.t);
+    el.style.setProperty('--rot', rnd(-7,7).toFixed(2) + 'deg');
+    el._jx = rnd(-10,10); el._jy = rnd(-6,6);
+    const wf = document.createElement('div');
+    wf.className = 'wf';
+    wf.style.setProperty('--dur', rnd(6,10).toFixed(2) + 's');
+    wf.style.setProperty('--del', (-rnd(0,6)).toFixed(2) + 's');
+    const img = document.createElement('img');
+    img.src = src; img.alt = w.t; img.loading = 'lazy'; img.draggable = false;
+    const tag = document.createElement('div');
+    tag.className = 'tag'; tag.textContent = w.t;
+    wf.appendChild(img); el.appendChild(wf); el.appendChild(tag);
+    el._open = () => openLightbox(w.t, 'Défi des 24h', w.m, w.fmt, '2026', w.d, src);
+    el.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el._open(); }
+    });
+    wall.appendChild(el);
+    items.push(el);
+  });
+
+  /* ---- disposition masonry (desktop) ---- */
+  function layout() {
+    if (isMobile()) {
+      wall.style.height = '';
+      items.forEach(el => { el.style.left = el.style.top = el.style.width = ''; });
+      return;
+    }
+    const W = wall.clientWidth, gap = 22;
+    const cols = Math.max(2, Math.floor(W / 270));
+    const colW = (W - (cols - 1) * gap) / cols;
+    const colH = new Array(cols).fill(0);
+    items.forEach(el => {
+      const img = el.querySelector('img');
+      const ar = (img.naturalWidth && img.naturalHeight) ? img.naturalHeight / img.naturalWidth : 1.3;
+      const h = colW * ar + 32;
+      let c = 0;
+      for (let k = 1; k < cols; k++) if (colH[k] < colH[c]) c = k;
+      el.style.width = colW + 'px';
+      el.style.left = (c * (colW + gap) + el._jx) + 'px';
+      el.style.top = (colH[c] + el._jy) + 'px';
+      colH[c] += h + gap + 14;
+    });
+    wall.style.height = Math.max.apply(null, colH) + 'px';
+  }
+  items.forEach(el => {
+    const img = el.querySelector('img');
+    if (!img.complete) img.addEventListener('load', layout);
+  });
+  window.addEventListener('load', layout);
+  layout();
+  let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(layout, 150); });
+
+  /* ---- drag + ouverture ---- */
+  items.forEach(el => {
+    let sx, sy, ox, oy, moved = false, drag = false;
+    el.addEventListener('pointerdown', e => {
+      if (isMobile() || e.button !== 0) return;
+      drag = true; moved = false;
+      sx = e.clientX; sy = e.clientY;
+      ox = parseFloat(el.style.left) || 0; oy = parseFloat(el.style.top) || 0;
+      try { el.setPointerCapture(e.pointerId); } catch (_) {}
+      el.classList.add('dragging');
+    });
+    el.addEventListener('pointermove', e => {
+      if (!drag) return;
+      const dx = e.clientX - sx, dy = e.clientY - sy;
+      if (Math.abs(dx) + Math.abs(dy) > 4) moved = true;
+      el.style.left = (ox + dx) + 'px';
+      el.style.top = (oy + dy) + 'px';
+    });
+    const end = e => {
+      if (!drag) return; drag = false;
+      el.classList.remove('dragging');
+      try { el.releasePointerCapture(e.pointerId); } catch (_) {}
+      if (!moved) el._open();
+    };
+    el.addEventListener('pointerup', end);
+    el.addEventListener('pointercancel', end);
+    el.addEventListener('click', () => { if (isMobile()) el._open(); });
+  });
+
+  /* ---- parallaxe au curseur ---- */
+  if (!reduce) {
+    let px = 0, py = 0, tx = 0, ty = 0, raf = null;
+    const loop = () => {
+      px += (tx - px) * .08; py += (ty - py) * .08;
+      wall.style.transform = 'translate(' + px.toFixed(2) + 'px,' + py.toFixed(2) + 'px)';
+      if (Math.abs(tx - px) + Math.abs(ty - py) > .3) raf = requestAnimationFrame(loop);
+      else raf = null;
+    };
+    wall.addEventListener('pointermove', e => {
+      if (isMobile()) return;
+      const r = wall.getBoundingClientRect();
+      tx = ((e.clientX - r.left) / r.width - .5) * 16;
+      ty = ((e.clientY - r.top) / r.height - .5) * 10;
+      if (!raf) raf = requestAnimationFrame(loop);
+    });
+    wall.addEventListener('pointerleave', () => { tx = 0; ty = 0; if (!raf) raf = requestAnimationFrame(loop); });
+  }
+})();
+</script>
 
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-title">
   <button class="lightbox-close" onclick="closeLightbox()" aria-label="Fermer">Fermer</button>
