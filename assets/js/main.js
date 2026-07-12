@@ -38,6 +38,30 @@
   els.forEach(el => io.observe(el));
 })();
 
+/* ---- Accueil : travelling le long du mur d’exposition ---- */
+(function () {
+  const section = document.querySelector('.scroll-gallery');
+  const track = document.querySelector('.gallery-track');
+  if (!section || !track) return;
+
+  let ticking = false;
+  const update = () => {
+    const rect = section.getBoundingClientRect();
+    const travel = Math.max(1, section.offsetHeight - window.innerHeight);
+    const progress = Math.min(1, Math.max(0, -rect.top / travel));
+    const maxShift = Math.max(0, track.scrollWidth - window.innerWidth + window.innerWidth * 0.13);
+    track.style.setProperty('--gallery-shift', `${-progress * maxShift}px`);
+    section.style.setProperty('--gallery-progress', `${progress * 100}%`);
+    ticking = false;
+  };
+  const requestUpdate = () => {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  };
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('resize', requestUpdate);
+  update();
+})();
+
 /* ---- Lightbox (pages collections) ---- */
 function openLightbox(title, tag, medium, format, year, desc, imgSrc) {
   const lb = document.getElementById('lightbox'); if (!lb) return;

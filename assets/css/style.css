@@ -40,6 +40,40 @@
   .hero-img-wrap::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, var(--bg) 0%, transparent 20%); }
   .hero-placeholder { width: 100%; height: 100%; background: repeating-linear-gradient(45deg, #EDE4D3 0px, #EDE4D3 2px, transparent 2px, transparent 20px), linear-gradient(135deg, #F1EADC 0%, #EDE4D3 50%, #F1EADC 100%); display: flex; align-items: center; justify-content: center; color: var(--ink-faint); font-size: 13px; letter-spacing: 2px; text-transform: uppercase; font-family: 'Cormorant Garamond', serif; font-style: italic; }
   .deco-line { width: 100%; height: 1px; background: linear-gradient(to right, transparent, var(--orange), transparent); opacity: 0.4; }
+
+  /* ---- Accueil : mur d’exposition qui avance au défilement ---- */
+  .scroll-gallery { height: 290vh; background: var(--bg-alt); color: var(--ink); position: relative; overflow: clip; }
+  .scroll-gallery-sticky { position: sticky; top: 0; height: 100vh; min-height: 620px; overflow: hidden; display: flex; flex-direction: column; justify-content:center; }
+  .scroll-gallery::before { content: ''; position: absolute; inset: 0; opacity: .7; pointer-events: none; background: radial-gradient(ellipse at 72% 24%, rgba(255,138,61,.28), transparent 27%), radial-gradient(ellipse at 14% 78%, rgba(255,84,0,.13), transparent 24%), repeating-linear-gradient(90deg, rgba(112,82,47,.035) 0 1px, transparent 1px 9px); }
+  .scroll-gallery-head { position: absolute; z-index: 3; left: clamp(1.5rem, 6vw, 6rem); top: clamp(5.5rem, 10vh, 8rem); pointer-events: none; }
+  .scroll-gallery-kicker { color: #ff8a3d; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: .85rem; }
+  .scroll-gallery-head h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px, 5.5vw, 82px); font-weight: 400; letter-spacing: 3px; line-height: .85; }
+  .scroll-gallery-head h2 em { color: #ff8a3d; font-family: 'Cormorant Garamond', serif; font-size: .63em; font-weight: 300; letter-spacing: 0; }
+  .scroll-gallery-head p { color: var(--ink-soft); font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 17px; margin-top: 1.2rem; }
+  .gallery-stage { position: absolute; left: 0; right: 0; top: 50%; height: min(52vw, 590px); min-height: 365px; transform: translateY(-36%); perspective: 1700px; }
+  .gallery-stage::before, .gallery-stage::after { content: ''; position: absolute; z-index: 1; top: 0; bottom: 0; width: 16vw; pointer-events: none; }
+  .gallery-stage::before { left: 0; background: linear-gradient(90deg, var(--bg-alt), transparent); }
+  .gallery-stage::after { right: 0; background: linear-gradient(-90deg, var(--bg-alt), transparent); }
+  .gallery-stage-light { position: absolute; width: 94%; height: 92%; top: 4%; left: 3%; border: 1px solid rgba(142,103,63,.18); background: rgba(255,252,244,.18); box-shadow: inset 0 0 100px rgba(112,77,39,.12), 0 32px 90px rgba(107,73,39,.12); }
+  .gallery-track { --gallery-shift: 0px; position: absolute; display: flex; align-items: center; gap: clamp(2.5rem, 6vw, 8rem); width: max-content; height: 100%; padding: 0 28vw 0 54vw; transform: translate3d(var(--gallery-shift), 0, 0); will-change: transform; }
+  .gallery-frame { --mat: #f7f0e3; position: relative; flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; width: clamp(180px, 18vw, 278px); aspect-ratio: 3 / 4.15; padding: clamp(9px, 1vw, 16px); background: linear-gradient(135deg, #8b5b32, #f3d19c 10%, #a76a36 42%, #f1c488 76%, #754521); box-shadow: 0 28px 45px rgba(94,57,24,.25), inset 1px 1px rgba(255,250,235,.65), inset -2px -2px rgba(81,45,15,.3); text-decoration: none; transform: translateY(var(--lift)) rotateY(-8deg) rotateZ(var(--tilt)); transition: transform .35s ease, box-shadow .35s ease; }
+  .gallery-frame::before { content: ''; position: absolute; inset: clamp(7px,.8vw,12px); border: 1px solid rgba(63,46,28,.55); pointer-events: none; }
+  .gallery-frame:hover, .gallery-frame:focus-visible { transform: translateY(calc(var(--lift) - 16px)) rotateY(0) rotateZ(0); box-shadow: 0 42px 65px rgba(94,57,24,.34), 0 0 0 1px rgba(255,205,147,.7); outline: none; z-index: 2; }
+  .gallery-frame-art { display: block; position: relative; z-index: 1; width: 100%; height: 100%; padding: clamp(7px,.8vw,11px); background: var(--mat); box-shadow: inset 0 0 18px rgba(54,37,20,.24); overflow: hidden; }
+  .gallery-frame-art img { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .frame-wide { width: clamp(230px, 23vw, 350px); aspect-ratio: 1.24 / 1; }
+  .gallery-frame-label { position: absolute; z-index: 2; left: 50%; bottom: -3.3rem; transform: translateX(-50%); text-align: center; color: var(--ink); white-space: nowrap; opacity: .68; transition: opacity .3s ease; }
+  .gallery-frame:hover .gallery-frame-label, .gallery-frame:focus-visible .gallery-frame-label { opacity: 1; }
+  .gallery-frame-label strong { display: block; font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 400; font-style: italic; }
+  .gallery-frame-label small { display: block; margin-top: .25rem; color: #ffb477; font-size: 8px; letter-spacing: 1.6px; text-transform: uppercase; }
+  .scroll-gallery-progress { position: absolute; z-index: 4; left: clamp(1.5rem, 6vw, 6rem); bottom: 2.7rem; width: min(220px, 42vw); height: 1px; background: rgba(43,38,32,.25); }
+  .scroll-gallery-progress span { display: block; width: var(--gallery-progress, 0%); height: 100%; background: #ff8a3d; transition: width .08s linear; }
+  .scroll-gallery-link { position: absolute; z-index: 4; right: clamp(1.5rem, 6vw, 6rem); bottom: 2.1rem; color: var(--ink); text-decoration: none; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: .65rem 0; border-bottom: 1px solid rgba(255,84,0,.8); }
+  .scroll-gallery-link span { color: #ff8a3d; font-size: 16px; margin-left: .5rem; transition: transform .2s ease; display: inline-block; }
+  .scroll-gallery-link:hover span, .scroll-gallery-link:focus-visible span { transform: translateX(5px); }
+  .scroll-gallery-skip { position: absolute; z-index: 4; right: clamp(1.5rem, 6vw, 6rem); top: clamp(5.4rem, 10vh, 7.9rem); color: var(--ink-soft); text-decoration: none; font-size: 9px; letter-spacing: 1.8px; text-transform: uppercase; padding: .7rem 0; border-bottom: 1px solid transparent; transition: color .2s ease, border-color .2s ease; }
+  .scroll-gallery-skip span { color: var(--orange); font-size: 14px; margin-left: .35rem; }
+  .scroll-gallery-skip:hover, .scroll-gallery-skip:focus-visible { color: var(--orange); border-bottom-color: var(--orange); outline: none; }
   #galerie { padding: 2rem 5rem; scroll-margin-top: 80px; }
   .section-header { display: flex; align-items: baseline; gap: 1.5rem; margin-bottom: 1.5rem; }
   .section-tag { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--orange); }
@@ -93,6 +127,7 @@
   .gallery-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(247,242,232,0.75) 0%, transparent 60%); opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 1.5rem; }
   .gallery-overlay-text { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; color: var(--ink); letter-spacing: 1px; }
   #unlock { padding: 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; background: var(--bg-alt); border-top: 0.5px solid var(--line); border-bottom: 0.5px solid var(--line); }
+  #unlock[hidden] { display: none !important; }
   .unlock-eyebrow { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--orange); margin-bottom: 1rem; }
   .unlock-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 4vw, 52px); line-height: 1.1; margin-bottom: 1.5rem; color: var(--ink); }
   .unlock-title em { color: var(--orange); font-style: italic; }
@@ -178,6 +213,9 @@
     .room-page-item:first-child { grid-row: span 1; aspect-ratio: 3/4; }
     .room-page-nav { padding: 1rem 1.5rem; }
     .contact-box, .confirm-box { padding: 2rem 1.5rem; }
+    .scroll-gallery { height: 230vh; }
+    .gallery-track { padding-left: 42vw; gap: 3rem; }
+    .gallery-stage { transform: translateY(-25%); }
   }
 
   @media (max-width: 600px) {
@@ -199,6 +237,21 @@
     .room-page-item:first-child { aspect-ratio: 4/3; }
     .lightbox-title { font-size: 32px; }
     .lightbox-desc { font-size: 15px; }
+    .scroll-gallery { height: 250svh; min-height: 1320px; padding: 0; }
+    .scroll-gallery-sticky { position: sticky; top: 0; height: 100svh; min-height: 560px; overflow: hidden; display: block; }
+    .scroll-gallery-head { position: absolute; left: 1.5rem; top: clamp(5rem, 10svh, 6.5rem); }
+    .scroll-gallery-head h2 { font-size: clamp(44px, 14vw, 58px); }
+    .scroll-gallery-head p { font-size: 16px; margin-top: .8rem; }
+    .gallery-stage { position: absolute; top: 53%; height: min(80vw, 345px); min-height: 280px; margin: 0; transform: translateY(-22%); perspective: 1000px; overflow: hidden; }
+    .gallery-stage-light { display: block; width: 96%; left: 2%; }
+    .gallery-stage::before, .gallery-stage::after { width: 14vw; z-index: 3; }
+    .gallery-track { position: absolute; height: 100%; width: max-content; padding: 0 20vw; gap: 1.8rem; transform: translate3d(var(--gallery-shift), 0, 0); }
+    .gallery-frame { width: min(43vw, 172px); transform: translateY(var(--lift)) rotateY(-5deg) rotateZ(var(--tilt)); }
+    .frame-wide { width: min(53vw, 210px); }
+    .gallery-frame-label { bottom: -2.8rem; }
+    .scroll-gallery-progress { display: block; left: 1.5rem; bottom: 1.7rem; }
+    .scroll-gallery-skip { right: 1.5rem; top: clamp(5rem, 10svh, 6.5rem); }
+    .scroll-gallery-link { position: absolute; right: 1.5rem; bottom: 1.1rem; margin: 0; }
   }
 
   /* TOUCH DEVICES — disable custom cursor */

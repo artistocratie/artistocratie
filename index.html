@@ -26,7 +26,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Inter:wght@300;400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=102">
+<link rel="stylesheet" href="assets/css/style.css?v=108">
 
 <script type="application/ld+json">
 {
@@ -79,6 +79,50 @@
 
 <div class="deco-line"></div>
 
+<section class="scroll-gallery" id="galerie-defilante" aria-labelledby="scroll-gallery-title">
+  <div class="scroll-gallery-sticky">
+    <div class="scroll-gallery-head">
+      <div class="scroll-gallery-kicker">À l’affiche · Dernier projet publié</div>
+      <h2 id="scroll-gallery-title">LE MUR<br><em>EN MOUVEMENT</em></h2>
+      <p><strong>Défi des 24h</strong> — une œuvre, vingt-quatre heures, zéro retouche.</p>
+    </div>
+
+    <div class="gallery-stage">
+      <div class="gallery-stage-light" aria-hidden="true"></div>
+      <div class="gallery-track">
+        <a class="gallery-frame frame-tall" href="defi-24h.html" style="--tilt:-3deg; --lift:3%;">
+          <span class="gallery-frame-art"><img src="assets/img/defi/defi-01.webp" alt="Carpes koï — gouache et acrylique sur papier" loading="lazy"></span>
+          <span class="gallery-frame-label"><strong>Carpes koï</strong><small>Défi des 24h · 2026</small></span>
+        </a>
+        <a class="gallery-frame" href="defi-24h.html" style="--tilt:2deg; --lift:-4%;">
+          <span class="gallery-frame-art"><img src="assets/img/defi/defi-10.webp" alt="Nu bleu — œuvre Artistocratie" loading="lazy"></span>
+          <span class="gallery-frame-label"><strong>Nu bleu</strong><small>Défi des 24h · 2026</small></span>
+        </a>
+        <a class="gallery-frame frame-tall" href="defi-24h.html" style="--tilt:-1.5deg; --lift:4%;">
+          <span class="gallery-frame-art"><img src="assets/img/defi/defi-13.webp" alt="L’oiseau et la vague — gouache et acrylique sur papier" loading="lazy"></span>
+          <span class="gallery-frame-label"><strong>L’oiseau et la vague</strong><small>Défi des 24h · 2026</small></span>
+        </a>
+        <a class="gallery-frame" href="defi-24h.html" style="--tilt:3deg; --lift:-2%;">
+          <span class="gallery-frame-art"><img src="assets/img/defi/defi-08.webp" alt="Citron — œuvre Artistocratie" loading="lazy"></span>
+          <span class="gallery-frame-label"><strong>Citron</strong><small>Défi des 24h · 2026</small></span>
+        </a>
+        <a class="gallery-frame frame-tall" href="defi-24h.html" style="--tilt:-2deg; --lift:2%;">
+          <span class="gallery-frame-art"><img src="assets/img/defi/defi-16-vertical.png" alt="Champ fleuri — gouache et acrylique sur papier" loading="lazy"></span>
+          <span class="gallery-frame-label"><strong>Champ fleuri</strong><small>Défi des 24h · 2026</small></span>
+        </a>
+      </div>
+    </div>
+
+    <div class="scroll-gallery-progress" aria-hidden="true"><span></span></div>
+    <a class="scroll-gallery-skip" href="#apres-galerie">Passer le mur <span>↓</span></a>
+    <a class="scroll-gallery-link" href="defi-24h.html">Explorer le projet <span>→</span></a>
+  </div>
+</section>
+
+<div id="apres-galerie" aria-hidden="true"></div>
+
+<!-- Newsletter temporairement désactivée : remplacer template par section pour la réactiver. -->
+<template id="unlock-disabled">
 <section id="unlock" aria-label="Inscription à la newsletter">
   <div class="unlock-text reveal">
     <div class="unlock-eyebrow">Accès exclusif</div>
@@ -101,6 +145,7 @@
     <div class="unlock-locked-label">— Galerie privée —</div>
   </div>
 </section>
+</template>
 
 <footer>
   <div class="footer-logo">ARTISTOCRATIE</div>
@@ -114,6 +159,6 @@
   <div class="footer-copy">© 2026 Nino Minashvili</div>
 </footer>
 
-<script src="assets/js/main.js?v=7" defer></script>
+<script src="assets/js/main.js?v=9" defer></script>
 </body>
 </html>
