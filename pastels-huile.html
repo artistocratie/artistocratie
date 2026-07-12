@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Inter:wght@300;400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=7">
+<link rel="stylesheet" href="assets/css/style.css?v=110">
 </head>
 <body>
 <div class="cursor" id="cursor" aria-hidden="true"></div>
@@ -31,21 +31,41 @@
 <div class="page-backbar"><a href="oeuvres.html" class="back-link">Retour à la galerie</a></div>
 
 <section class="page-top" style="padding-top:1.5rem;">
-  <div class="page-eyebrow">Série · Matière</div>
+  <div class="page-eyebrow">Challenge 01 · Juillet 2026</div>
   <h1 class="page-title">PASTELS À L’HUILE</h1>
-  <p class="page-intro">La matière grasse du pastel, les couleurs qui se fondent sous les doigts. Une technique tactile, chaude, sensuelle.</p>
+  <p class="page-intro">Un premier mois pour apprendre la discipline : une peinture par jour, tout au long de juillet.</p>
 </section>
 
-<div class="col-wrap">
-  <div class="col-grid reveal">
-    <div class="room-page-item" onclick="openLightbox('Pastel · 01','Pastels huile','Pastel à l’huile','Variable','2026','Les couleurs fondues sous les doigts, toute la chaleur du pastel gras.','')"><div style="width:100%;height:100%;background:;"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Pastel · 01</span></div></div>
-    <div class="room-page-item" onclick="openLightbox('Pastel · 02','Pastels huile','Pastel à l’huile','Variable','2026','Les couleurs fondues sous les doigts, toute la chaleur du pastel gras.','')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#FFB07A,#FF6A1A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Pastel · 02</span></div></div>
-    <div class="room-page-item" onclick="openLightbox('Pastel · 03','Pastels huile','Pastel à l’huile','Variable','2026','Les couleurs fondues sous les doigts, toute la chaleur du pastel gras.','')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#FFD8A8,#F2671A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Pastel · 03</span></div></div>
-    <div class="room-page-item" onclick="openLightbox('Pastel · 04','Pastels huile','Pastel à l’huile','Variable','2026','Les couleurs fondues sous les doigts, toute la chaleur du pastel gras.','')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#F1EADC,#E8A84A);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Pastel · 04</span></div></div>
-    <div class="room-page-item" onclick="openLightbox('Pastel · 05','Pastels huile','Pastel à l’huile','Variable','2026','Les couleurs fondues sous les doigts, toute la chaleur du pastel gras.','')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#FF8A3D,#C73600);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Pastel · 05</span></div></div>
-    <div class="room-page-item" onclick="openLightbox('Pastel · 06','Pastels huile','Pastel à l’huile','Variable','2026','Les couleurs fondues sous les doigts, toute la chaleur du pastel gras.','')"><div style="width:100%;height:100%;background:linear-gradient(135deg,#FAF3E9,#FF9A55);"></div><div class="gallery-overlay"><span class="gallery-overlay-text">Pastel · 06</span></div></div>
+<section class="july-challenge" aria-labelledby="july-title">
+  <div class="july-manifest reveal">
+    <div>
+      <div class="july-kicker">Le protocole</div>
+      <h2 id="july-title">UNE PEINTURE<br><em>PAR JOUR.</em></h2>
+      <p>Mon premier challenge : peindre chaque jour de juillet, sans attendre l’inspiration parfaite. Une manière de laisser la matière guider le geste.</p>
+    </div>
+    <div class="july-status" aria-label="Douze œuvres sur trente et une sont présentées">
+      <span>12</span><small>/ 31</small>
+      <strong>œuvres révélées</strong>
+      <i>Juillet est encore en cours.</i>
+    </div>
   </div>
-</div>
+
+  <div class="july-gallery-label"><span>Journal de juillet</span><span>Fais défiler les jours · clique pour agrandir</span></div>
+  <div class="july-grid reveal">
+    <button class="july-card july-featured" type="button" onclick="openLightbox('Jour 01 — Juillet','Challenge 01 · Pastels à l’huile','Pastel à l’huile sur papier','Format variable','2026','Premier jour du challenge : une peinture par jour, tout au long de juillet.','assets/img/pastels/1-31.JPG')"><img src="assets/img/pastels/1-31.JPG" alt="Jour 01 du challenge Pastels à l’huile" loading="eager"><span><b>Jour 01</b><small>Juillet 2026</small></span></button>
+    <button class="july-card" type="button" onclick="openLightbox('Jour 02 — Juillet','Challenge 01 · Pastels à l’huile','Pastel à l’huile sur papier','Format variable','2026','Deuxième œuvre du challenge : faire de la place à la couleur, un jour après l’autre.','assets/img/pastels/2-31.JPG')"><img src="assets/img/pastels/2-31.JPG" alt="Jour 02 du challenge Pastels à l’huile" loading="lazy"><span><b>Jour 02</b><small>Juillet 2026</small></span></button>
+    <button class="july-card" type="button" onclick="openLightbox('Jour 03 — Juillet','Challenge 01 · Pastels à l’huile','Pastel à l’huile sur papier','Format variable','2026','Troisième œuvre du challenge : le geste se cherche, la série prend forme.','assets/img/pastels/3-31.JPG')"><img src="assets/img/pastels/3-31.JPG" alt="Jour 03 du challenge Pastels à l’huile" loading="lazy"><span><b>Jour 03</b><small>Juillet 2026</small></span></button>
+    <button class="july-card" type="button" onclick="openLightbox('Jour 04 — Juillet','Challenge 01 · Pastels à l’huile','Pastel à l’huile sur papier','Format variable','2026','Quatrième œuvre du challenge, créée au rythme du mois de juillet.','assets/img/pastels/4-31.JPG')"><img src="assets/img/pastels/4-31.JPG" alt="Jour 04 du challenge Pastels à l’huile" loading="lazy"><span><b>Jour 04</b><small>Juillet 2026</small></span></button>
+    <button class="july-card july-tall" type="button" onclick="openLightbox('Jour 05 — Juillet','Challenge 01 · Pastels à l’huile','Pastel à l’huile sur papier','Format variable','2026','Cinquième œuvre : continuer, même lorsque la journée est déjà pleine.','assets/img/pastels/5-31.JPG')"><img src="assets/img/pastels/5-31.JPG" alt="Jour 05 du challenge Pastels à l’huile" loading="lazy"><span><b>Jour 05</b><small>Juillet 2026</small></span></button>
+    <button class="july-card" type="button" onclick="openLightbox('Jour 06 — Juillet','Challenge 01 · Pastels à l’huile','Pastel à l’huile sur papier','Format variable','2026','Sixième œuvre du challenge. La série continue de se dessiner.','assets/img/pastels/6-31.JPG')"><img src="assets/img/pastels/6-31.JPG" alt="Jour 06 du challenge Pastels à l’huile" loading="lazy"><span><b>Jour 06</b><small>Juillet 2026</small></span></button>
+    <button class="july-card" type="button" onclick="openLightbox('Jour 07 — Juillet','Challenge 01 · Pastels à l’huile','Pastel à l’huile sur papier','Format variable','2026','Septième œuvre : une trace de plus dans le journal de juillet.','assets/img/pastels/7-31.JPG')"><img src="assets/img/pastels/7-31.JPG" alt="Jour 07 du challenge Pastels à l’huile" loading="lazy"><span><b>Jour 07</b><small>Juillet 2026</small></span></button>
+    <button class="july-card" type="button" onclick="openLightbox('Jour 08 — Juillet','Challenge 01 · Pastels à l’huile','Pastel à l’huile sur papier','Format variable','2026','Huitième œuvre du challenge. La suite arrive au fil des jours.','assets/img/pastels/8-31.JPG')"><img src="assets/img/pastels/8-31.JPG" alt="Jour 08 du challenge Pastels à l’huile" loading="lazy"><span><b>Jour 08</b><small>Juillet 2026</small></span></button>
+    <button class="july-card" type="button" onclick="openLightbox('Jour 09 — Juillet','Challenge 01 · Pastels à l’huile','Pastel à l’huile sur papier','Format variable','2026','Neuvième œuvre du challenge.','assets/img/pastels/9-31.JPG')"><img src="assets/img/pastels/9-31.JPG" alt="Jour 09 du challenge Pastels à l’huile" loading="lazy"><span><b>Jour 09</b><small>Juillet 2026</small></span></button>
+    <button class="july-card" type="button" onclick="openLightbox('Jour 10 — Juillet','Challenge 01 · Pastels à l’huile','Pastel à l’huile sur papier','Format variable','2026','Dixième œuvre du challenge.','assets/img/pastels/10-31.JPG')"><img src="assets/img/pastels/10-31.JPG" alt="Jour 10 du challenge Pastels à l’huile" loading="lazy"><span><b>Jour 10</b><small>Juillet 2026</small></span></button>
+    <button class="july-card" type="button" onclick="openLightbox('Jour 11 — Juillet','Challenge 01 · Pastels à l’huile','Pastel à l’huile sur papier','Format variable','2026','Onzième œuvre du challenge.','assets/img/pastels/11-31.png')"><img src="assets/img/pastels/11-31.png" alt="Jour 11 du challenge Pastels à l’huile" loading="lazy"><span><b>Jour 11</b><small>Juillet 2026</small></span></button>
+    <button class="july-card" type="button" onclick="openLightbox('Jour 12 — Juillet','Challenge 01 · Pastels à l’huile','Pastel à l’huile sur papier','Format variable','2026','Douzième œuvre du challenge. La suite arrive au fil des jours.','assets/img/pastels/12-31.JPG')"><img src="assets/img/pastels/12-31.JPG" alt="Jour 12 du challenge Pastels à l’huile" loading="lazy"><span><b>Jour 12</b><small>Juillet 2026</small></span></button>
+  </div>
+</section>
 
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-title">
   <button class="lightbox-close" onclick="closeLightbox()" aria-label="Fermer">Fermer</button>
