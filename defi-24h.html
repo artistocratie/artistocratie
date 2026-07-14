@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Défi des 24h — Artistocratie</title>
-<meta name="description" content="Le défi des 24h : une œuvre, vingt-quatre heures, zéro retouche. Une série spontanée de Nino Minashvili.">
+<title>Une peinture par heure pendant 24 heures — Artistocratie</title>
+<meta name="description" content="Une peinture par heure pendant 24 heures : une série de vingt-quatre peintures à l’huile sur papier par Nino Minashvili.">
 <link rel="canonical" href="https://artistocratie.com/defi-24h.html">
 <meta name="theme-color" content="#F7F2E8">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -32,8 +32,8 @@
 
 <section class="page-top" style="padding-top:1.5rem;">
   <div class="page-eyebrow">Série · Défi</div>
-  <h1 class="page-title">DÉFI DES 24H</h1>
-  <p class="page-intro">Une œuvre, vingt-quatre heures, zéro retouche. Le défi que je me lance pour laisser parler l'instinct — sans réfléchir, sans corriger. Ce qui sort, sort.</p>
+  <h1 class="page-title">Une peinture par heure pendant 24 heures</h1>
+  <p class="page-intro">Vingt-quatre peintures à l’huile sur papier, réalisées en vingt-quatre heures : une peinture par heure.</p>
 </section>
 
 <style>
@@ -52,6 +52,12 @@
   background: #fdfcf8; padding: 6px 6px 26px; border-radius: 2px;
   box-shadow: 0 8px 22px rgba(40,20,0,.16);
   transition: box-shadow .45s; pointer-events: none;
+}
+.wall-item-placeholder {
+  display: grid; place-items: center; width: 100%; aspect-ratio: 3 / 4;
+  padding: 1.5rem; background: #fdfcf8; color: #6b6155; text-align: center;
+  font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 18px;
+  box-shadow: 0 8px 22px rgba(40,20,0,.16);
 }
 .wall-item .tag {
   position: absolute; left: 12px; right: 12px; bottom: 12px;
@@ -95,27 +101,34 @@
 /* Défi des 24h — mur d'atelier. Œuvres dans "works" (ordre = ordre d'accrochage).
    Réordonner : déplace les lignes. Renommer : change "t". */
 (function () {
-  const M = 'Gouache & acrylique sur papier';
-  const F = '≈ 15 × 20 cm';
+  const M = '100 % peinture à l’huile sur papier';
+  const F = '15 × 20 cm';
+  const D = 'Réalisée dans le cadre d’une peinture par heure pendant vingt-quatre heures.';
   const works = [
-    { f:'defi-01.webp', t:'Carpes koï',            m:M, fmt:F, d:'Deux carpes qui glissent entre les nénuphars — la couleur posée sans repentir.' },
-    { f:'defi-02.webp', t:'Fil rouge I',           m:M, fmt:F, d:'La ligne qui court, libre, sur le jaune. Un seul geste, sans lever la main.' },
-    { f:'defi-03.webp', t:'Fil rouge II',          m:M, fmt:F, d:'Variation sur le même souffle : le trait noir et les éclats de rouge.' },
-    { f:'defi-04.webp', t:'Dionées',               m:M, fmt:F, d:'Des plantes carnivores qui s’étirent sur le rose — étranges et tendres.' },
-    { f:'defi-05.webp', t:'Bergerie au soleil',    m:M, fmt:F, d:'Triptyque des montagnes I — le troupeau qui descend dans la lumière.' },
-    { f:'defi-06.webp', t:'Le sommet',             m:M, fmt:F, d:'Triptyque des montagnes II — une brebis, seule, sous la crête verte.' },
-    { f:'defi-07.webp', t:'Le chalet',             m:M, fmt:F, d:'Triptyque des montagnes III — la petite maison au toit rouge au creux du vallon.' },
-    { f:'defi-08.webp', t:'Citron',                m:M, fmt:F, d:'Un citron gorgé de lumière sur les rayures vertes.' },
-    { f:'defi-09.webp', t:'Nuit nuageuse',         m:M, fmt:F, d:'Le croissant de feu au-dessus des nuages roses et gris.' },
-    { f:'defi-10.webp', t:'Nu bleu',               m:M, fmt:F, d:'Une silhouette en aplat bleu sur le rose — hommage au geste de Matisse.' },
-    { f:'defi-11.webp', t:'Main & vrille I',       m:M, fmt:F, d:'Une main qui retient un fil vert — l’équilibre fragile d’un instant.' },
-    { f:'defi-12.webp', t:'Le temps qui file',     m:M, fmt:F, d:'Une horloge molle, les aiguilles qui s’emballent : le compte à rebours des 24h.' },
-    { f:'defi-13.webp', t:'L’oiseau et la vague', m:M, fmt:F, d:'Un oiseau blanc jaillit de l’écume — mouvement pur.' },
-    { f:'defi-14.webp', t:'Rose & noir',           m:M, fmt:F, d:'Rubans noirs et rouges qui dansent sur le rose.' },
-    { f:'defi-15.webp', t:'Fleur géométrique',     m:M, fmt:F, d:'Une fleur aux pétales colorés posée sur des blocs de couleur.' },
-    { f:'defi-16.webp', t:'Champ fleuri',          m:M, fmt:F, d:'Une pluie de petites fleurs sur le vert profond.' },
-    { f:'defi-17.webp', t:'Chats curieux',         m:M, fmt:F, d:'Trois chats noirs qui surgissent du rose — regards en coin.' },
-    { f:'defi-18.webp', t:'Main & vrille II',      m:M, fmt:F, d:'Deux doigts, une vrille verte qui s’enroule — la suite du duo.' },
+    { f:'defi-01.webp',        t:'Le flow',                 m:M, fmt:F, d:D },
+    { f:'defi-02.webp',        t:'Spinning',                m:M, fmt:F, d:D },
+    { f:'defi-03.webp',        t:'Dancing yellow',          m:M, fmt:F, d:D },
+    { f:'defi-04.webp',        t:'Miam miam!',             m:M, fmt:F, d:D },
+    { f:'defi-05.webp',        t:'Following',               m:M, fmt:F, d:D },
+    { f:'defi-06.webp',        t:'Finder',                  m:M, fmt:F, d:D },
+    { f:'defi-07.webp',        t:'Home',                    m:M, fmt:F, d:D },
+    { f:'defi-08.webp',        t:'Cipoire',                 m:M, fmt:F, d:D },
+    { f:'defi-09.webp',        t:'Winter',                  m:M, fmt:F, d:D },
+    { f:'defi-10.webp',        t:'Summer',                  m:M, fmt:F, d:D },
+    { f:'defi-11-flower.webp', t:'Too big for this world',  m:M, fmt:F, d:D },
+    { f:'defi-14.webp',        t:'No time',                 m:M, fmt:F, d:D },
+    { f:null,                  t:'Please',                  m:M, fmt:F, d:D },
+    { f:'defi-13.webp',        t:'Fuck you',                m:M, fmt:F, d:D },
+    { f:'defi-11.webp',        t:'No place',           m:M, fmt:F, d:D },
+    { f:'defi-15.webp',        t:'Wanna see Van Gogh',      m:M, fmt:F, d:D },
+    { f:'defi-18.webp',        t:'Garden 1',                m:M, fmt:F, d:D },
+    { f:'defi-16-vertical.webp', t:'Garden 2',              m:M, fmt:F, d:D },
+    { f:'defi-20.webp',        t:'Garden 3',                m:M, fmt:F, d:D },
+    { f:'defi-19-vertical.webp', t:'Garden 4',              m:M, fmt:F, d:D },
+    { f:'defi-21.webp',        t:'Ewen',                    m:M, fmt:F, d:D },
+    { f:'defi-22.webp',        t:'Mimi',                    m:M, fmt:F, d:D },
+    { f:'defi-24.webp',        t:'Move 1',                  m:M, fmt:F, d:D },
+    { f:'defi-23.webp',        t:'Move 2',                  m:M, fmt:F, d:D },
   ];
 
   const wall = document.getElementById('wall');
@@ -126,7 +139,7 @@
   const items = [];
 
   works.forEach(w => {
-    const src = 'assets/img/defi/' + w.f;
+    const src = w.f ? 'assets/img/defi/' + w.f : '';
     const el = document.createElement('div');
     el.className = 'wall-item';
     el.tabIndex = 0;
@@ -138,11 +151,18 @@
     wf.className = 'wf';
     wf.style.setProperty('--dur', rnd(6,10).toFixed(2) + 's');
     wf.style.setProperty('--del', (-rnd(0,6)).toFixed(2) + 's');
-    const img = document.createElement('img');
-    img.src = src; img.alt = w.t; img.loading = 'lazy'; img.draggable = false;
+    const img = w.f ? document.createElement('img') : null;
+    if (img) { img.src = src; img.alt = w.t; img.loading = 'lazy'; img.draggable = false; }
+    else {
+      const placeholder = document.createElement('div');
+      placeholder.className = 'wall-item-placeholder';
+      placeholder.textContent = w.t;
+      wf.appendChild(placeholder);
+    }
     const tag = document.createElement('div');
     tag.className = 'tag'; tag.textContent = w.t;
-    wf.appendChild(img); el.appendChild(wf); el.appendChild(tag);
+    if (img) wf.appendChild(img);
+    el.appendChild(wf); el.appendChild(tag);
     el._open = () => openLightbox(w.t, 'Défi des 24h', w.m, w.fmt, '2026', w.d, src);
     el.addEventListener('keydown', e => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el._open(); }
@@ -164,7 +184,7 @@
     const colH = new Array(cols).fill(0);
     items.forEach(el => {
       const img = el.querySelector('img');
-      const ar = (img.naturalWidth && img.naturalHeight) ? img.naturalHeight / img.naturalWidth : 1.3;
+      const ar = (img && img.naturalWidth && img.naturalHeight) ? img.naturalHeight / img.naturalWidth : 1.3;
       const h = colW * ar + 32;
       let c = 0;
       for (let k = 1; k < cols; k++) if (colH[k] < colH[c]) c = k;
@@ -177,7 +197,7 @@
   }
   items.forEach(el => {
     const img = el.querySelector('img');
-    if (!img.complete) img.addEventListener('load', layout);
+    if (img && !img.complete) img.addEventListener('load', layout);
   });
   window.addEventListener('load', layout);
   layout();
