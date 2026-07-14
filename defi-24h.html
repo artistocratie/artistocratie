@@ -59,6 +59,16 @@
   font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 18px;
   box-shadow: 0 8px 22px rgba(40,20,0,.16);
 }
+.lightbox-nav {
+  position: fixed; z-index: 11; top: 50%; transform: translateY(-50%);
+  width: 3rem; height: 3rem; display: grid; place-items: center;
+  border: 1px solid var(--line); border-radius: 50%; background: rgba(247,242,232,.92);
+  color: var(--ink); font: 400 28px/1 'Cormorant Garamond', serif; cursor: pointer;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+.lightbox-nav:hover, .lightbox-nav:focus-visible { background: var(--orange); border-color: var(--orange); color: #fff; outline: none; }
+.lightbox-prev { left: clamp(1rem, 3vw, 3rem); }
+.lightbox-next { right: clamp(1rem, 3vw, 3rem); }
 .wall-item .tag {
   position: absolute; left: 12px; right: 12px; bottom: 12px;
   font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 15px;
@@ -86,6 +96,11 @@
   .wall-item { position: relative !important; left: auto !important; top: auto !important; width: 80% !important; transform: rotate(calc(var(--rot,0deg) * .4)); }
   .wall-item:hover, .wall-item:focus-visible { transform: rotate(calc(var(--rot,0deg) * .4)); }
   .wall-item .wf { animation: none; }
+}
+@media (max-width: 600px) {
+  .lightbox-nav { top: 45svh; bottom: auto; transform: translateY(-50%); width: 2.75rem; height: 2.75rem; }
+  .lightbox-prev { left: .6rem; }
+  .lightbox-next { right: .6rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   .wall-item .wf { animation: none; }
@@ -137,8 +152,16 @@
   const isMobile = () => matchMedia('(max-width: 760px)').matches;
   const rnd = (a,b) => a + Math.random()*(b-a);
   const items = [];
+  let activeIndex = 0;
 
-  works.forEach(w => {
+  function openWork(index) {
+    activeIndex = (index + works.length) % works.length;
+    const work = works[activeIndex];
+    const src = work.f ? 'assets/img/defi/' + work.f : '';
+    openLightbox(work.t, 'Défi des 24h', work.m, work.fmt, '2026', work.d, src);
+  }
+
+  works.forEach((w, index) => {
     const src = w.f ? 'assets/img/defi/' + w.f : '';
     const el = document.createElement('div');
     el.className = 'wall-item';
@@ -163,7 +186,7 @@
     tag.className = 'tag'; tag.textContent = w.t;
     if (img) wf.appendChild(img);
     el.appendChild(wf); el.appendChild(tag);
-    el._open = () => openLightbox(w.t, 'Défi des 24h', w.m, w.fmt, '2026', w.d, src);
+    el._open = () => openWork(index);
     el.addEventListener('keydown', e => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el._open(); }
     });
@@ -232,6 +255,20 @@
     el.addEventListener('click', () => { if (isMobile()) el._open(); });
   });
 
+  document.addEventListener('DOMContentLoaded', () => {
+    const lightbox = document.getElementById('lightbox');
+    const previous = document.getElementById('lightbox-prev');
+    const next = document.getElementById('lightbox-next');
+    if (!lightbox || !previous || !next) return;
+    previous.addEventListener('click', () => openWork(activeIndex - 1));
+    next.addEventListener('click', () => openWork(activeIndex + 1));
+    document.addEventListener('keydown', event => {
+      if (!lightbox.classList.contains('open')) return;
+      if (event.key === 'ArrowLeft') { event.preventDefault(); openWork(activeIndex - 1); }
+      if (event.key === 'ArrowRight') { event.preventDefault(); openWork(activeIndex + 1); }
+    });
+  });
+
   /* ---- parallaxe au curseur ---- */
   if (!reduce) {
     let px = 0, py = 0, tx = 0, ty = 0, raf = null;
@@ -254,6 +291,8 @@
 </script>
 
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-title">
+  <button class="lightbox-nav lightbox-prev" id="lightbox-prev" type="button" aria-label="Voir l’œuvre précédente">←</button>
+  <button class="lightbox-nav lightbox-next" id="lightbox-next" type="button" aria-label="Voir l’œuvre suivante">→</button>
   <button class="lightbox-close" onclick="closeLightbox()" aria-label="Fermer">Fermer</button>
   <div class="lightbox-img-wrap">
     <img id="lightbox-img" src="" alt="" style="display:none;">
