@@ -3,6 +3,39 @@
    Chaque bloc ne s'exécute que si ses éléments existent.
    ============================================================ */
 
+/* ---- Google Analytics : actions importantes, sans données personnelles ---- */
+function trackAnalyticsEvent(name, parameters) {
+  if (typeof window.gtag !== 'function') return;
+  window.gtag('event', name, Object.assign({ page_path: window.location.pathname }, parameters));
+}
+
+(function () {
+  const cleanLabel = value => (value || '').replace(/\s+/g, ' ').trim().slice(0, 100);
+
+  document.addEventListener('click', event => {
+    const element = event.target.closest('a, button');
+    if (!element) return;
+
+    const href = element.getAttribute('href') || '';
+    const label = cleanLabel(element.getAttribute('aria-label') || element.textContent);
+    const destination = href || element.id || '';
+
+    if (href.startsWith('mailto:')) {
+      trackAnalyticsEvent('contact_click', { contact_method: 'email', button_label: label });
+    } else if (/instagram\.com/i.test(href)) {
+      trackAnalyticsEvent('instagram_click', { button_label: label });
+    } else if (/tiktok\.com/i.test(href)) {
+      trackAnalyticsEvent('tiktok_click', { button_label: label });
+    } else {
+      trackAnalyticsEvent('site_click', {
+        element_type: element.tagName.toLowerCase(),
+        button_label: label,
+        destination: destination.slice(0, 200)
+      });
+    }
+  });
+})();
+
 /* ---- Curseur custom (desktop) ---- */
 (function () {
   const cursor = document.getElementById('cursor');
@@ -64,6 +97,7 @@
 
 /* ---- Lightbox (pages collections) ---- */
 function openLightbox(title, tag, medium, format, year, desc, imgSrc) {
+  trackAnalyticsEvent('view_artwork', { artwork_title: title, artwork_series: tag });
   const lb = document.getElementById('lightbox'); if (!lb) return;
   const set = (id, v) => { const n = document.getElementById(id); if (n) n.textContent = v; };
   set('lightbox-title', title); set('lightbox-tag', tag); set('lightbox-medium', medium);
@@ -88,6 +122,7 @@ function closeLightbox() {
 
 /* ---- Overlay contact / collab ---- */
 function openContact() {
+  trackAnalyticsEvent('open_contact', {});
   const o = document.getElementById('contactOverlay'); if (!o) return;
   o.classList.add('open'); document.body.style.overflow = 'hidden';
   setTimeout(() => o.classList.add('visible'), 10);
@@ -102,14 +137,8 @@ function closeContact() {
   o.addEventListener('click', function (e) { if (e.target === this) closeContact(); });
 })();
 
-/* ---- Formulaire newsletter ---- */
+/* ---- Formulaire de collaboration : intention d'envoi ---- */
 (function () {
-  const form = document.querySelector('.unlock-form'); if (!form) return;
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    const email = this.querySelector('input[type="email"]').value;
-    const action = this.getAttribute('action');
-    if (action) fetch(action + '&EMAIL=' + encodeURIComponent(email), { mode: 'no-cors' });
-    this.innerHTML = '<p style="color:var(--orange);font-family:\'Cormorant Garamond\',serif;font-style:italic;font-size:18px;line-height:1.8;">Parfait. Vérifie ta boîte mail —<br>les prochaines créations arrivent en avant-première.</p>';
-  });
+  const form = document.querySelector('.collab-form'); if (!form) return;
+  form.addEventListener('submit', () => trackAnalyticsEvent('contact_form_submit', { form_name: 'collaboration' }));
 })();
