@@ -183,22 +183,42 @@
     [.43, .13, 60], [-.32, .27, -40], [-.08, .25, 115], [.16, .28, -115],
     [.37, .25, 45], [.12, .09, 10]
   ];
-  const positionFor = index => space[index] || [
-    ((index * .61803398875) % 1 - .5) * .86,
-    ((index * .41421356237) % 1 - .5) * .62,
-    (index * 97) % 250 - 125
-  ];
+  const positionFor = (index, total) => {
+    if (total <= space.length) return space[index];
+    // Échantillonnage à faible écart dans une sphère pleine : homogène,
+    // volumineux et stable, sans regroupements aléatoires ni anneaux visibles.
+    const fraction = value => value - Math.floor(value);
+    const radius = Math.cbrt((index + .5) / total);
+    const z = 1 - 2 * fraction((index + .5) * .754877666);
+    const azimuth = fraction((index + .5) * .569840291) * Math.PI * 2;
+    const horizontal = Math.sqrt(1 - z * z) * radius;
+    return [
+      Math.cos(azimuth) * horizontal,
+      z * radius,
+      Math.sin(azimuth) * horizontal
+    ];
+  };
   const layout = () => {
     const box = orbit.getBoundingClientRect();
     const compact = window.matchMedia('(max-width: 600px)').matches;
     const spreadX = compact ? .47 : .85;
     const spreadY = compact ? .84 : .9;
     cards.forEach((card, index) => {
-      const [x, y, z] = positionFor(index);
+      let [x, y, z] = positionFor(index, cards.length);
+      if (cards.length > space.length) {
+        const sphereRadius = Math.min(box.width * spreadX, box.height * spreadY) * .46;
+        x *= sphereRadius;
+        y *= sphereRadius;
+        z *= sphereRadius;
+      } else {
+        x *= box.width * spreadX;
+        y *= box.height * spreadY;
+        z *= compact ? .52 : 1;
+      }
       const base = Number(card.dataset.scale);
-      card.style.setProperty('--x', (x * box.width * spreadX).toFixed(1) + 'px');
-      card.style.setProperty('--y', (y * box.height * spreadY).toFixed(1) + 'px');
-      card.style.setProperty('--z', (z * (compact ? .52 : 1)).toFixed(1) + 'px');
+      card.style.setProperty('--x', x.toFixed(1) + 'px');
+      card.style.setProperty('--y', y.toFixed(1) + 'px');
+      card.style.setProperty('--z', z.toFixed(1) + 'px');
       card.style.setProperty('--render-scale', (base * (compact ? .82 : 1)).toFixed(2));
       card.style.opacity = '1';
       card.style.zIndex = String(Math.round(100 + z));
@@ -206,6 +226,7 @@
   };
   const render = (animate = true) => {
     orbit.style.setProperty('--space-angle', angle.toFixed(1) + 'deg');
+    orbit.classList.toggle('is-reorienting', !animate);
     track.style.transitionDuration = animate ? '' : '0s';
     cards.forEach((card, index) => {
       const active = index === selected;
