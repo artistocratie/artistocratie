@@ -171,10 +171,12 @@
   let angle = 0;
   let startX = 0;
   let startAngle = 0;
+  let dragDelta = 0;
   let dragging = false;
   let moved = false;
   let activeIndex = 0;
   let wheelTimer;
+  let wheelDistance = 0;
 
   const modulo = (n, length) => ((n % length) + length) % length;
   const space = [
@@ -204,6 +206,20 @@
     const spreadX = compact ? .47 : .85;
     const spreadY = compact ? .84 : .9;
     cards.forEach((card, index) => {
+      if (compact) {
+        let offset = index - selected;
+        if (offset > works.length / 2) offset -= works.length;
+        if (offset < -works.length / 2) offset += works.length;
+        const distance = Math.abs(offset);
+        card.style.setProperty('--x', (offset * box.width * .29).toFixed(1) + 'px');
+        card.style.setProperty('--y', (distance * 18).toFixed(1) + 'px');
+        card.style.setProperty('--z', (-distance * 115).toFixed(1) + 'px');
+        card.style.setProperty('--render-scale', (distance === 0 ? 1.12 : .72).toFixed(2));
+        card.style.opacity = distance > 2 ? '0' : (distance === 2 ? '.32' : '1');
+        card.style.zIndex = String(100 - distance);
+        card.style.pointerEvents = distance > 2 ? 'none' : 'auto';
+        return;
+      }
       let [x, y, z] = positionFor(index, cards.length);
       if (cards.length > space.length) {
         const sphereRadius = Math.min(box.width * spreadX, box.height * spreadY) * .46;
@@ -216,21 +232,25 @@
         z *= compact ? .52 : 1;
       }
       const base = Number(card.dataset.scale);
+      const focused = index === selected;
+      if (focused) z += 145;
       card.style.setProperty('--x', x.toFixed(1) + 'px');
       card.style.setProperty('--y', y.toFixed(1) + 'px');
       card.style.setProperty('--z', z.toFixed(1) + 'px');
-      card.style.setProperty('--render-scale', (base * (compact ? .82 : 1)).toFixed(2));
+      card.style.setProperty('--render-scale', (base * (focused ? 1.17 : (compact ? .82 : 1))).toFixed(2));
       card.style.opacity = '1';
       card.style.zIndex = String(Math.round(100 + z));
+      card.style.pointerEvents = 'auto';
     });
   };
   const render = (animate = true) => {
+    layout();
     orbit.style.setProperty('--space-angle', angle.toFixed(1) + 'deg');
     orbit.classList.toggle('is-reorienting', !animate);
     track.style.transitionDuration = animate ? '' : '0s';
     cards.forEach((card, index) => {
       const active = index === selected;
-      card.style.setProperty('--counter-angle', (-angle).toFixed(1) + 'deg');
+      card.style.setProperty('--counter-angle', window.matchMedia('(max-width: 600px)').matches ? '0deg' : (-angle).toFixed(1) + 'deg');
       card.classList.toggle('is-selected', active);
       card.setAttribute('aria-pressed', String(active));
     });
@@ -252,15 +272,16 @@
     card.type = 'button';
     card.style.setProperty('--tilt', ((index * 19) % 13 - 6) + 'deg');
     card.dataset.scale = (0.86 + (index % 4) * .045).toFixed(2);
-    card.style.setProperty('--float-speed', (5.4 + (index % 5) * .55).toFixed(1) + 's');
-    card.style.setProperty('--float-delay', (-index * .45).toFixed(1) + 's');
     card.setAttribute('aria-label', work[1] + ', voir cette œuvre en grand');
     const image = document.createElement('img');
     image.src = imagePath(work);
     image.alt = work[1] + ' du challenge Pastels à l’huile';
     image.loading = index < 3 ? 'eager' : 'lazy';
     card.appendChild(image);
-    card.addEventListener('click', () => open(index));
+    card.addEventListener('click', event => {
+      if (moved) { event.preventDefault(); return; }
+      open(index);
+    });
     track.appendChild(card);
     cards.push(card);
   });
@@ -273,15 +294,20 @@
   });
   orbit.addEventListener('pointerdown', event => {
     if (event.button !== 0) return;
-    if (event.target.closest('.orbit-card')) return;
-    dragging = true; moved = false; startX = event.clientX; startAngle = angle;
+    dragging = true; moved = false; dragDelta = 0; startX = event.clientX; startAngle = angle;
     orbit.classList.add('is-dragging');
     orbit.setPointerCapture(event.pointerId);
+    if (event.pointerType === 'touch') event.preventDefault();
   });
   orbit.addEventListener('pointermove', event => {
     if (!dragging) return;
     const delta = event.clientX - startX;
+    dragDelta = delta;
     if (Math.abs(delta) > 5) moved = true;
+    if (window.matchMedia('(max-width: 600px)').matches) {
+      if (event.pointerType === 'touch') event.preventDefault();
+      return;
+    }
     angle = startAngle + delta * .32;
     render(false);
   });
@@ -290,14 +316,29 @@
     dragging = false;
     orbit.classList.remove('is-dragging');
     try { orbit.releasePointerCapture(event.pointerId); } catch (_) {}
-    if (moved) render();
+    if (moved && window.matchMedia('(max-width: 600px)').matches) {
+      selected = modulo(selected + (dragDelta < 0 ? 1 : -1), works.length);
+      angle = 0;
+      render();
+    } else if (moved) {
+      selected = modulo(selected + (dragDelta < 0 ? 1 : -1), works.length);
+      render();
+    }
     window.setTimeout(() => { moved = false; }, 0);
   };
   orbit.addEventListener('pointerup', endDrag);
   orbit.addEventListener('pointercancel', endDrag);
   orbit.addEventListener('wheel', event => {
     event.preventDefault();
-    angle -= event.deltaY * .18;
+    // Magic Mouse, molette classique et trackpad peuvent émettre l'axe X ou Y.
+    const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+    if (!delta) return;
+    angle -= delta * .18;
+    wheelDistance += delta;
+    if (Math.abs(wheelDistance) > 22) {
+      selected = modulo(selected + (wheelDistance > 0 ? 1 : -1), works.length);
+      wheelDistance = 0;
+    }
     render(false);
     window.clearTimeout(wheelTimer);
     wheelTimer = window.setTimeout(() => {
