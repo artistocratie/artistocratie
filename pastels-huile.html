@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Inter:wght@300;400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=110">
+<link rel="stylesheet" href="assets/css/style.css?v=113">
 </head>
 <body>
 <div class="cursor" id="cursor" aria-hidden="true"></div>
@@ -46,31 +46,279 @@
       <h2 id="july-title">UNE PEINTURE<br><em>PAR JOUR.</em></h2>
       <p>Mon premier challenge : peindre chaque jour de juillet, sans attendre l’inspiration parfaite. Une manière de laisser la matière guider le geste.</p>
     </div>
-    <div class="july-status" aria-label="Douze œuvres sur trente et une sont présentées">
-      <span>12</span><small>/ 31</small>
+    <div class="july-status" aria-label="Œuvres présentées dans le challenge de juillet">
+      <span data-gallery-count>23</span><small>/ 31</small>
       <strong>œuvres révélées</strong>
       <i>Juillet est encore en cours.</i>
     </div>
   </div>
 
-  <div class="july-gallery-label"><span>Journal de juillet</span><span>Fais défiler les jours · clique pour agrandir</span></div>
-  <div class="july-grid reveal">
-    <button class="july-card july-featured" type="button" onclick="openLightbox('Jour 01 — Juillet','Challenge 01 · Pastels à l’huile','Pastel à l’huile sur papier','A5','2026','Premier jour du challenge : une peinture par jour, tout au long de juillet.','assets/img/pastels/1-31.JPG')"><img src="assets/img/pastels/1-31.JPG" alt="Jour 01 du challenge Pastels à l’huile" loading="eager"><span><b>Jour 01</b><small>Juillet 2026</small></span></button>
-    <button class="july-card" type="button" onclick="openLightbox('Jour 02 — Juillet','Challenge 01 · Pastels à l’huile','Pastel à l’huile sur papier','A5','2026','Deuxième œuvre du challenge : faire de la place à la couleur, un jour après l’autre.','assets/img/pastels/2-31.JPG')"><img src="assets/img/pastels/2-31.JPG" alt="Jour 02 du challenge Pastels à l’huile" loading="lazy"><span><b>Jour 02</b><small>Juillet 2026</small></span></button>
-    <button class="july-card" type="button" onclick="openLightbox('Jour 03 — Juillet','Challenge 01 · Pastels à l’huile','Pastel à l’huile sur papier','A5','2026','Troisième œuvre du challenge : le geste se cherche, la série prend forme.','assets/img/pastels/3-31.JPG')"><img src="assets/img/pastels/3-31.JPG" alt="Jour 03 du challenge Pastels à l’huile" loading="lazy"><span><b>Jour 03</b><small>Juillet 2026</small></span></button>
-    <button class="july-card" type="button" onclick="openLightbox('Jour 04 — Juillet','Challenge 01 · Pastels à l’huile','Pastel à l’huile sur papier','A5','2026','Quatrième œuvre du challenge, créée au rythme du mois de juillet.','assets/img/pastels/4-31.JPG')"><img src="assets/img/pastels/4-31.JPG" alt="Jour 04 du challenge Pastels à l’huile" loading="lazy"><span><b>Jour 04</b><small>Juillet 2026</small></span></button>
-    <button class="july-card july-tall" type="button" onclick="openLightbox('Jour 05 — Juillet','Challenge 01 · Pastels à l’huile','Pastel à l’huile sur papier','A5','2026','Cinquième œuvre : continuer, même lorsque la journée est déjà pleine.','assets/img/pastels/5-31.JPG')"><img src="assets/img/pastels/5-31.JPG" alt="Jour 05 du challenge Pastels à l’huile" loading="lazy"><span><b>Jour 05</b><small>Juillet 2026</small></span></button>
-    <button class="july-card" type="button" onclick="openLightbox('Jour 06 — Juillet','Challenge 01 · Pastels à l’huile','Pastel à l’huile sur papier','A5','2026','Sixième œuvre du challenge. La série continue de se dessiner.','assets/img/pastels/6-31.JPG')"><img src="assets/img/pastels/6-31.JPG" alt="Jour 06 du challenge Pastels à l’huile" loading="lazy"><span><b>Jour 06</b><small>Juillet 2026</small></span></button>
-    <button class="july-card" type="button" onclick="openLightbox('Jour 07 — Juillet','Challenge 01 · Pastels à l’huile','Pastel à l’huile sur papier','A5','2026','Septième œuvre : une trace de plus dans le journal de juillet.','assets/img/pastels/7-31.JPG')"><img src="assets/img/pastels/7-31.JPG" alt="Jour 07 du challenge Pastels à l’huile" loading="lazy"><span><b>Jour 07</b><small>Juillet 2026</small></span></button>
-    <button class="july-card" type="button" onclick="openLightbox('Jour 08 — Juillet','Challenge 01 · Pastels à l’huile','Pastel à l’huile sur papier','A5','2026','Huitième œuvre du challenge. La suite arrive au fil des jours.','assets/img/pastels/8-31.JPG')"><img src="assets/img/pastels/8-31.JPG" alt="Jour 08 du challenge Pastels à l’huile" loading="lazy"><span><b>Jour 08</b><small>Juillet 2026</small></span></button>
-    <button class="july-card" type="button" onclick="openLightbox('Jour 09 — Juillet','Challenge 01 · Pastels à l’huile','Pastel à l’huile sur papier','A5','2026','Neuvième œuvre du challenge.','assets/img/pastels/9-31.JPG')"><img src="assets/img/pastels/9-31.JPG" alt="Jour 09 du challenge Pastels à l’huile" loading="lazy"><span><b>Jour 09</b><small>Juillet 2026</small></span></button>
-    <button class="july-card" type="button" onclick="openLightbox('Jour 10 — Juillet','Challenge 01 · Pastels à l’huile','Pastel à l’huile sur papier','A5','2026','Dixième œuvre du challenge.','assets/img/pastels/10-31.JPG')"><img src="assets/img/pastels/10-31.JPG" alt="Jour 10 du challenge Pastels à l’huile" loading="lazy"><span><b>Jour 10</b><small>Juillet 2026</small></span></button>
-    <button class="july-card" type="button" onclick="openLightbox('Jour 11 — Juillet','Challenge 01 · Pastels à l’huile','Pastel à l’huile sur papier','A5','2026','Onzième œuvre du challenge.','assets/img/pastels/11-31.png')"><img src="assets/img/pastels/11-31.png" alt="Jour 11 du challenge Pastels à l’huile" loading="lazy"><span><b>Jour 11</b><small>Juillet 2026</small></span></button>
-    <button class="july-card" type="button" onclick="openLightbox('Jour 12 — Juillet','Challenge 01 · Pastels à l’huile','Pastel à l’huile sur papier','A5','2026','Douzième œuvre du challenge. La suite arrive au fil des jours.','assets/img/pastels/12-31.JPG')"><img src="assets/img/pastels/12-31.JPG" alt="Jour 12 du challenge Pastels à l’huile" loading="lazy"><span><b>Jour 12</b><small>Juillet 2026</small></span></button>
+  <div class="july-gallery-label"><span>Journal de juillet</span><span>Molette ou doigt pour tourner · clique pour agrandir</span></div>
+  <div class="july-orbit reveal" id="july-orbit" tabindex="0" aria-label="Galerie interactive des œuvres de juillet">
+    <p class="orbit-hint">Fais glisser ou utilise la molette · toutes les œuvres sont là</p>
+    <div class="orbit-track" id="orbit-track"></div>
+    <p class="orbit-caption" aria-live="polite"><strong id="orbit-title"></strong><span id="orbit-meta"></span></p>
   </div>
 </section>
 
+<script>
+/* Journal de juillet — espace rotatif. Ajouter les prochaines œuvres ici. */
+(function () {
+  const works = [
+    // AUTO-GALLERY:START
+    ["1-31-cadre.png", "Jour 01", "1e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["2-31-cadre.png", "Jour 02", "2e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["3-31-cadre.png", "Jour 03", "3e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["4-31-cadre.png", "Jour 04", "4e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["5-31-cadre.png", "Jour 05", "5e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["6-31-cadre.png", "Jour 06", "6e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["7-31-cadre.png", "Jour 07", "7e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["8-31-cadre.png", "Jour 08", "8e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["9-31-cadre.png", "Jour 09", "9e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["10-31-cadre.png", "Jour 10", "10e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["11-31-cadre.png", "Jour 11", "11e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["12-31-cadre.png", "Jour 12", "12e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["13-31-cadre.png", "Jour 13", "13e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["14-31-cadre.png", "Jour 14", "14e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["15-31-cadre.png", "Jour 15", "15e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["16-31-cadre.png", "Jour 16", "16e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["17-31-cadre.png", "Jour 17", "17e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["18-31-cadre.png", "Jour 18", "18e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["19-31-cadre.png", "Jour 19", "19e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["20-31-cadre.png", "Jour 20", "20e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["21-31-cadre.png", "Jour 21", "21e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["22-31-cadre.png", "Jour 22", "22e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["23-31-cadre.png", "Jour 23", "23e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // AUTO-GALLERY:END
+  ];
+  const orbit = document.getElementById('july-orbit');
+  const track = document.getElementById('orbit-track');
+  const title = document.getElementById('orbit-title');
+  const meta = document.getElementById('orbit-meta');
+  if (!orbit || !track || !works.length) return;
+  const imagePath = work => 'assets/img/pastels/' + work[0];
+
+  const step = 360 / works.length;
+  const cards = [];
+  let selected = 0;
+  let angle = 0;
+  let startX = 0;
+  let startAngle = 0;
+  let dragging = false;
+  let moved = false;
+  let activeIndex = 0;
+  let wheelTimer;
+
+  const modulo = (n, length) => ((n % length) + length) % length;
+  const space = [
+    [-.40, -.20, -150], [-.18, -.29, 35], [.06, -.25, -70], [.30, -.18, 105],
+    [-.43, .05, 75], [-.21, -.01, -110], [.02, -.05, 135], [.28, .03, -25],
+    [.43, .13, 60], [-.32, .27, -40], [-.08, .25, 115], [.16, .28, -115],
+    [.37, .25, 45], [.12, .09, 10]
+  ];
+  const positionFor = index => space[index] || [
+    ((index * .61803398875) % 1 - .5) * .86,
+    ((index * .41421356237) % 1 - .5) * .62,
+    (index * 97) % 250 - 125
+  ];
+  const layout = () => {
+    const box = orbit.getBoundingClientRect();
+    const compact = window.matchMedia('(max-width: 600px)').matches;
+    const spreadX = compact ? .47 : .85;
+    const spreadY = compact ? .84 : .9;
+    cards.forEach((card, index) => {
+      const [x, y, z] = positionFor(index);
+      const base = Number(card.dataset.scale);
+      card.style.setProperty('--x', (x * box.width * spreadX).toFixed(1) + 'px');
+      card.style.setProperty('--y', (y * box.height * spreadY).toFixed(1) + 'px');
+      card.style.setProperty('--z', (z * (compact ? .52 : 1)).toFixed(1) + 'px');
+      card.style.setProperty('--render-scale', (base * (compact ? .82 : 1)).toFixed(2));
+      card.style.opacity = '1';
+      card.style.zIndex = String(Math.round(100 + z));
+    });
+  };
+  const render = (animate = true) => {
+    orbit.style.setProperty('--space-angle', angle.toFixed(1) + 'deg');
+    track.style.transitionDuration = animate ? '' : '0s';
+    cards.forEach((card, index) => {
+      const active = index === selected;
+      card.style.setProperty('--counter-angle', (-angle).toFixed(1) + 'deg');
+      card.classList.toggle('is-selected', active);
+      card.setAttribute('aria-pressed', String(active));
+    });
+    title.textContent = works[selected][1];
+    meta.textContent = 'Juillet 2026 · pastel à l’huile sur papier';
+  };
+  const open = index => {
+    const work = works[index];
+    activeIndex = index;
+    selected = index;
+    render();
+    openLightbox(work[1] + ' — Juillet', 'Challenge 01 · Pastels à l’huile', 'Pastel à l’huile sur papier', 'A5', '2026', work[2], imagePath(work));
+  };
+  const moveLightbox = direction => open(modulo(activeIndex + direction, works.length));
+  window.moveJulyLightbox = moveLightbox;
+  works.forEach((work, index) => {
+    const card = document.createElement('button');
+    card.className = 'orbit-card';
+    card.type = 'button';
+    card.style.setProperty('--tilt', ((index * 19) % 13 - 6) + 'deg');
+    card.dataset.scale = (0.86 + (index % 4) * .045).toFixed(2);
+    card.style.setProperty('--float-speed', (5.4 + (index % 5) * .55).toFixed(1) + 's');
+    card.style.setProperty('--float-delay', (-index * .45).toFixed(1) + 's');
+    card.setAttribute('aria-label', work[1] + ', voir cette œuvre en grand');
+    const image = document.createElement('img');
+    image.src = imagePath(work);
+    image.alt = work[1] + ' du challenge Pastels à l’huile';
+    image.loading = index < 3 ? 'eager' : 'lazy';
+    card.appendChild(image);
+    card.addEventListener('click', () => open(index));
+    track.appendChild(card);
+    cards.push(card);
+  });
+  orbit.addEventListener('keydown', event => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault();
+    selected = modulo(selected + (event.key === 'ArrowRight' ? 1 : -1), works.length);
+    angle = -selected * step * .6;
+    render();
+  });
+  orbit.addEventListener('pointerdown', event => {
+    if (event.button !== 0) return;
+    if (event.target.closest('.orbit-card')) return;
+    dragging = true; moved = false; startX = event.clientX; startAngle = angle;
+    orbit.classList.add('is-dragging');
+    orbit.setPointerCapture(event.pointerId);
+  });
+  orbit.addEventListener('pointermove', event => {
+    if (!dragging) return;
+    const delta = event.clientX - startX;
+    if (Math.abs(delta) > 5) moved = true;
+    angle = startAngle + delta * .32;
+    render(false);
+  });
+  const endDrag = event => {
+    if (!dragging) return;
+    dragging = false;
+    orbit.classList.remove('is-dragging');
+    try { orbit.releasePointerCapture(event.pointerId); } catch (_) {}
+    if (moved) render();
+    window.setTimeout(() => { moved = false; }, 0);
+  };
+  orbit.addEventListener('pointerup', endDrag);
+  orbit.addEventListener('pointercancel', endDrag);
+  orbit.addEventListener('wheel', event => {
+    event.preventDefault();
+    angle -= event.deltaY * .18;
+    render(false);
+    window.clearTimeout(wheelTimer);
+    wheelTimer = window.setTimeout(() => {
+      render();
+    }, 110);
+  }, { passive: false });
+  window.addEventListener('resize', () => { layout(); render(false); });
+  layout();
+  render();
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const lightbox = document.getElementById('lightbox');
+    if (!lightbox) return;
+    document.addEventListener('keydown', event => {
+      if (!lightbox.classList.contains('open')) return;
+      if (event.key === 'ArrowLeft') { event.preventDefault(); moveLightbox(-1); }
+      if (event.key === 'ArrowRight') { event.preventDefault(); moveLightbox(1); }
+    });
+    let swipeStartX = null;
+    let swipeStartY = null;
+    lightbox.addEventListener('pointerdown', event => {
+      if (event.target.closest('button')) {
+        swipeStartX = swipeStartY = null;
+        return;
+      }
+      swipeStartX = event.clientX;
+      swipeStartY = event.clientY;
+    });
+    lightbox.addEventListener('pointerup', event => {
+      if (swipeStartX === null || swipeStartY === null) return;
+      const horizontal = event.clientX - swipeStartX;
+      const vertical = event.clientY - swipeStartY;
+      if (Math.abs(horizontal) > 48 && Math.abs(horizontal) > Math.abs(vertical)) moveLightbox(horizontal < 0 ? 1 : -1);
+      swipeStartX = swipeStartY = null;
+    });
+  });
+})();
+</script>
+
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-title">
+  <button class="july-lightbox-nav july-lightbox-prev" id="july-lightbox-prev" type="button" onclick="moveJulyLightbox(-1)" aria-label="Voir l’œuvre précédente">←</button>
+  <button class="july-lightbox-nav july-lightbox-next" id="july-lightbox-next" type="button" onclick="moveJulyLightbox(1)" aria-label="Voir l’œuvre suivante">→</button>
   <button class="lightbox-close" onclick="closeLightbox()" aria-label="Fermer">Fermer</button>
   <div class="lightbox-img-wrap">
     <img id="lightbox-img" src="" alt="" style="display:none;">
