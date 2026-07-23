@@ -66,29 +66,52 @@
 (function () {
   const works = [
     // AUTO-GALLERY:START
-    ["1-31-cadre.png", "Jour 01", "1e œuvre du challenge : une peinture par jour, tout au long de juillet."],
-    ["2-31-cadre.png", "Jour 02", "2e œuvre du challenge : une peinture par jour, tout au long de juillet."],
-    ["3-31-cadre.png", "Jour 03", "3e œuvre du challenge : une peinture par jour, tout au long de juillet."],
-    ["4-31-cadre.png", "Jour 04", "4e œuvre du challenge : une peinture par jour, tout au long de juillet."],
-    ["5-31-cadre.png", "Jour 05", "5e œuvre du challenge : une peinture par jour, tout au long de juillet."],
-    ["6-31-cadre.png", "Jour 06", "6e œuvre du challenge : une peinture par jour, tout au long de juillet."],
-    ["7-31-cadre.png", "Jour 07", "7e œuvre du challenge : une peinture par jour, tout au long de juillet."],
-    ["8-31-cadre.png", "Jour 08", "8e œuvre du challenge : une peinture par jour, tout au long de juillet."],
-    ["9-31-cadre.png", "Jour 09", "9e œuvre du challenge : une peinture par jour, tout au long de juillet."],
-    ["10-31-cadre.png", "Jour 10", "10e œuvre du challenge : une peinture par jour, tout au long de juillet."],
-    ["11-31-cadre.png", "Jour 11", "11e œuvre du challenge : une peinture par jour, tout au long de juillet."],
-    ["12-31-cadre.png", "Jour 12", "12e œuvre du challenge : une peinture par jour, tout au long de juillet."],
-    ["13-31-cadre.png", "Jour 13", "13e œuvre du challenge : une peinture par jour, tout au long de juillet."],
-    ["14-31-cadre.png", "Jour 14", "14e œuvre du challenge : une peinture par jour, tout au long de juillet."],
-    ["15-31-cadre.png", "Jour 15", "15e œuvre du challenge : une peinture par jour, tout au long de juillet."],
-    ["16-31-cadre.png", "Jour 16", "16e œuvre du challenge : une peinture par jour, tout au long de juillet."],
-    ["17-31-cadre.png", "Jour 17", "17e œuvre du challenge : une peinture par jour, tout au long de juillet."],
-    ["18-31-cadre.png", "Jour 18", "18e œuvre du challenge : une peinture par jour, tout au long de juillet."],
-    ["19-31-cadre.png", "Jour 19", "19e œuvre du challenge : une peinture par jour, tout au long de juillet."],
-    ["20-31-cadre.png", "Jour 20", "20e œuvre du challenge : une peinture par jour, tout au long de juillet."],
-    ["21-31-cadre.png", "Jour 21", "21e œuvre du challenge : une peinture par jour, tout au long de juillet."],
-    ["22-31-cadre.png", "Jour 22", "22e œuvre du challenge : une peinture par jour, tout au long de juillet."],
-    ["23-31-cadre.png", "Jour 23", "23e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["1-31-cadre.webp", "Jour 01", "1e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["2-31-cadre.webp", "Jour 02", "2e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["3-31-cadre.webp", "Jour 03", "3e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["4-31-cadre.webp", "Jour 04", "4e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["5-31-cadre.webp", "Jour 05", "5e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["6-31-cadre.webp", "Jour 06", "6e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["7-31-cadre.webp", "Jour 07", "7e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["8-31-cadre.webp", "Jour 08", "8e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["9-31-cadre.webp", "Jour 09", "9e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["10-31-cadre.webp", "Jour 10", "10e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["11-31-cadre.webp", "Jour 11", "11e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["12-31-cadre.webp", "Jour 12", "12e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["13-31-cadre.webp", "Jour 13", "13e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["14-31-cadre.webp", "Jour 14", "14e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["15-31-cadre.webp", "Jour 15", "15e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["16-31-cadre.webp", "Jour 16", "16e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["17-31-cadre.webp", "Jour 17", "17e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["18-31-cadre.webp", "Jour 18", "18e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["19-31-cadre.webp", "Jour 19", "19e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["20-31-cadre.webp", "Jour 20", "20e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["21-31-cadre.webp", "Jour 21", "21e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["22-31-cadre.webp", "Jour 22", "22e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+    ["23-31-cadre.webp", "Jour 23", "23e œuvre du challenge : une peinture par jour, tout au long de juillet."],
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -176,7 +199,6 @@
   let moved = false;
   let activeIndex = 0;
   let wheelTimer;
-  let wheelDistance = 0;
 
   const modulo = (n, length) => ((n % length) + length) % length;
   const space = [
@@ -232,19 +254,16 @@
         z *= compact ? .52 : 1;
       }
       const base = Number(card.dataset.scale);
-      const focused = index === selected;
-      if (focused) z += 145;
       card.style.setProperty('--x', x.toFixed(1) + 'px');
       card.style.setProperty('--y', y.toFixed(1) + 'px');
       card.style.setProperty('--z', z.toFixed(1) + 'px');
-      card.style.setProperty('--render-scale', (base * (focused ? 1.17 : (compact ? .82 : 1))).toFixed(2));
+      card.style.setProperty('--render-scale', (base * (compact ? .82 : 1)).toFixed(2));
       card.style.opacity = '1';
       card.style.zIndex = String(Math.round(100 + z));
       card.style.pointerEvents = 'auto';
     });
   };
   const render = (animate = true) => {
-    layout();
     orbit.style.setProperty('--space-angle', angle.toFixed(1) + 'deg');
     orbit.classList.toggle('is-reorienting', !animate);
     track.style.transitionDuration = animate ? '' : '0s';
@@ -261,6 +280,7 @@
     const work = works[index];
     activeIndex = index;
     selected = index;
+    layout();
     render();
     openLightbox(work[1] + ' — Juillet', 'Challenge 01 · Pastels à l’huile', 'Pastel à l’huile sur papier', 'A5', '2026', work[2], imagePath(work));
   };
@@ -296,16 +316,15 @@
     if (event.button !== 0) return;
     dragging = true; moved = false; dragDelta = 0; startX = event.clientX; startAngle = angle;
     orbit.classList.add('is-dragging');
-    orbit.setPointerCapture(event.pointerId);
-    if (event.pointerType === 'touch') event.preventDefault();
   });
   orbit.addEventListener('pointermove', event => {
     if (!dragging) return;
     const delta = event.clientX - startX;
     dragDelta = delta;
     if (Math.abs(delta) > 5) moved = true;
+    if (moved && !orbit.hasPointerCapture(event.pointerId)) orbit.setPointerCapture(event.pointerId);
     if (window.matchMedia('(max-width: 600px)').matches) {
-      if (event.pointerType === 'touch') event.preventDefault();
+      if (moved && event.pointerType === 'touch') event.preventDefault();
       return;
     }
     angle = startAngle + delta * .32;
@@ -319,9 +338,9 @@
     if (moved && window.matchMedia('(max-width: 600px)').matches) {
       selected = modulo(selected + (dragDelta < 0 ? 1 : -1), works.length);
       angle = 0;
+      layout();
       render();
     } else if (moved) {
-      selected = modulo(selected + (dragDelta < 0 ? 1 : -1), works.length);
       render();
     }
     window.setTimeout(() => { moved = false; }, 0);
@@ -334,11 +353,6 @@
     const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
     if (!delta) return;
     angle -= delta * .18;
-    wheelDistance += delta;
-    if (Math.abs(wheelDistance) > 22) {
-      selected = modulo(selected + (wheelDistance > 0 ? 1 : -1), works.length);
-      wheelDistance = 0;
-    }
     render(false);
     window.clearTimeout(wheelTimer);
     wheelTimer = window.setTimeout(() => {
@@ -359,6 +373,7 @@
     });
     let swipeStartX = null;
     let swipeStartY = null;
+    let trackpadDown = 0;
     lightbox.addEventListener('pointerdown', event => {
       if (event.target.closest('button')) {
         swipeStartX = swipeStartY = null;
@@ -371,9 +386,20 @@
       if (swipeStartX === null || swipeStartY === null) return;
       const horizontal = event.clientX - swipeStartX;
       const vertical = event.clientY - swipeStartY;
-      if (Math.abs(horizontal) > 48 && Math.abs(horizontal) > Math.abs(vertical)) moveLightbox(horizontal < 0 ? 1 : -1);
+      if (vertical > 70 && vertical > Math.abs(horizontal)) closeLightbox();
+      else if (Math.abs(horizontal) > 48 && Math.abs(horizontal) > Math.abs(vertical)) moveLightbox(horizontal < 0 ? 1 : -1);
       swipeStartX = swipeStartY = null;
     });
+    lightbox.addEventListener('wheel', event => {
+      if (!lightbox.classList.contains('open')) return;
+      event.preventDefault();
+      if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+      trackpadDown += event.deltaY;
+      if (Math.abs(trackpadDown) > 90) {
+        trackpadDown = 0;
+        closeLightbox();
+      }
+    }, { passive: false });
   });
 })();
 </script>
