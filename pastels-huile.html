@@ -228,23 +228,11 @@
     const spreadX = compact ? .47 : .85;
     const spreadY = compact ? .84 : .9;
     cards.forEach((card, index) => {
-      if (compact) {
-        let offset = index - selected;
-        if (offset > works.length / 2) offset -= works.length;
-        if (offset < -works.length / 2) offset += works.length;
-        const distance = Math.abs(offset);
-        card.style.setProperty('--x', (offset * box.width * .29).toFixed(1) + 'px');
-        card.style.setProperty('--y', (distance * 18).toFixed(1) + 'px');
-        card.style.setProperty('--z', (-distance * 115).toFixed(1) + 'px');
-        card.style.setProperty('--render-scale', (distance === 0 ? 1.12 : .72).toFixed(2));
-        card.style.opacity = distance > 2 ? '0' : (distance === 2 ? '.32' : '1');
-        card.style.zIndex = String(100 - distance);
-        card.style.pointerEvents = distance > 2 ? 'none' : 'auto';
-        return;
-      }
       let [x, y, z] = positionFor(index, cards.length);
       if (cards.length > space.length) {
-        const sphereRadius = Math.min(box.width * spreadX, box.height * spreadY) * .46;
+        const sphereRadius = compact
+          ? box.width * .43
+          : Math.min(box.width * spreadX, box.height * spreadY) * .46;
         x *= sphereRadius;
         y *= sphereRadius;
         z *= sphereRadius;
@@ -257,7 +245,7 @@
       card.style.setProperty('--x', x.toFixed(1) + 'px');
       card.style.setProperty('--y', y.toFixed(1) + 'px');
       card.style.setProperty('--z', z.toFixed(1) + 'px');
-      card.style.setProperty('--render-scale', (base * (compact ? .82 : 1)).toFixed(2));
+      card.style.setProperty('--render-scale', (base * (compact ? .88 : 1)).toFixed(2));
       card.style.opacity = '1';
       card.style.zIndex = String(Math.round(100 + z));
       card.style.pointerEvents = 'auto';
@@ -269,7 +257,7 @@
     track.style.transitionDuration = animate ? '' : '0s';
     cards.forEach((card, index) => {
       const active = index === selected;
-      card.style.setProperty('--counter-angle', window.matchMedia('(max-width: 600px)').matches ? '0deg' : (-angle).toFixed(1) + 'deg');
+      card.style.setProperty('--counter-angle', (-angle).toFixed(1) + 'deg');
       card.classList.toggle('is-selected', active);
       card.setAttribute('aria-pressed', String(active));
     });
@@ -325,6 +313,8 @@
     if (moved && !orbit.hasPointerCapture(event.pointerId)) orbit.setPointerCapture(event.pointerId);
     if (window.matchMedia('(max-width: 600px)').matches) {
       if (moved && event.pointerType === 'touch') event.preventDefault();
+      angle = startAngle + delta * .42;
+      render(false);
       return;
     }
     angle = startAngle + delta * .32;
@@ -336,9 +326,6 @@
     orbit.classList.remove('is-dragging');
     try { orbit.releasePointerCapture(event.pointerId); } catch (_) {}
     if (moved && window.matchMedia('(max-width: 600px)').matches) {
-      selected = modulo(selected + (dragDelta < 0 ? 1 : -1), works.length);
-      angle = 0;
-      layout();
       render();
     } else if (moved) {
       render();

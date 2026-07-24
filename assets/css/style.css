@@ -392,8 +392,7 @@
     .july-gallery-label span:last-child { display: none; }
     .july-orbit { width: calc(100% + 3rem); min-height: 600px; margin-inline: -1.5rem; touch-action: none; }
     .july-orbit::before { width: 100vw; height: 480px; }
-    .orbit-track { transform: none; }
-    .orbit-card { width: clamp(132px,55vw,235px); touch-action: none; }
+    .orbit-card { width: clamp(74px,23vw,102px); touch-action: none; }
     .orbit-caption { bottom: 1.2rem; }
     .orbit-hint { top: .9rem; font-size: 13px; }
     .july-lightbox-nav { width: 2.65rem; height: 2.65rem; cursor: auto; }
