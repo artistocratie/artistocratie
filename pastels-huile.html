@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Inter:wght@300;400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=115">
+<link rel="stylesheet" href="assets/css/style.css?v=120">
 </head>
 <body>
 <div class="cursor" id="cursor" aria-hidden="true"></div>
@@ -54,9 +54,11 @@
     </div>
   </div>
 
-  <div class="july-gallery-label"><span>Journal de juillet</span><span>Molette ou doigt pour tourner · clique pour agrandir</span></div>
-  <div class="july-orbit reveal" id="july-orbit" tabindex="0" aria-label="Galerie interactive des œuvres de juillet">
-    <p class="orbit-hint">Fais glisser ou utilise la molette · toutes les œuvres sont là</p>
+</section>
+
+<section class="july-scroll" id="july-scroll" aria-label="Tourbillon des œuvres de juillet">
+  <div class="july-orbit" id="july-orbit" tabindex="0" aria-label="Galerie immersive des œuvres de juillet">
+    <p class="orbit-hint">Défile pour faire tourner les œuvres · clique pour agrandir</p>
     <div class="orbit-track" id="orbit-track"></div>
     <p class="orbit-caption" aria-live="polite"><strong id="orbit-title"></strong><span id="orbit-meta"></span></p>
   </div>
@@ -210,8 +212,8 @@
   ];
   const positionFor = (index, total) => {
     if (total <= space.length) return space[index];
-    // Échantillonnage à faible écart dans une sphère pleine : homogène,
-    // volumineux et stable, sans regroupements aléatoires ni anneaux visibles.
+    // Répartition dans une sphère : certaines feuilles passent réellement
+    // devant ou derrière les autres pendant la rotation.
     const fraction = value => value - Math.floor(value);
     const radius = Math.cbrt((index + .5) / total);
     const z = 1 - 2 * fraction((index + .5) * .754877666);
@@ -226,27 +228,25 @@
   const layout = () => {
     const box = orbit.getBoundingClientRect();
     const compact = window.matchMedia('(max-width: 600px)').matches;
-    const spreadX = compact ? .47 : .85;
-    const spreadY = compact ? .84 : .9;
     cards.forEach((card, index) => {
       let [x, y, z] = positionFor(index, cards.length);
+      const base = Number(card.dataset.scale);
+      const scale = base * (compact ? .82 : 1);
       if (cards.length > space.length) {
-        const sphereRadius = compact
-          ? box.width * .43
-          : Math.min(box.width * spreadX, box.height * spreadY) * .46;
-        x *= sphereRadius;
-        y *= sphereRadius;
-        z *= sphereRadius;
+        const horizontalLimit = Math.max(48, box.width / 2 - card.offsetWidth * scale / 2 - 42);
+        const verticalLimit = Math.max(48, box.height / 2 - card.offsetHeight * scale / 2 - 58);
+        x *= horizontalLimit;
+        y *= verticalLimit;
+        z *= box.width * (compact ? .24 : .3);
       } else {
-        x *= box.width * spreadX;
-        y *= box.height * spreadY;
+        x *= box.width * (compact ? .47 : .85);
+        y *= box.height * (compact ? .84 : .9);
         z *= compact ? .52 : 1;
       }
-      const base = Number(card.dataset.scale);
       card.style.setProperty('--x', x.toFixed(1) + 'px');
       card.style.setProperty('--y', y.toFixed(1) + 'px');
       card.style.setProperty('--z', z.toFixed(1) + 'px');
-      card.style.setProperty('--render-scale', (base * (compact ? .88 : 1)).toFixed(2));
+      card.style.setProperty('--render-scale', scale.toFixed(2));
       card.style.opacity = '1';
       card.style.zIndex = String(Math.round(100 + z));
       card.style.pointerEvents = 'auto';
@@ -258,6 +258,11 @@
     track.style.transitionDuration = animate ? '' : '0s';
     cards.forEach((card, index) => {
       const active = index === selected;
+      const phase = angle * Math.PI / 180 + index * 1.73;
+      const drift = window.matchMedia('(max-width: 600px)').matches ? .62 : 1;
+      card.style.setProperty('--drift-x', (Math.sin(phase * 1.25) * 34 * drift).toFixed(1) + 'px');
+      card.style.setProperty('--drift-y', (Math.cos(phase * .9) * 23 * drift).toFixed(1) + 'px');
+      card.style.setProperty('--drift-z', (Math.sin(phase * 1.55) * 72 * drift).toFixed(1) + 'px');
       card.style.setProperty('--counter-angle', (-angle).toFixed(1) + 'deg');
       card.classList.toggle('is-selected', active);
       card.setAttribute('aria-pressed', String(active));
@@ -294,62 +299,38 @@
     track.appendChild(card);
     cards.push(card);
   });
+  const scrollScene = document.getElementById('july-scroll');
+  const scrollToWork = index => {
+    if (!scrollScene) return;
+    const travel = Math.max(1, scrollScene.offsetHeight - window.innerHeight);
+    const destination = window.scrollY + scrollScene.getBoundingClientRect().top + (index / Math.max(1, works.length - 1)) * travel;
+    window.scrollTo({ top: destination, behavior: 'smooth' });
+  };
   orbit.addEventListener('keydown', event => {
     if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
     event.preventDefault();
     selected = modulo(selected + (event.key === 'ArrowRight' ? 1 : -1), works.length);
-    angle = -selected * step * .6;
-    render();
+    scrollToWork(selected);
   });
-  orbit.addEventListener('pointerdown', event => {
-    if (event.button !== 0) return;
-    dragging = true; moved = false; dragDelta = 0; startX = event.clientX; startAngle = angle;
-    orbit.classList.add('is-dragging');
-  });
-  orbit.addEventListener('pointermove', event => {
-    if (!dragging) return;
-    const delta = event.clientX - startX;
-    dragDelta = delta;
-    if (Math.abs(delta) > 5) moved = true;
-    if (moved && !orbit.hasPointerCapture(event.pointerId)) orbit.setPointerCapture(event.pointerId);
-    if (window.matchMedia('(max-width: 600px)').matches) {
-      if (moved && event.pointerType === 'touch') event.preventDefault();
-      angle = startAngle + delta * .42;
-      render(false);
-      return;
-    }
-    angle = startAngle + delta * .32;
+  let scrollFrame = 0;
+  const renderFromScroll = () => {
+    if (!scrollScene) return;
+    const rect = scrollScene.getBoundingClientRect();
+    const travel = Math.max(1, scrollScene.offsetHeight - window.innerHeight);
+    const progress = Math.min(1, Math.max(0, -rect.top / travel));
+    angle = progress * 720;
+    selected = Math.min(works.length - 1, Math.round(progress * (works.length - 1)));
+    orbit.style.setProperty('--scroll-progress', progress.toFixed(3));
     render(false);
-  });
-  const endDrag = event => {
-    if (!dragging) return;
-    dragging = false;
-    orbit.classList.remove('is-dragging');
-    try { orbit.releasePointerCapture(event.pointerId); } catch (_) {}
-    if (moved && window.matchMedia('(max-width: 600px)').matches) {
-      render();
-    } else if (moved) {
-      render();
-    }
-    window.setTimeout(() => { moved = false; }, 0);
+    scrollFrame = 0;
   };
-  orbit.addEventListener('pointerup', endDrag);
-  orbit.addEventListener('pointercancel', endDrag);
-  orbit.addEventListener('wheel', event => {
-    event.preventDefault();
-    // Magic Mouse, molette classique et trackpad peuvent émettre l'axe X ou Y.
-    const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
-    if (!delta) return;
-    angle -= delta * .18;
-    render(false);
-    window.clearTimeout(wheelTimer);
-    wheelTimer = window.setTimeout(() => {
-      render();
-    }, 110);
-  }, { passive: false });
-  window.addEventListener('resize', () => { layout(); render(false); });
+  const requestScrollRender = () => {
+    if (!scrollFrame) scrollFrame = requestAnimationFrame(renderFromScroll);
+  };
+  window.addEventListener('scroll', requestScrollRender, { passive: true });
+  window.addEventListener('resize', () => { layout(); requestScrollRender(); });
   layout();
-  render();
+  renderFromScroll();
 
   document.addEventListener('DOMContentLoaded', () => {
     const lightbox = document.getElementById('lightbox');

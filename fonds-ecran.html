@@ -96,7 +96,7 @@
       <button id="wallpaperCleanTab" type="button" role="tab" aria-selected="false">Fond nu</button>
     </div>
     <img id="wallpaperViewerImage" class="wallpaper-viewer-image" src="" alt="">
-    <a id="wallpaperDownload" class="wallpaper-viewer-download" href="" download>Télécharger le fond nu <span>↓</span></a>
+    <a id="wallpaperDownload" class="wallpaper-viewer-download" href="" download>Télécharger le fond d’écran <span>↓</span></a>
   </div>
 </section>
 
@@ -136,7 +136,7 @@
     image.alt = `${isPreview ? 'Aperçu iPhone' : 'Fond nu'} du fond d’écran, Défi de juillet, jour ${active.dataset.day}`;
     previewTab.setAttribute('aria-selected', String(isPreview));
     cleanTab.setAttribute('aria-selected', String(!isPreview));
-    download.hidden = isPreview;
+    download.hidden = false;
   };
   const show = trigger => {
     active = trigger;
@@ -151,6 +151,9 @@
     document.body.style.overflow = 'hidden';
     currentView = 'preview';
     show(trigger);
+    // Le clic est encore un geste explicite de la personne : le fichier peut
+    // donc partir directement, sans l’obliger à passer par l’onglet « Fond nu ».
+    download.click();
     close.focus();
   };
   const move = direction => {
