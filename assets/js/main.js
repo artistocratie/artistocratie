@@ -142,3 +142,120 @@ function closeContact() {
   const form = document.querySelector('.collab-form'); if (!form) return;
   form.addEventListener('submit', () => trackAnalyticsEvent('contact_form_submit', { form_name: 'collaboration' }));
 })();
+
+/* ---- Langue du site : préférence visiteur + détection navigateur ---- */
+(function () {
+  const STORAGE_KEY = 'artistocratie-language';
+  const params = new URLSearchParams(window.location.search);
+  const requested = params.get('lang');
+  let saved = null;
+  try { saved = localStorage.getItem(STORAGE_KEY); } catch (_) {}
+  const browserLanguages = navigator.languages || [navigator.language || 'fr'];
+  const browserIsEnglish = browserLanguages.some(language => /^en([_-]|$)/i.test(language));
+  const english = requested ? requested === 'en' : saved ? saved === 'en' : browserIsEnglish;
+
+  const text = {
+    'Œuvres': 'Works', 'Artiste': 'Artist', 'Collaborer': 'Collaborate', 'Retour à la galerie': 'Back to gallery',
+    "Retour à l'accueil": 'Back to home', 'Découvrir les œuvres': 'Discover the works', "Découvrir l'artiste": 'Discover the artist',
+    'Un cadeau pour toi': 'A gift for you', "Roulette d'artistes": 'Artist roulette',
+    'Peinture & Dessin — Montréal': 'Painting & Drawing — Montréal', 'par Nino Minashvili': 'by Nino Minashvili',
+    'À l’affiche · Dernier projet publié': 'Now showing · Latest project', 'LE MUR': 'THE WALL', 'EN MOUVEMENT': 'IN MOTION',
+    'Une peinture par heure pendant 24 heures': 'One painting an hour for 24 hours',
+    'Vingt-quatre peintures à l’huile sur papier, réalisées en vingt-quatre heures : une peinture par heure.': 'Twenty-four oil paintings on paper, made in twenty-four hours: one painting every hour.',
+    'Défi des 24h · 2026': '24-hour challenge · 2026', 'Passer le mur': 'Skip the wall', 'Explorer le projet': 'Explore the project',
+    'Accès exclusif': 'Exclusive access', 'Pssst! tu aimes les': 'Pssst! do you like', 'secrets': 'secrets',
+    "Accède à l'intégralité de mes œuvres, celles que je ne montre pas sur les réseaux. Pièces intimes, pleines de sentiments, qui ne se montrent pas à n'importe qui.": 'Get access to all my works, including the ones I do not share on social media. Intimate pieces, full of feeling, not shown to just anyone.',
+    'Rejoins le mouvement': 'Join the movement', "Je déteste les spams autant que toi. Un email de temps en temps, rien de plus.": 'I hate spam as much as you do. An email once in a while, nothing more.', '— Galerie privée —': '— Private gallery —',
+    'La galerie': 'The gallery', "EXPLORER L'UNIVERS": 'EXPLORE THE UNIVERSE', '— l\'univers —': '— the universe —', 'Défi des 24h': '24-hour challenge', 'DÉFI DES 24H': '24-HOUR CHALLENGE', 'JUILLET · UNE PEINTURE PAR JOUR': 'JULY · ONE PAINTING A DAY', "Pastels à l'huile": 'Oil pastels', 'Collaborer ?': 'Collaborate?',
+    'Retour au Défi de juillet': 'Back to the July Challenge', 'À emporter · Défi du mois de Juillet': 'Take it with you · July Challenge', 'UN CADEAU POUR TOI': 'A GIFT FOR YOU',
+    'Six fragments peints au fil du mois : une peinture par jour, tout au long de juillet. Choisis celui qui te suit aujourd’hui, télécharge-le, puis fais-lui une place sur ton écran.': 'Six fragments painted over the month: one painting a day throughout July. Choose the one that follows you today, download it, and make room for it on your screen.',
+    'Voir les deux versions →': 'View both versions →', 'Fermer': 'Close', 'Défi de juillet': 'July Challenge', 'Aperçu iPhone': 'iPhone preview', 'Fond nu': 'Clean wallpaper', 'Télécharger le fond nu': 'Download the clean wallpaper',
+    'Challenge 01 · Juillet 2026': 'Challenge 01 · July 2026', 'PASTELS À L’HUILE': 'OIL PASTELS',
+    'Un premier mois pour apprendre la discipline : une peinture par jour, tout au long de juillet.': 'A first month to learn discipline: one painting a day, throughout July.',
+    'Le protocole': 'The protocol', 'UNE PEINTURE': 'ONE PAINTING', 'PAR JOUR.': 'A DAY.',
+    'Mon premier challenge : peindre chaque jour de juillet, sans attendre l’inspiration parfaite. Une manière de laisser la matière guider le geste.': 'My first challenge: paint every day in July, without waiting for perfect inspiration. A way to let the material guide the gesture.',
+    'œuvres révélées': 'works revealed', 'Juillet est encore en cours.': 'July is still in progress.', 'Journal de juillet': 'July journal', 'Molette ou doigt pour tourner · clique pour agrandir': 'Use the wheel or your finger to turn · click to enlarge', 'Fais glisser ou utilise la molette · toutes les œuvres sont là': 'Drag or use the wheel · every work is here',
+    'Série · Défi': 'Series · Challenge', '✦ Attrape les œuvres et déplace-les — clique pour les voir en grand': '✦ Grab the works and move them around — click to see them larger',
+    "L'artiste": 'The artist', 'Peintre & presque ingénieure.': 'Painter & almost an engineer.', 'De la Géorgie à Montréal, en passant par la France.': 'From Georgia to Montréal, by way of France.', 'Qui suis-je ?': 'Who am I?', 'Peintre, Dessinatrice & Presque Ingénieure': 'Painter, Illustrator & Almost an Engineer',
+    'Artiste peintre et dessinatrice, entre la Géorgie, la France et Montréal.': 'Painter and illustrator, between Georgia, France and Montréal.', 'À propos': 'About', 'Artiste peintre · Dessinatrice · Étudiante en ingénierie': 'Painter · Illustrator · Engineering student',
+    'Nino Minashvili est une artiste peintre et dessinatrice d’origine géorgienne. Après avoir grandi en France, elle vit aujourd’hui à Montréal, où son parcours entre trois cultures nourrit une pratique attentive aux émotions, aux instants et aux souvenirs qui persistent.': 'Nino Minashvili is a painter and illustrator of Georgian origin. After growing up in France, she now lives in Montréal, where her journey across three cultures nourishes a practice attentive to emotions, moments and lasting memories.',
+    'En parallèle de ses études d’ingénierie, elle développe un langage pictural fait de couleurs chaudes, de matière et de formes expressives. Sa peinture cherche à retenir ce qui échappe : une lumière, un mouvement, un état intérieur.': 'Alongside her engineering studies, she develops a visual language of warm colours, material and expressive forms. Her painting seeks to hold on to what escapes: a light, a movement, an inner state.',
+    'À travers Artistocratie, Nino défend une vision de l’art comme nécessité : un langage sensible et universel, capable de créer du lien au-delà des frontières. Sa pratique se construit par séries, défis et expérimentations, avec le désir de partager des œuvres sincères et vivantes.': 'Through Artistocratie, Nino champions a vision of art as a necessity: a sensitive, universal language able to create connection beyond borders. Her practice takes shape through series, challenges and experimentation, with the desire to share works that are sincere and alive.',
+    'Hello !': 'Hello!', "Moi c'est Nino, juste une fille qui aime créer des trucs.": "I'm Nino, just a girl who loves making things.",
+    "Je suis originaire de Géorgie (oui, les grosses montagnes caucasiennes !) mais j'ai grandi en France.": 'I am from Georgia (yes, the big Caucasus mountains!) but I grew up in France.',
+    "Ce mix de cultures m'a encouragée à découvrir le monde, et quoi de mieux que les années d'études pour partir à l'aventure ?": 'This mix of cultures encouraged me to discover the world, and what better time than student years to set out on an adventure?',
+    "Sur mon temps libre, à côté de mes études d'ingénieure à Montréal, je peins des": 'In my free time, alongside my engineering studies in Montréal, I paint', 'émotions, des instants et des souvenirs': 'emotions, moments and memories',
+    "qui résistent au temps. Mon univers mêle couleurs chaudes et formes expressives. C'est une façon de figer un instant et matérialiser les émotions.": 'that resist time. My world blends warm colours and expressive shapes. It is a way to hold a moment still and make emotions tangible.',
+    "Artistocratie, c'est ma conviction que l'art n'est pas juste une décoration. C'est une": 'Artistocratie is my belief that art is not just decoration. It is a', 'nécessité': 'necessity', 'Un': 'A', 'langage universel': 'universal language',
+    "Ce que j'aime": 'What I love', 'Les couleurs chaudes et la lumière': 'Warm colours and light', 'Voyager et croquer sur le vif': 'Travelling and sketching from life', 'Le jazz, le mouvement, l’improvisation': 'Jazz, movement, improvisation', "Les pastels à l'huile sous les doigts": 'Oil pastels under my fingers',
+    "Ce qui m'anime": 'What drives me', 'Transmettre une émotion vraie': 'Sharing a real emotion', "Capturer l'instant qui résiste au temps": 'Capturing a moment that resists time', "Mêler l'art et l'ingénierie": 'Blending art and engineering', 'Me lancer des défis (24h, séries…)': 'Setting myself challenges (24 hours, series…)', 'Développer une pratique par séries et défis': 'Developing a practice through series and challenges',
+    'Ce qui me définit': 'What defines me', 'Entre Géorgie, France & Montréal': 'Between Georgia, France & Montréal', "L'art comme nécessité, pas décoration": 'Art as necessity, not decoration', 'Spontanée, sensible, déterminée': 'Spontaneous, sensitive, determined', 'Un langage universel à partager': 'A universal language to share', 'Découvrir mes œuvres': 'Discover my work',
+    'Projet · In situ': 'Project · In situ', 'MON APPART EN GALERIE': 'MY APARTMENT AS A GALLERY', 'Et si chaque mur d’un appartement devenait une cimaise ? Je transforme mon chez-moi en galerie vivante — l’art qui sort du cadre et habite le quotidien.': 'What if every apartment wall became an exhibition wall? I turn my home into a living gallery — art stepping out of the frame and into everyday life.',
+    'Série · Voyage': 'Series · Travel', 'CARNET DE VOYAGE': 'TRAVEL SKETCHBOOK', 'Croquis pris sur le vif, entre la Géorgie, la France et Montréal. Des instants attrapés au fil des rues et des saisons.': 'Sketches made from life, between Georgia, France and Montréal. Moments caught along streets and seasons.',
+    'Série · Musique': 'Series · Music', 'ÉDITION JAZZ': 'JAZZ EDITION', 'Née au rythme du jazz : improvisation, chaleur, mouvement. Chaque toile est une note posée sans filet, au feeling.': 'Born to the rhythm of jazz: improvisation, warmth, movement. Every canvas is a note placed without a safety net, by feel.',
+    'Parlons-en': "Let's talk", 'ENVIE DE': 'WANT TO', 'COLLABORER ?': 'COLLABORATE?', 'Tu as un projet à illustrer, une idée à concrétiser, une commande, une expo, ou simplement l’envie de créer ensemble ? Partage-moi ton projet !': 'Do you have a project to illustrate, an idea to bring to life, a commission, an exhibition, or simply the wish to create together? Tell me about it!', 'Envoyer mon projet': 'Send my project', '— ou écris-moi directement —': '— or write to me directly —',
+    'Le grand rêve': 'The big dream', 'Ce vers quoi tend tout mon travail. Le projet fou, celui que je porte en moi et qui prend forme, œuvre après œuvre. Bientôt réel — sois la première personne au courant.': 'What all my work is moving towards. The wild project I carry within me and that takes shape, work after work. Soon real — be the first to know.', 'Quelque chose de grand se prépare.': 'Something big is taking shape.', 'Rejoindre la liste privée': 'Join the private list',
+    'Atelier · En cours': 'Studio · In progress', 'PROJETS EN COURS': 'PROJECTS IN PROGRESS', 'Ce qui est sur le chevalet en ce moment. Des pièces encore en mouvement, montrées en avant-première.': 'What is on the easel right now. Pieces still in motion, shown as a preview.',
+    'Jeu · Défi de dessin': 'Game · Drawing challenge', "ROULETTE D'ARTISTES": 'ARTIST ROULETTE', 'La page blanche te nargue ? Lance la roulette. Elle tire un sujet, un style et une contrainte au hasard — à toi de relever le défi. Aucune excuse, juste le crayon.': 'Is the blank page taunting you? Spin the roulette. It picks a subject, a style and a constraint at random — your turn to take on the challenge. No excuses, just the pencil.',
+    'Sujet': 'Subject', 'Style': 'Style', 'Défi': 'Challenge', 'Lancer la roulette': 'Spin the roulette', 'Copier le défi': 'Copy the challenge', 'LE MUR DES ARTISTES': 'THE ARTISTS’ WALL', 'Ce que la communauté a dessiné avec la roulette. Ajoute le tien — avec ton nom ou en anonyme.': 'What the community has drawn with the roulette. Add yours — with your name or anonymously.', 'Poster mon dessin': 'Post my drawing', 'Sois le premier à relever un défi et à l’afficher ici.': 'Be the first to take on a challenge and display it here.', 'Poste ton dessin': 'Post your drawing', '＋ Choisir une photo de ton dessin': '＋ Choose a photo of your drawing', 'Publier au mur': 'Publish to the wall',
+    'Salle introuvable': 'Room not found', "CETTE ŒUVRE N'EXISTE PAS": 'THIS WORK DOES NOT EXIST', '« Le silence aussi est une trace. Cette page n’a jamais été peinte — ou elle a déjà été retirée du musée. »': '“Silence, too, leaves a trace. This page was never painted — or it has already been removed from the museum.”'
+  };
+  const attributes = {
+    'Navigation principale': 'Main navigation', 'Séries et projets': 'Series and projects', 'Défi des 24h': '24-hour challenge', 'Juillet — une peinture par jour': 'July — one painting a day', 'Fonds d’écran Artistocratie': 'Artistocratie wallpapers', 'Fermer': 'Close', 'Voir les deux versions du fond d’écran, jour 01': 'View both versions of the wallpaper, day 01',
+    'Voir les deux versions du fond d’écran, jour 09': 'View both versions of the wallpaper, day 09', 'Voir les deux versions du fond d’écran, jour 11': 'View both versions of the wallpaper, day 11', 'Voir les deux versions du fond d’écran, jour 12': 'View both versions of the wallpaper, day 12', 'Voir les deux versions du fond d’écran, jour 16': 'View both versions of the wallpaper, day 16', 'Voir les deux versions du fond d’écran, jour 23': 'View both versions of the wallpaper, day 23',
+    'Versions du fond d’écran': 'Wallpaper versions', 'Voir le fond d’écran précédent': 'View previous wallpaper', 'Voir le fond d’écran suivant': 'View next wallpaper'
+  };
+  const titles = {
+    'index.html': 'Artistocratie — Nino Minashvili · Painting & Drawing · Montréal', 'oeuvres.html': 'Works — Artistocratie · Nino Minashvili', 'artiste.html': 'The artist — Nino Minashvili · Artistocratie', 'defi-24h.html': 'One painting an hour for 24 hours — Artistocratie', 'pastels-huile.html': 'Oil pastels — Artistocratie', 'fonds-ecran.html': 'Download wallpapers — Artistocratie', 'roulette.html': 'Artist roulette — Artistocratie', 'collaborer.html': 'Collaborate — Artistocratie', 'appart-galerie.html': 'My apartment as a gallery — Artistocratie', 'carnet-voyage.html': 'Travel sketchbook — Artistocratie', 'edition-jazz.html': 'Jazz edition — Artistocratie', 'projets-en-cours.html': 'Projects in progress — Artistocratie', 'my-dream.html': 'My Dream — Artistocratie', '404.html': 'Page not found — Artistocratie'
+  };
+
+  const translate = value => {
+    const leading = value.match(/^\s*/)[0];
+    const trailing = value.match(/\s*$/)[0];
+    const key = value.trim();
+    if (!key) return value;
+    if (text[key]) return `${leading}${text[key]}${trailing}`;
+    if (/^Défi de juillet · Jour \d+$/.test(key)) return `${leading}${key.replace('Défi de juillet · Jour', 'July Challenge · Day')}${trailing}`;
+    if (/^Jour \d+$/.test(key)) return `${leading}${key.replace('Jour', 'Day')}${trailing}`;
+    if (/^Juillet 2026 · pastel à l’huile sur papier$/.test(key)) return `${leading}July 2026 · oil pastel on paper${trailing}`;
+    if (/^\d+(e|er) œuvre du challenge : une peinture par jour, tout au long de juillet\.$/.test(key)) return `${leading}${key.replace(/^(\d+)(e|er) œuvre.*$/, '$1 work from the challenge: one painting a day throughout July.')}${trailing}`;
+    return value;
+  };
+  const translateNode = node => {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const parent = node.parentElement;
+      if (parent && !['SCRIPT', 'STYLE', 'NOSCRIPT'].includes(parent.tagName)) node.nodeValue = translate(node.nodeValue);
+      return;
+    }
+    if (node.nodeType !== Node.ELEMENT_NODE || ['SCRIPT', 'STYLE', 'NOSCRIPT'].includes(node.tagName)) return;
+    node.childNodes.forEach(translateNode);
+    ['aria-label', 'alt', 'placeholder', 'title'].forEach(attribute => {
+      const value = node.getAttribute(attribute);
+      if (value && attributes[value]) node.setAttribute(attribute, attributes[value]);
+    });
+  };
+  const toggle = () => {
+    const nav = document.getElementById('navbar');
+    if (!nav || document.getElementById('languageToggle')) return;
+    const button = document.createElement('button');
+    button.id = 'languageToggle'; button.className = 'language-toggle';
+    button.type = 'button'; button.textContent = english ? 'FR' : 'EN';
+    button.setAttribute('aria-label', english ? 'Afficher le site en français' : 'View the site in English');
+    button.addEventListener('click', () => {
+      try { localStorage.setItem(STORAGE_KEY, english ? 'fr' : 'en'); } catch (_) {}
+      window.location.reload();
+    });
+    nav.append(button);
+  };
+
+  if (!english) { toggle(); return; }
+  document.documentElement.lang = 'en';
+  const file = window.location.pathname.split('/').pop() || 'index.html';
+  if (titles[file]) document.title = titles[file];
+  translateNode(document.body);
+  toggle();
+  new MutationObserver(records => records.forEach(record => {
+    if (record.type === 'characterData') translateNode(record.target);
+    record.addedNodes.forEach(translateNode);
+  })).observe(document.body, { childList: true, subtree: true, characterData: true });
+})();

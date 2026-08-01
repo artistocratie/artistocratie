@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Inter:wght@300;400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=102">
+<link rel="stylesheet" href="assets/css/style.css?v=115">
 
 <style>
   /* ---- Roulette d'artistes (styles propres à la page) ---- */
@@ -315,10 +315,27 @@
 <script>
 /* ---- Roulette d'artistes ---- */
 (function () {
+  const languagePreference = (() => {
+    const requested = new URLSearchParams(window.location.search).get('lang');
+    let saved = null;
+    try { saved = localStorage.getItem('artistocratie-language'); } catch (_) {}
+    if (requested) return requested;
+    if (saved) return saved;
+    return (navigator.languages || [navigator.language || 'fr']).some(language => /^en([_-]|$)/i.test(language)) ? 'en' : 'fr';
+  })();
+  const ENGLISH = languagePreference === 'en';
   const REELS = {
     sujet: {
       el: document.getElementById('reel-sujet'),
-      items: [
+      items: ENGLISH ? [
+        "a fox", "a sleeping cat", "your own hands", "a self-portrait",
+        "a pair of eyes", "an old telephone", "a succulent", "a skull",
+        "a dancer in motion", "a bird in flight", "a steaming coffee cup",
+        "a profile face", "a jellyfish", "worn shoes", "a galloping horse",
+        "a goldfish", "a talking mouth", "a dead tree", "an empty chair",
+        "a storm cloud", "a bitten apple", "an old man laughing", "a rusty key",
+        "a crashing wave", "a theatre mask", "a hand holding a match"
+      ] : [
         "un renard", "un chat endormi", "tes propres mains", "un autoportrait",
         "une paire d'yeux", "un vieux téléphone", "une plante grasse", "un crâne",
         "une danseuse en mouvement", "un oiseau en plein vol", "une tasse de café fumante",
@@ -330,7 +347,14 @@
     },
     style: {
       el: document.getElementById('reel-style'),
-      items: [
+      items: ENGLISH ? [
+        "in the Art Nouveau style", "in the style of Picasso", "in cubism",
+        "in one continuous line", "without lifting your pencil", "in silhouette",
+        "in pointillism", "manga-style", "in a monochrome palette", "with India ink",
+        "in negative on a black background", "like stained glass", "in pop art", "in red chalk",
+        "as an expressive scribble", "like an engraving", "in pure geometric shapes",
+        "with your non-dominant hand", "in a maximum of three colours", "in an unapologetically childlike style"
+      ] : [
         "dans le style Art nouveau", "à la manière de Picasso", "en cubisme",
         "en une seule ligne continue", "sans lever le crayon", "en ombres chinoises",
         "en pointillisme", "façon manga", "en camaïeu monochrome", "à l'encre de Chine",
@@ -341,7 +365,13 @@
     },
     defi: {
       el: document.getElementById('reel-defi'),
-      items: [
+      items: ENGLISH ? [
+        "in 30 seconds flat", "in 2 minutes", "in 15 minutes on the clock",
+        "without erasing once", "without looking at your paper", "on stamp-sized paper",
+        "very large", "in a maximum of 10 lines", "blind, with your eyes closed",
+        "with a single tool", "while timing yourself", "until you genuinely like it",
+        "without putting your pencil down once", "starting with the shadows"
+      ] : [
         "en 30 secondes chrono", "en 2 minutes", "en 15 minutes montre en main",
         "sans jamais gommer", "sans regarder ta feuille", "sur un format timbre-poste",
         "en très grand format", "en 10 traits maximum", "à l'aveugle, les yeux fermés",
@@ -445,7 +475,7 @@
     if (spinning) return;
     spinning = true;
     spinBtn.disabled = true;
-    spinBtn.textContent = 'Ça tourne…';
+    spinBtn.textContent = ENGLISH ? 'Spinning…' : 'Ça tourne…';
     copyBtn.hidden = true;
 
     // Ne tire que les rouleaux activés, avec des arrêts échelonnés : clac… clac… clac
@@ -455,13 +485,13 @@
       spinning = false;
       hasSpun = true;
       spinBtn.disabled = false;
-      spinBtn.textContent = 'Relancer la roulette';
+      spinBtn.textContent = ENGLISH ? 'Spin again' : 'Relancer la roulette';
       copyBtn.hidden = false;
     });
   }
 
   function currentChallenge() {
-    let s = 'Dessine ' + REELS.sujet.items[REELS.sujet.chosen];
+    let s = (ENGLISH ? 'Draw ' : 'Dessine ') + REELS.sujet.items[REELS.sujet.chosen];
     if (REELS.style.enabled) s += ' ' + REELS.style.items[REELS.style.chosen];
     if (REELS.defi.enabled) s += ', ' + REELS.defi.items[REELS.defi.chosen];
     return s + '.';
@@ -471,7 +501,7 @@
 
   copyBtn.addEventListener('click', function () {
     const text = currentChallenge() + ' — via artistocratie.com';
-    const done = () => { copyBtn.textContent = 'Défi copié ✓'; setTimeout(() => copyBtn.textContent = 'Copier le défi', 1800); };
+    const done = () => { copyBtn.textContent = ENGLISH ? 'Challenge copied ✓' : 'Défi copié ✓'; setTimeout(() => copyBtn.textContent = ENGLISH ? 'Copy the challenge' : 'Copier le défi', 1800); };
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(done).catch(done);
     } else { done(); }
@@ -505,7 +535,7 @@
   const postSubmit = document.getElementById('postSubmit');
   const postStatus = document.getElementById('postStatus');
   const postChallenge = document.getElementById('postChallenge');
-  const FILE_PLACEHOLDER = '＋ Choisir une photo de ton dessin';
+  const FILE_PLACEHOLDER = ENGLISH ? '＋ Choose a photo of your drawing' : '＋ Choisir une photo de ton dessin';
 
   function escapeHtml(s) {
     return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
@@ -521,9 +551,9 @@
     if (error || !data || !data.length) return;
     board.innerHTML = data.map(p => {
       const url = sb.storage.from(BUCKET).getPublicUrl(p.image_path).data.publicUrl;
-      const who = (!p.anonymous && p.name) ? escapeHtml(p.name) : 'Anonyme';
+      const who = (!p.anonymous && p.name) ? escapeHtml(p.name) : (ENGLISH ? 'Anonymous' : 'Anonyme');
       const ch = p.challenge ? '<div class="board-card-challenge">' + escapeHtml(p.challenge) + '</div>' : '';
-      return '<div class="board-card"><img loading="lazy" src="' + url + '" alt="Dessin de ' + who + '">' +
+      return '<div class="board-card"><img loading="lazy" src="' + url + '" alt="' + (ENGLISH ? 'Drawing by ' : 'Dessin de ') + who + '">' +
              '<div class="board-card-body"><div class="board-card-name">' + who + '</div>' + ch + '</div></div>';
     }).join('');
   }
@@ -561,13 +591,13 @@
 
   if (postForm) postForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    if (!configured) { postStatus.textContent = 'Le mur sera activé très bientôt.'; return; }
+    if (!configured) { postStatus.textContent = ENGLISH ? 'The wall will be live very soon.' : 'Le mur sera activé très bientôt.'; return; }
     const file = postFile.files[0];
-    if (!file) { postStatus.textContent = 'Ajoute d\'abord une photo de ton dessin.'; return; }
-    if (file.size > 8 * 1024 * 1024) { postStatus.textContent = 'Image trop lourde (max 8 Mo).'; return; }
+    if (!file) { postStatus.textContent = ENGLISH ? 'Add a photo of your drawing first.' : 'Ajoute d\'abord une photo de ton dessin.'; return; }
+    if (file.size > 8 * 1024 * 1024) { postStatus.textContent = ENGLISH ? 'Image is too large (8 MB max).' : 'Image trop lourde (max 8 Mo).'; return; }
 
     postSubmit.disabled = true;
-    postStatus.textContent = 'Envoi en cours…';
+    postStatus.textContent = ENGLISH ? 'Sending…' : 'Envoi en cours…';
     try {
       const ext = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg';
       const rand = Math.random().toString(36).slice(2, 10);
@@ -588,9 +618,9 @@
       postPreview.style.display = 'none';
       postFileText.textContent = FILE_PLACEHOLDER;
       postName.disabled = false;
-      postStatus.textContent = 'Reçu ! Ton dessin sera affiché après validation. Merci 🧡';
+      postStatus.textContent = ENGLISH ? 'Received! Your drawing will appear once approved. Thank you 🧡' : 'Reçu ! Ton dessin sera affiché après validation. Merci 🧡';
     } catch (err) {
-      postStatus.textContent = 'Oups, l\'envoi a échoué. Réessaie dans un instant.';
+      postStatus.textContent = ENGLISH ? 'Oops, sending failed. Try again in a moment.' : 'Oups, l\'envoi a échoué. Réessaie dans un instant.';
     }
     postSubmit.disabled = false;
   });
@@ -599,6 +629,6 @@
 })();
 </script>
 
-<script src="assets/js/main.js?v=7" defer></script>
+<script src="assets/js/main.js?v=10" defer></script>
 </body>
 </html>

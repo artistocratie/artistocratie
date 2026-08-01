@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Inter:wght@300;400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=7">
+<link rel="stylesheet" href="assets/css/style.css?v=119">
 </head>
 <body>
 <div class="cursor" id="cursor" aria-hidden="true"></div>
@@ -35,39 +35,22 @@
 
 <main id="hub">
   <div class="hub-head">
-    <div class="page-eyebrow">La galerie</div>
     <h1 class="page-title" style="font-size:clamp(32px,5vw,64px);">EXPLORER L'UNIVERS</h1>
   </div>
 
-  <!-- Constellation (desktop) -->
-  <div class="constellation" role="navigation" aria-label="Séries et projets">
-    <svg class="const-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-      <g stroke="#FF5400" stroke-width="0.25" opacity="0.35">
-        <line x1="50" y1="50" x2="50" y2="9"/>
-        <line x1="50" y1="50" x2="89" y2="37"/>
-        <!-- Projets en cours et My Dream temporairement masqués. -->
-        <line x1="50" y1="50" x2="11" y2="37"/>
-      </g>
-    </svg>
-
-    <div class="const-center">
-      <div class="cc-logo">ARTISTO<span>CRATIE</span></div>
-      <div class="cc-note">— l'univers —</div>
-    </div>
-
-    <div class="const-node" style="left:50%;top:9%;"><a href="defi-24h.html" class="btn-line small">Défi des 24h</a></div>
-    <div class="const-node" style="left:89%;top:37%;"><a href="pastels-huile.html" class="btn-line small">Pastels à l'huile</a></div>
-    <!-- Projets en cours et My Dream temporairement désactivés. -->
-    <div class="const-node accent" style="left:11%;top:37%;"><a href="collaborer.html" class="btn-line small">Collaborer ?</a></div>
-  </div>
-
-  <!-- Fallback (mobile) -->
-  <div class="const-fallback">
-    <div class="const-medallion">ARTISTO<span>CRATIE</span></div>
-    <a href="defi-24h.html" class="btn-line">Défi des 24h</a>
-    <a href="pastels-huile.html" class="btn-line">Pastels à l'huile</a>
-    <!-- Projets en cours et My Dream temporairement désactivés. -->
-    <a href="collaborer.html" class="btn-line">Collaborer ?</a>
+  <div class="project-deck" role="navigation" aria-label="Séries et projets">
+    <a class="project-deck-card" href="defi-24h.html">
+      <img src="assets/img/defi/defi-01.webp" alt="Défi des 24h" fetchpriority="high">
+      <span class="project-deck-index">01</span>
+      <span class="project-deck-title">DÉFI DES 24H</span>
+      <span class="project-deck-arrow" aria-hidden="true">→</span>
+    </a>
+    <a class="project-deck-card" href="pastels-huile.html">
+      <img src="assets/img/pastels/1-31-cadre.webp" alt="Juillet — une peinture par jour" loading="lazy">
+      <span class="project-deck-index">02</span>
+      <span class="project-deck-title">JUILLET · UNE PEINTURE PAR JOUR</span>
+      <span class="project-deck-arrow" aria-hidden="true">→</span>
+    </a>
   </div>
 </main>
 
@@ -82,6 +65,6 @@
   <div class="footer-copy">© 2026 Nino Minashvili</div>
 </footer>
 
-<script src="assets/js/main.js?v=7" defer></script>
+<script src="assets/js/main.js?v=10" defer></script>
 </body>
 </html>

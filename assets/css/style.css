@@ -24,6 +24,8 @@
   .nav-links { display: flex; gap: 2.5rem; list-style: none; }
   .nav-links a { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-soft); text-decoration: none; transition: color 0.2s; padding: 0.8rem 1.2rem; margin: -0.8rem -1.2rem; }
   .nav-links a:hover { color: var(--orange); }
+  .language-toggle { border: 1px solid var(--orange); border-radius: 999px; background: transparent; color: var(--orange); cursor: none; font: 400 9px 'Inter', sans-serif; letter-spacing: 1.2px; margin-left: 1.5rem; padding: .5rem .65rem; }
+  .language-toggle:hover, .language-toggle:focus-visible { background: var(--orange); color: var(--ink); outline: none; }
   #hero { min-height: 100vh; display: grid; grid-template-columns: 0.72fr 1.28fr; padding-top: 80px; position: relative; overflow: hidden; }
   .hero-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 0.5rem; }
   .hero-mini { display: none; }
@@ -173,6 +175,7 @@
   .apropos-name { font-family: 'Bebas Neue', sans-serif; font-size: 52px; letter-spacing: 4px; color: var(--ink); margin-bottom: 0.3rem; }
   .apropos-role { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 18px; color: var(--orange); margin-bottom: 2rem; }
   .apropos-text { font-size: 15px; line-height: 1.9; color: var(--ink-soft); margin-bottom: 2rem; }
+  .apropos-text + .apropos-text { margin-top: -1rem; }
   .apropos-text strong { color: var(--ink); font-weight: 400; }
   .apropos-signature { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 32px; color: var(--orange); opacity: 0.7; }
   footer { border-top: 0.5px solid var(--line); padding: 2.5rem 5rem; display: flex; justify-content: space-between; align-items: center; }
@@ -190,6 +193,7 @@
   @media (max-width: 900px) {
     nav { padding: 0 1.5rem; }
     .nav-links { gap: 1.5rem; }
+    .language-toggle { margin-left: .75rem; }
     #hero { grid-template-columns: 1fr; min-height: auto; padding-top: 64px; }
     .hero-left { padding: 2.5rem 2rem; }
     .hero-right { display: none; }
@@ -220,6 +224,7 @@
 
   @media (max-width: 600px) {
     .nav-links { display: none; }
+    .language-toggle { cursor: pointer; }
     .hero-left { padding: 2rem 1.5rem 3rem; }
     .hero-title { font-size: 52px; }
     .hero-title-sub { font-size: 16px; }
@@ -276,6 +281,34 @@
   .page-eyebrow { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--orange); margin-bottom: 1rem; }
   .page-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px, 6vw, 84px); letter-spacing: 3px; color: var(--ink); line-height: 1; }
   .page-intro { max-width: 620px; margin: 1.4rem auto 0; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 18px; line-height: 1.8; color: var(--ink-soft); }
+  .wallpaper-inline-link { display: inline-flex; align-items: center; gap: .6rem; margin-top: 1.8rem; color: var(--orange); border-bottom: 1px solid var(--orange); font-size: 10px; letter-spacing: 2px; padding-bottom: .5rem; text-decoration: none; text-transform: uppercase; }
+  .wallpaper-inline-link span { font-size: 16px; transition: transform .2s ease; }
+  .wallpaper-inline-link:hover span, .wallpaper-inline-link:focus-visible span { transform: translateX(5px); }
+  .wallpaper-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.5rem, 3vw, 3.5rem); max-width: 1160px; margin: 1.5rem auto 6rem; padding: 0 clamp(1.25rem, 5vw, 4rem); }
+  .wallpaper-card { min-width: 0; }
+  .wallpaper-open { display: block; width: 100%; border: 0; background: transparent; cursor: none; padding: 0; }
+  .wallpaper-open img { display: block; width: 100%; height: auto; background: var(--bg-tint); transition: transform .35s ease, box-shadow .35s ease; }
+  .wallpaper-open:hover img, .wallpaper-open:focus-visible img { box-shadow: 0 24px 50px rgba(79, 55, 29, .22); outline: 1px solid var(--orange); outline-offset: 5px; transform: translateY(-7px); }
+  .wallpaper-card-body { display: flex; align-items: center; justify-content: space-between; gap: .8rem; padding: .9rem .1rem 0; }
+  .wallpaper-card-body p { color: var(--ink-soft); font-family: 'Cormorant Garamond', serif; font-size: 15px; font-style: italic; }
+  .wallpaper-card-body span { flex: 0 0 auto; color: var(--orange); font-size: 8px; letter-spacing: 1.3px; text-transform: uppercase; }
+  .wallpaper-viewer { position: fixed; z-index: 700; inset: 0; overflow-y: auto; background: rgba(23, 21, 18, .96); color: #fffdf8; padding: clamp(1.25rem, 4vw, 3rem); }
+  .wallpaper-viewer[hidden] { display: none; }
+  .wallpaper-viewer-inner { min-height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .wallpaper-viewer-close { position: fixed; z-index: 1; top: clamp(1.25rem, 3vw, 2.5rem); right: clamp(1.25rem, 3vw, 2.5rem); border: 0; background: transparent; color: #fffdf8; cursor: none; font: 400 10px 'Inter', sans-serif; letter-spacing: 2px; padding: .7rem; text-transform: uppercase; }
+  .wallpaper-viewer-close::after { content: ' ×'; font-size: 18px; vertical-align: -1px; }
+  .wallpaper-viewer-nav { position: fixed; z-index: 1; top: 50%; width: 3rem; height: 3rem; border: 1px solid rgba(255, 253, 248, .45); border-radius: 50%; background: rgba(23, 21, 18, .38); color: #fffdf8; cursor: none; font: 400 28px/1 'Cormorant Garamond', serif; transform: translateY(-50%); transition: background .2s ease, border-color .2s ease; }
+  .wallpaper-viewer-nav:hover, .wallpaper-viewer-nav:focus-visible { background: var(--orange); border-color: var(--orange); color: var(--ink); outline: none; }
+  .wallpaper-viewer-previous { left: clamp(.75rem, 3vw, 3rem); }
+  .wallpaper-viewer-next { right: clamp(.75rem, 3vw, 3rem); }
+  .wallpaper-viewer-kicker { margin-bottom: .55rem; color: #ffb477; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; }
+  .wallpaper-viewer h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(42px, 5vw, 64px); font-weight: 400; letter-spacing: 3px; line-height: 1; }
+  .wallpaper-viewer-tabs { display: flex; gap: .5rem; margin: 1.4rem 0; }
+  .wallpaper-viewer-tabs button { border: 1px solid rgba(255, 253, 248, .38); background: transparent; color: #fffdf8; cursor: none; font: 400 9px 'Inter', sans-serif; letter-spacing: 1.4px; padding: .75rem 1rem; text-transform: uppercase; }
+  .wallpaper-viewer-tabs button[aria-selected="true"] { background: var(--orange); border-color: var(--orange); color: var(--ink); }
+  .wallpaper-viewer-image { display: block; width: auto; height: min(64svh, 760px); max-width: min(90vw, 500px); object-fit: contain; }
+  .wallpaper-viewer-download { margin-top: 1.35rem; color: #fffdf8; border-bottom: 1px solid var(--orange); font-size: 10px; letter-spacing: 1.6px; padding-bottom: .5rem; text-decoration: none; text-transform: uppercase; }
+  .wallpaper-viewer-download span { color: var(--orange); font-size: 15px; margin-left: .25rem; }
   .hub-back, .back-link { display: inline-flex; align-items: center; gap: 0.6rem; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-soft); text-decoration: none; transition: color 0.2s; }
   .hub-back::before, .back-link::before { content: '←'; font-size: 14px; }
   .hub-back:hover, .back-link:hover { color: var(--orange); }
@@ -291,19 +324,22 @@
   .trait li::before { content: '—'; position: absolute; left: 0; color: var(--orange); }
   .artiste-cta { text-align: center; padding: 4rem 2rem 6rem; }
 
-  /* ---- HUB ŒUVRES : constellation ---- */
-  #hub { min-height: 100vh; padding-top: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-  .hub-head { text-align: center; margin: 1.5rem 1rem 0; }
-  .constellation { position: relative; width: min(86vw, 720px); height: min(86vw, 720px); margin: 1rem auto 2rem; }
-  .const-lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
-  .const-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 30%; height: 30%; border-radius: 50%; background: var(--bg-alt); border: 1px solid var(--orange); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 1rem; box-shadow: 0 14px 36px -14px rgba(255,84,0,0.45); }
-  .const-center .cc-logo { font-family: 'Bebas Neue', sans-serif; font-size: clamp(16px, 2.4vw, 26px); letter-spacing: 2px; color: var(--ink); line-height: 1; }
-  .const-center .cc-logo span { color: var(--orange); }
-  .const-center .cc-note { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 11px; color: var(--ink-faint); margin-top: 0.6rem; }
-  .const-node { position: absolute; transform: translate(-50%, -50%); white-space: nowrap; }
-  .const-node .btn-line { background: var(--bg); padding: 0.8rem 1.3rem; font-size: 10px; letter-spacing: 1.5px; box-shadow: 0 6px 18px -10px rgba(120,60,20,0.4); }
-  .const-node.accent .btn-line { border-color: var(--orange); color: #fff; background: var(--btn-fill); box-shadow: var(--btn-fill-shadow); }
-  .const-fallback { display: none; }
+  /* ---- HUB ŒUVRES : menu visuel ---- */
+  #hub { height: 100svh; min-height: 640px; padding: 5.6rem clamp(1rem, 4vw, 4rem) 2rem; display: flex; flex-direction: column; overflow: hidden; }
+  .hub-head { margin: 0 0 1.3rem; }
+  .project-deck { display: flex; flex: 1; min-height: 0; gap: clamp(.5rem, 1.2vw, 1rem); width: 100%; }
+  .project-deck-card { position: relative; flex: 1; min-width: 0; overflow: hidden; background: var(--bg-tint); color: #fffdf8; text-decoration: none; transition: flex .55s cubic-bezier(.2,.8,.2,1), filter .35s ease; }
+  .project-deck-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(18,16,13,.88) 0%, rgba(18,16,13,.14) 62%, rgba(18,16,13,.04) 100%); transition: background .35s ease; }
+  .project-deck-card img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.03); transition: transform .7s cubic-bezier(.2,.8,.2,1); }
+  .project-deck-card:nth-child(2) img { object-position: center 32%; }
+  .project-deck-card:hover, .project-deck-card:focus-visible { flex: 1.7; outline: none; }
+  .project-deck-card:hover img, .project-deck-card:focus-visible img { transform: scale(1.09); }
+  .project-deck-card:hover::after, .project-deck-card:focus-visible::after { background: linear-gradient(to top, rgba(18,16,13,.95) 0%, rgba(18,16,13,.08) 72%); }
+  .project-deck-index, .project-deck-title, .project-deck-arrow { position: absolute; z-index: 1; }
+  .project-deck-index { top: 1.25rem; left: 1.25rem; font-size: 10px; letter-spacing: 2px; }
+  .project-deck-title { right: 1.25rem; bottom: 1.2rem; left: 1.25rem; font-family: 'Bebas Neue', sans-serif; font-size: clamp(24px, 3vw, 48px); letter-spacing: 2px; line-height: .92; }
+  .project-deck-arrow { right: 1.25rem; bottom: 1.15rem; color: #ffb477; font: 400 34px/1 'Cormorant Garamond', serif; opacity: 0; transform: translateX(-10px); transition: opacity .28s ease, transform .28s ease; }
+  .project-deck-card:hover .project-deck-arrow, .project-deck-card:focus-visible .project-deck-arrow { opacity: 1; transform: translateX(0); }
 
   /* ---- Grille de collection ---- */
   .col-wrap { padding: 1.5rem 5rem 4rem; }
@@ -369,6 +405,7 @@
   @media (max-width: 900px) {
     .page-top { padding: 7.5rem 2rem 1rem; }
     .page-backbar { padding: 6rem 2rem 0; }
+    .wallpaper-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-bottom: 4rem; padding: 0 1.25rem; }
     .traits { grid-template-columns: 1fr; padding: 1rem 2rem; }
     .trait + .trait { border-left: none; border-top: 0.5px solid var(--line); }
     .col-wrap { padding: 1rem 2rem 3rem; }
@@ -376,13 +413,23 @@
     .july-challenge { padding: 1rem 2rem 4rem; }
     .july-manifest { grid-template-columns: 1fr; gap: 2rem; padding: 2.5rem 2rem; }
     .july-status { border-left: none; border-top: 1px solid var(--orange); padding: 1.5rem 0 0; }
-    .constellation { display: none; }
-    .const-fallback { display: grid; grid-template-columns: 1fr; gap: 0.8rem; width: 100%; max-width: 440px; padding: 1.5rem 1rem 3rem; margin: 0 auto; }
-    .const-fallback .const-medallion { text-align: center; font-family: 'Bebas Neue', sans-serif; letter-spacing: 3px; color: var(--ink); font-size: 22px; margin-bottom: 0.5rem; }
-    .const-fallback .const-medallion span { color: var(--orange); }
-    .const-fallback .btn-line { text-align: center; }
+    #hub { width: 100vw; max-width: 100vw; height: 100svh; min-height: 0; padding: 5.2rem 1rem 1.2rem; overflow: hidden; }
+    .hub-head { margin-bottom: .85rem; }
+    .project-deck { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .45rem; width: calc(100vw - 2rem); max-width: calc(100vw - 2rem); }
+    .project-deck-card { min-height: 0; }
+    .project-deck-card:hover, .project-deck-card:focus-visible { flex: initial; }
+    .project-deck-arrow { opacity: 1; transform: none; }
   }
   @media (max-width: 600px) {
+    .project-deck-index { top: .7rem; left: .7rem; font-size: 8px; letter-spacing: 1px; }
+    .project-deck-title { right: .65rem; bottom: .75rem; left: .65rem; font-size: clamp(16px, 5.4vw, 23px); letter-spacing: 1px; }
+    .project-deck-arrow { display: none; }
+    .wallpaper-gallery { gap: 1rem; padding: 0 1rem; }
+    .wallpaper-card-body { display: block; padding: .7rem .1rem .15rem; }
+    .wallpaper-card-body p { font-size: 13px; margin-bottom: .4rem; }
+    .wallpaper-card-body span { font-size: 7px; }
+    .wallpaper-viewer-image { height: min(64svh, 620px); max-width: 94vw; }
+    .wallpaper-viewer-nav { width: 2.65rem; height: 2.65rem; }
     .col-grid { grid-template-columns: 1fr; }
     .collab { padding: 7.5rem 1.5rem 4rem; }
     .july-challenge { padding: 1rem 1.5rem 3rem; }
