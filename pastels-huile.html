@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Inter:wght@300;400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=120">
+<link rel="stylesheet" href="assets/css/style.css?v=121">
 </head>
 <body>
 <div class="cursor" id="cursor" aria-hidden="true"></div>
@@ -243,6 +243,9 @@
         y *= box.height * (compact ? .84 : .9);
         z *= compact ? .52 : 1;
       }
+      card.dataset.baseX = x.toFixed(1);
+      card.dataset.baseY = y.toFixed(1);
+      card.dataset.baseZ = z.toFixed(1);
       card.style.setProperty('--x', x.toFixed(1) + 'px');
       card.style.setProperty('--y', y.toFixed(1) + 'px');
       card.style.setProperty('--z', z.toFixed(1) + 'px');
@@ -260,9 +263,12 @@
       const active = index === selected;
       const phase = angle * Math.PI / 180 + index * 1.73;
       const drift = window.matchMedia('(max-width: 600px)').matches ? .62 : 1;
-      card.style.setProperty('--drift-x', (Math.sin(phase * 1.25) * 34 * drift).toFixed(1) + 'px');
-      card.style.setProperty('--drift-y', (Math.cos(phase * .9) * 23 * drift).toFixed(1) + 'px');
-      card.style.setProperty('--drift-z', (Math.sin(phase * 1.55) * 72 * drift).toFixed(1) + 'px');
+      const baseX = Number(card.dataset.baseX || 0);
+      const baseY = Number(card.dataset.baseY || 0);
+      const baseZ = Number(card.dataset.baseZ || 0);
+      card.style.setProperty('--x', (baseX + Math.sin(phase * 1.25) * 34 * drift).toFixed(1) + 'px');
+      card.style.setProperty('--y', (baseY + Math.cos(phase * .9) * 23 * drift).toFixed(1) + 'px');
+      card.style.setProperty('--z', (baseZ + Math.sin(phase * 1.55) * 72 * drift).toFixed(1) + 'px');
       card.style.setProperty('--counter-angle', (-angle).toFixed(1) + 'deg');
       card.classList.toggle('is-selected', active);
       card.setAttribute('aria-pressed', String(active));
@@ -403,6 +409,6 @@
   <div class="footer-copy">© 2026 Nino Minashvili</div>
 </footer>
 
-<script src="assets/js/main.js?v=10" defer></script>
+<script src="assets/js/main.js?v=11" defer></script>
 </body>
 </html>

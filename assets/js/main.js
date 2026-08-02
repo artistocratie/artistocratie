@@ -4,13 +4,40 @@
    ============================================================ */
 
 /* ---- Google Analytics : actions importantes, sans données personnelles ---- */
+function analyticsPageName() {
+  return window.location.pathname.split('/').pop() || 'index.html';
+}
+function analyticsViewport() {
+  const width = window.innerWidth || document.documentElement.clientWidth || 0;
+  if (width < 700) return 'mobile';
+  if (width < 1100) return 'tablet';
+  return 'desktop';
+}
+function analyticsText(value, limit = 100) {
+  return String(value || '').replace(/\s+/g, ' ').trim().slice(0, limit);
+}
 function trackAnalyticsEvent(name, parameters) {
   if (typeof window.gtag !== 'function') return;
-  window.gtag('event', name, Object.assign({ page_path: window.location.pathname }, parameters));
+  window.gtag('event', name, Object.assign({
+    page_path: window.location.pathname,
+    page_name: analyticsPageName(),
+    site_language: document.documentElement.lang || 'fr',
+    viewport_category: analyticsViewport()
+  }, parameters));
 }
 
 (function () {
-  const cleanLabel = value => (value || '').replace(/\s+/g, ' ').trim().slice(0, 100);
+  const cleanLabel = value => analyticsText(value);
+  const interactionArea = element => {
+    if (element.closest('#navbar')) return 'navigation';
+    if (element.closest('footer')) return 'footer';
+    if (element.closest('.hero-actions')) return 'homepage_intro';
+    if (element.closest('.wallpaper-viewer')) return 'wallpaper_viewer';
+    if (element.closest('.wallpaper-gallery')) return 'wallpaper_gallery';
+    if (element.closest('.lightbox')) return 'artwork_viewer';
+    if (element.closest('main, section')) return 'main_content';
+    return 'other';
+  };
 
   document.addEventListener('click', event => {
     const element = event.target.closest('a, button');
@@ -19,20 +46,65 @@ function trackAnalyticsEvent(name, parameters) {
     const href = element.getAttribute('href') || '';
     const label = cleanLabel(element.getAttribute('aria-label') || element.textContent);
     const destination = href || element.id || '';
+    const linkType = element.hasAttribute('download') ? 'download' : href.startsWith('mailto:') ? 'email' : /^https?:/i.test(href) ? 'external' : href ? 'internal' : 'button';
 
     if (href.startsWith('mailto:')) {
-      trackAnalyticsEvent('contact_click', { contact_method: 'email', button_label: label });
+      trackAnalyticsEvent('contact_click', { contact_method: 'email', button_label: label, interaction_area: interactionArea(element) });
     } else if (/instagram\.com/i.test(href)) {
-      trackAnalyticsEvent('instagram_click', { button_label: label });
+      trackAnalyticsEvent('instagram_click', { button_label: label, interaction_area: interactionArea(element) });
     } else if (/tiktok\.com/i.test(href)) {
-      trackAnalyticsEvent('tiktok_click', { button_label: label });
+      trackAnalyticsEvent('tiktok_click', { button_label: label, interaction_area: interactionArea(element) });
     } else {
       trackAnalyticsEvent('site_click', {
         element_type: element.tagName.toLowerCase(),
         button_label: label,
-        destination: destination.slice(0, 200)
+        destination: destination.slice(0, 200),
+        link_type: linkType,
+        interaction_area: interactionArea(element)
       });
     }
+  });
+})();
+
+/* ---- Profondeur de lecture (sans suivre l'identité des personnes) ---- */
+(function () {
+  const reached = new Set();
+  const levels = [25, 50, 75, 90];
+  let ticking = false;
+  const update = () => {
+    const root = document.documentElement;
+    const travel = Math.max(0, root.scrollHeight - window.innerHeight);
+    const progress = travel ? (window.scrollY / travel) * 100 : 0;
+    levels.forEach(level => {
+      if (progress >= level && !reached.has(level)) {
+        reached.add(level);
+        trackAnalyticsEvent('scroll_depth', { percent_scrolled: String(level) });
+      }
+    });
+    ticking = false;
+  };
+  const requestUpdate = () => {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  };
+  window.addEventListener('scroll', requestUpdate, { passive: true });
+  window.addEventListener('resize', requestUpdate);
+  requestUpdate();
+})();
+
+/* ---- Parcours des formulaires, sans jamais transmettre leur contenu ---- */
+(function () {
+  const started = new WeakSet();
+  const formName = form => analyticsText(form.dataset.analyticsName || form.id || form.className || 'form', 60);
+  document.addEventListener('focusin', event => {
+    const form = event.target.closest('form');
+    if (!form || started.has(form)) return;
+    started.add(form);
+    trackAnalyticsEvent('form_start', { form_name: formName(form) });
+  });
+  document.addEventListener('submit', event => {
+    const form = event.target;
+    if (!(form instanceof HTMLFormElement)) return;
+    trackAnalyticsEvent('form_submit', { form_name: formName(form) });
   });
 })();
 
@@ -97,7 +169,15 @@ function trackAnalyticsEvent(name, parameters) {
 
 /* ---- Lightbox (pages collections) ---- */
 function openLightbox(title, tag, medium, format, year, desc, imgSrc) {
-  trackAnalyticsEvent('view_artwork', { artwork_title: title, artwork_series: tag });
+  trackAnalyticsEvent('view_artwork', {
+    content_type: 'artwork',
+    content_id: analyticsText(`${tag}-${title}`.toLowerCase().replace(/[^a-z0-9]+/gi, '-'), 100),
+    artwork_title: analyticsText(title),
+    artwork_series: analyticsText(tag),
+    artwork_medium: analyticsText(medium),
+    artwork_format: analyticsText(format),
+    artwork_year: analyticsText(year)
+  });
   const lb = document.getElementById('lightbox'); if (!lb) return;
   const set = (id, v) => { const n = document.getElementById(id); if (n) n.textContent = v; };
   set('lightbox-title', title); set('lightbox-tag', tag); set('lightbox-medium', medium);
@@ -242,6 +322,7 @@ function closeContact() {
     button.type = 'button'; button.textContent = english ? 'FR' : 'EN';
     button.setAttribute('aria-label', english ? 'Afficher le site en français' : 'View the site in English');
     button.addEventListener('click', () => {
+      trackAnalyticsEvent('language_change', { language_from: english ? 'en' : 'fr', language_to: english ? 'fr' : 'en' });
       try { localStorage.setItem(STORAGE_KEY, english ? 'fr' : 'en'); } catch (_) {}
       window.location.reload();
     });

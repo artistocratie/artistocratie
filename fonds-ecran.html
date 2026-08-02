@@ -128,6 +128,16 @@
   let activeIndex = 0;
   let lastTrigger = null;
   let currentView = 'preview';
+  const trackWallpaper = (eventName, trigger, extra = {}) => {
+    if (typeof trackAnalyticsEvent !== 'function' || !trigger) return;
+    const day = trigger.dataset.day;
+    trackAnalyticsEvent(eventName, Object.assign({
+      content_type: 'wallpaper',
+      content_id: `july_wallpaper_${day}`,
+      wallpaper_day: day,
+      wallpaper_collection: 'july_2026'
+    }, extra));
+  };
   const setView = view => {
     if (!active) return;
     currentView = view;
@@ -151,8 +161,10 @@
     document.body.style.overflow = 'hidden';
     currentView = 'preview';
     show(trigger);
+    trackWallpaper('wallpaper_open', trigger, { wallpaper_view: 'iphone_preview' });
     // Le clic est encore un geste explicite de la personne : le fichier peut
     // donc partir directement, sans l’obliger à passer par l’onglet « Fond nu ».
+    trackWallpaper('wallpaper_download', trigger, { download_method: 'automatic_open' });
     download.click();
     close.focus();
   };
@@ -160,6 +172,7 @@
     const target = triggers[(activeIndex + direction + triggers.length) % triggers.length];
     lastTrigger = target;
     show(target);
+    trackWallpaper('wallpaper_navigate', target, { navigation_direction: direction > 0 ? 'next' : 'previous' });
   };
   const closeViewer = () => {
     viewer.hidden = true;
@@ -168,8 +181,11 @@
   };
 
   document.querySelectorAll('.wallpaper-open').forEach(trigger => trigger.addEventListener('click', () => open(trigger)));
-  previewTab.addEventListener('click', () => setView('preview'));
-  cleanTab.addEventListener('click', () => setView('clean'));
+  previewTab.addEventListener('click', () => { setView('preview'); trackWallpaper('wallpaper_view', active, { wallpaper_view: 'iphone_preview' }); });
+  cleanTab.addEventListener('click', () => { setView('clean'); trackWallpaper('wallpaper_view', active, { wallpaper_view: 'clean_wallpaper' }); });
+  download.addEventListener('click', event => {
+    if (event.isTrusted) trackWallpaper('wallpaper_download', active, { download_method: 'manual_link' });
+  });
   previous.addEventListener('click', () => move(-1));
   next.addEventListener('click', () => move(1));
   close.addEventListener('click', closeViewer);
@@ -182,6 +198,6 @@
   });
 })();
 </script>
-<script src="assets/js/main.js?v=10" defer></script>
+<script src="assets/js/main.js?v=11" defer></script>
 </body>
 </html>
