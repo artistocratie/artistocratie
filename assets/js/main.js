@@ -304,14 +304,18 @@ function closeContact() {
   const translateNode = node => {
     if (node.nodeType === Node.TEXT_NODE) {
       const parent = node.parentElement;
-      if (parent && !['SCRIPT', 'STYLE', 'NOSCRIPT'].includes(parent.tagName)) node.nodeValue = translate(node.nodeValue);
+      if (parent && !['SCRIPT', 'STYLE', 'NOSCRIPT'].includes(parent.tagName)) {
+        const translated = translate(node.nodeValue);
+        if (translated !== node.nodeValue) node.nodeValue = translated;
+      }
       return;
     }
     if (node.nodeType !== Node.ELEMENT_NODE || ['SCRIPT', 'STYLE', 'NOSCRIPT'].includes(node.tagName)) return;
     node.childNodes.forEach(translateNode);
     ['aria-label', 'alt', 'placeholder', 'title'].forEach(attribute => {
       const value = node.getAttribute(attribute);
-      if (value && attributes[value]) node.setAttribute(attribute, attributes[value]);
+      const translated = value && attributes[value];
+      if (translated && translated !== value) node.setAttribute(attribute, translated);
     });
   };
   const toggle = () => {
