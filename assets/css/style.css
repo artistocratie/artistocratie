@@ -37,6 +37,8 @@
   .hero-cta { display: inline-block; position: relative; overflow: hidden; padding: 1.4rem 3.4rem; background: transparent; border: 1px solid var(--orange); border-radius: 12px; color: var(--orange); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; transition: background 0.45s ease, color 0.3s ease, box-shadow 0.4s ease, transform 0.25s ease; opacity: 0; animation: fadeUp 0.8s 1s forwards; width: fit-content; }
   .hero-cta:hover { background: var(--btn-fill); color: var(--ink); border-color: transparent; box-shadow: var(--btn-fill-shadow); transform: translateY(-2px); }
   .hero-cta:active { transform: translateY(0); }
+  /* Bouton principal : déjà rempli au repos, les autres restent en contour. */
+  .hero-cta--shop { background: var(--btn-fill); border-color: transparent; color: var(--ink); box-shadow: var(--btn-fill-shadow); }
   .hero-right { position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
   .hero-img-wrap { width: 100%; height: 100%; position: absolute; inset: 0; opacity: 0; animation: fadeIn 1.2s 0.4s forwards; -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 18%, #000 45%); mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 18%, #000 45%); }
   .hero-img-wrap::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, var(--bg) 0%, transparent 20%); }

@@ -238,6 +238,7 @@ function closeContact() {
     'Œuvres': 'Works', 'Artiste': 'Artist', 'Collaborer': 'Collaborate', 'Retour à la galerie': 'Back to gallery',
     "Retour à l'accueil": 'Back to home', 'Découvrir les œuvres': 'Discover the works', "Découvrir l'artiste": 'Discover the artist',
     'Un cadeau pour toi': 'A gift for you', "Roulette d'artistes": 'Artist roulette',
+    'La boutique': 'The shop',
     'Peinture & Dessin — Montréal': 'Painting & Drawing — Montréal', 'par Nino Minashvili': 'by Nino Minashvili',
     'À l’affiche · Dernier projet publié': 'Now showing · Latest project', 'LE MUR': 'THE WALL', 'EN MOUVEMENT': 'IN MOTION',
     'Une peinture par heure pendant 24 heures': 'One painting an hour for 24 hours',
