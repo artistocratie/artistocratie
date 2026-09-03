@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&family=Inter:wght@300;400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=117">
+<link rel="stylesheet" href="assets/css/style.css?v=118">
 </head>
 <body>
 <div class="cursor" id="cursor" aria-hidden="true"></div>
@@ -142,7 +142,16 @@
       <button id="wallpaperCleanTab" type="button" role="tab" aria-selected="false">Fond nu</button>
     </div>
     <img id="wallpaperViewerImage" class="wallpaper-viewer-image" src="" alt="">
-    <a id="wallpaperDownload" class="wallpaper-viewer-download" href="" download>Télécharger le fond d’écran <span>↓</span></a>
+    <form class="wallpaper-gate" id="wallpaperGate" hidden>
+      <p class="wallpaper-gate-intro">Laisse-moi ton adresse et le fond d’écran est à toi.<br>Tu rejoins la même liste que la boutique : quelques nouvelles, jamais de spam.</p>
+      <div class="wallpaper-gate-row">
+        <input id="wallpaperGateEmail" type="email" name="email" placeholder="ton@email.com" autocomplete="email" required aria-label="Ton adresse email">
+        <button type="submit" id="wallpaperGateSubmit">Recevoir le fond d’écran</button>
+      </div>
+      <p class="wallpaper-gate-note">Une seule inscription : ensuite, tous les fonds d’écran sont en accès libre.</p>
+      <p class="wallpaper-gate-error" id="wallpaperGateError" role="alert" hidden>Cette adresse ne semble pas valide.</p>
+    </form>
+    <a id="wallpaperDownload" class="wallpaper-viewer-download" href="" download hidden>Télécharger le fond d’écran <span>↓</span></a>
   </div>
 </section>
 
@@ -165,16 +174,22 @@
   const previewTab = document.getElementById('wallpaperPreviewTab');
   const cleanTab = document.getElementById('wallpaperCleanTab');
   const download = document.getElementById('wallpaperDownload');
+  const gate = document.getElementById('wallpaperGate');
+  const gateEmail = document.getElementById('wallpaperGateEmail');
+  const gateSubmit = document.getElementById('wallpaperGateSubmit');
+  const gateError = document.getElementById('wallpaperGateError');
   const close = document.getElementById('wallpaperViewerClose');
   const previous = document.getElementById('wallpaperPrevious');
   const next = document.getElementById('wallpaperNext');
   const triggers = [...document.querySelectorAll('.wallpaper-open')];
-  if (!viewer || !image || !title || !kicker || !previewTab || !cleanTab || !download || !close || !previous || !next || !triggers.length) return;
+  if (!viewer || !image || !title || !kicker || !gate || !previewTab || !cleanTab || !download || !close || !previous || !next || !triggers.length) return;
 
   let active = null;
   let activeIndex = 0;
   let lastTrigger = null;
   let currentView = 'preview';
+  // Si le module d'infolettre n'a pas pu se charger, on n'enferme pas le cadeau.
+  const libre = () => !window.artistocratieInfolettre || window.artistocratieInfolettre.estInscrit();
   const trackWallpaper = (eventName, trigger, extra = {}) => {
     if (typeof trackAnalyticsEvent !== 'function' || !trigger) return;
     const base = {
@@ -193,7 +208,9 @@
     image.alt = `${isPreview ? 'Aperçu iPhone' : 'Fond nu'} du fond d’écran ${active.dataset.title}, collection ${active.dataset.collection}`;
     previewTab.setAttribute('aria-selected', String(isPreview));
     cleanTab.setAttribute('aria-selected', String(!isPreview));
-    download.hidden = false;
+    const ouvert = libre();
+    download.hidden = !ouvert;
+    gate.hidden = ouvert;
   };
   const show = trigger => {
     active = trigger;
@@ -210,11 +227,16 @@
     currentView = 'preview';
     show(trigger);
     trackWallpaper('wallpaper_open', trigger, { wallpaper_view: 'iphone_preview' });
-    // Le clic est encore un geste explicite de la personne : le fichier peut
-    // donc partir directement, sans l’obliger à passer par l’onglet « Fond nu ».
-    trackWallpaper('wallpaper_download', trigger, { download_method: 'automatic_open' });
-    download.click();
-    close.focus();
+    if (libre()) {
+      // Le clic est encore un geste explicite de la personne : le fichier peut
+      // donc partir directement, sans l’obliger à passer par l’onglet « Fond nu ».
+      trackWallpaper('wallpaper_download', trigger, { download_method: 'automatic_open' });
+      download.click();
+      close.focus();
+    } else {
+      gateError.hidden = true;
+      gateEmail.focus();
+    }
   };
   const move = direction => {
     const target = triggers[(activeIndex + direction + triggers.length) % triggers.length];
@@ -227,6 +249,41 @@
     document.body.style.overflow = '';
     if (lastTrigger) lastTrigger.focus();
   };
+
+  gate.addEventListener('submit', async event => {
+    event.preventDefault();
+    const email = gateEmail.value.trim();
+    if (!gateEmail.checkValidity() || !email) {
+      gateError.textContent = 'Cette adresse ne semble pas valide.';
+      gateError.hidden = false;
+      gateEmail.focus();
+      return;
+    }
+    gateError.hidden = true;
+    gateSubmit.disabled = true;
+    const libelle = gateSubmit.textContent;
+    gateSubmit.textContent = 'Un instant…';
+    let etat = 'envoye';
+    try {
+      await window.artistocratieInfolettre.inscrire(email, 'newsletter,fond-ecran');
+    } catch (_) {
+      // Réseau capricieux : on ne retient pas le cadeau en otage, on garde
+      // l'adresse de côté pour que la personne ne repasse pas par ici. Le
+      // compteur « echec » dans les statistiques signale les envois perdus.
+      etat = 'echec';
+      window.artistocratieInfolettre.retenir(email);
+    }
+    if (typeof trackAnalyticsEvent === 'function') {
+      trackAnalyticsEvent('newsletter_signup', { method: 'wallpaper_gate', signup_status: etat, content_id: active && active.dataset.id, wallpaper_collection: active && active.dataset.group });
+    }
+    gateSubmit.disabled = false;
+    gateSubmit.textContent = libelle;
+    gate.hidden = true;
+    download.hidden = false;
+    trackWallpaper('wallpaper_download', active, { download_method: 'after_signup' });
+    download.click();
+    close.focus();
+  });
 
   document.querySelectorAll('.wallpaper-open').forEach(trigger => trigger.addEventListener('click', () => open(trigger)));
   previewTab.addEventListener('click', () => { setView('preview'); trackWallpaper('wallpaper_view', active, { wallpaper_view: 'iphone_preview' }); });
@@ -246,6 +303,6 @@
   });
 })();
 </script>
-<script src="assets/js/main.js?v=14" defer></script>
+<script src="assets/js/main.js?v=15" defer></script>
 </body>
 </html>

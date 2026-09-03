@@ -313,6 +313,19 @@
   .wallpaper-viewer-tabs button { border: 1px solid rgba(255, 253, 248, .38); background: transparent; color: #fffdf8; cursor: none; font: 400 9px 'Inter', sans-serif; letter-spacing: 1.4px; padding: .75rem 1rem; text-transform: uppercase; }
   .wallpaper-viewer-tabs button[aria-selected="true"] { background: var(--orange); border-color: var(--orange); color: var(--ink); }
   .wallpaper-viewer-image { display: block; width: auto; height: min(64svh, 760px); max-width: min(90vw, 500px); object-fit: contain; }
+  .wallpaper-gate { display: flex; flex-direction: column; align-items: center; gap: .9rem; width: min(430px, 100%); margin-top: 1.35rem; text-align: center; }
+  .wallpaper-gate[hidden] { display: none; }
+  .wallpaper-gate-intro { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 17px; line-height: 1.6; color: rgba(255, 253, 248, .88); }
+  .wallpaper-gate-row { display: flex; gap: .5rem; width: 100%; }
+  .wallpaper-gate-row input { flex: 1 1 auto; min-width: 0; border: 1px solid rgba(255, 253, 248, .38); background: transparent; color: #fffdf8; font: 400 14px 'Inter', sans-serif; padding: .85rem 1rem; }
+  .wallpaper-gate-row input::placeholder { color: rgba(255, 253, 248, .45); }
+  .wallpaper-gate-row input:focus { border-color: var(--orange); outline: none; }
+  .wallpaper-gate-row button { flex: 0 0 auto; border: 0; background: var(--orange); color: var(--ink); cursor: none; font: 400 10px 'Inter', sans-serif; letter-spacing: 1.4px; padding: .85rem 1.2rem; text-transform: uppercase; }
+  .wallpaper-gate-row button[disabled] { opacity: .55; }
+  .wallpaper-gate-note { font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; color: rgba(255, 253, 248, .52); }
+  .wallpaper-gate-error { color: #ffb477; font-size: 13px; }
+  .wallpaper-gate-error[hidden] { display: none; }
+  .wallpaper-viewer-download[hidden] { display: none; }
   .wallpaper-viewer-download { margin-top: 1.35rem; color: #fffdf8; border-bottom: 1px solid var(--orange); font-size: 10px; letter-spacing: 1.6px; padding-bottom: .5rem; text-decoration: none; text-transform: uppercase; }
   .wallpaper-viewer-download span { color: var(--orange); font-size: 15px; margin-left: .25rem; }
   .hub-back, .back-link { display: inline-flex; align-items: center; gap: 0.6rem; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-soft); text-decoration: none; transition: color 0.2s; }
@@ -450,6 +463,8 @@
     .wallpaper-card-body p { font-size: 13px; margin-bottom: .4rem; }
     .wallpaper-card-body span { font-size: 7px; }
     .wallpaper-viewer-image { height: min(64svh, 620px); max-width: 94vw; }
+    .wallpaper-gate-row { flex-direction: column; }
+    .wallpaper-gate-row button { padding: .95rem 1.2rem; }
     .wallpaper-viewer-nav { width: 2.65rem; height: 2.65rem; }
     .col-grid { grid-template-columns: 1fr; }
     .collab { padding: 7.5rem 1.5rem 4rem; }

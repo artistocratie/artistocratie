@@ -223,6 +223,35 @@ function closeContact() {
   form.addEventListener('submit', () => trackAnalyticsEvent('contact_form_submit', { form_name: 'collaboration' }));
 })();
 
+/* ---- Infolettre : une seule liste, celle des clients de la boutique ---- */
+(function () {
+  // Le formulaire client de Shopify, celui qu'utilise déjà la boutique.
+  const BOUTIQUE = 'https://shop.artistocratie.com/contact';
+  const MEMOIRE = 'artistocratie-infolettre';
+
+  const estInscrit = () => {
+    try { return !!localStorage.getItem(MEMOIRE); } catch (_) { return false; }
+  };
+  const retenir = email => {
+    try { localStorage.setItem(MEMOIRE, JSON.stringify({ email, date: new Date().toISOString() })); } catch (_) {}
+  };
+  const inscrire = (email, etiquettes) => {
+    const corps = new URLSearchParams({
+      form_type: 'customer',
+      utf8: '✓',
+      'contact[tags]': etiquettes || 'newsletter',
+      'contact[email]': email
+    });
+    // La boutique est sur un autre domaine : la réponse est opaque, on ne peut
+    // pas la lire. Shopify enregistre quand même l'inscription, et ne crée pas
+    // de doublon si l'adresse est déjà connue.
+    return fetch(BOUTIQUE, { method: 'POST', mode: 'no-cors', body: corps })
+      .then(() => { retenir(email); });
+  };
+
+  window.artistocratieInfolettre = { estInscrit, retenir, inscrire };
+})();
+
 /* ---- Langue du site : préférence visiteur + détection navigateur ---- */
 (function () {
   const STORAGE_KEY = 'artistocratie-language';
@@ -256,6 +285,12 @@ function closeContact() {
     'Le batteur': 'The drummer', 'Le saxophoniste': 'The saxophonist', 'Le trompettiste': 'The trumpeter', 'Le pianiste': 'The pianist', 'Le violoniste': 'The violinist',
     'Jazz Band · Le batteur': 'Jazz Band · The drummer', 'Jazz Band · Le saxophoniste': 'Jazz Band · The saxophonist', 'Jazz Band · Le trompettiste': 'Jazz Band · The trumpeter', 'Jazz Band · Le pianiste': 'Jazz Band · The pianist', 'Jazz Band · Le violoniste': 'Jazz Band · The violinist',
     'Fond d’écran': 'Wallpaper',
+    'Laisse-moi ton adresse et le fond d’écran est à toi.': 'Leave me your address and the wallpaper is yours.',
+    'Tu rejoins la même liste que la boutique : quelques nouvelles, jamais de spam.': 'You join the same list as the shop: a few pieces of news, never any spam.',
+    'Recevoir le fond d’écran': 'Get the wallpaper', 'Un instant…': 'One moment…',
+    'Une seule inscription : ensuite, tous les fonds d’écran sont en accès libre.': 'One sign-up only: after that, every wallpaper is free to take.',
+    'Cette adresse ne semble pas valide.': 'This address does not look valid.',
+    'C’est bon, le téléchargement démarre.': 'All set, the download is starting.',
     'Voir les deux versions →': 'View both versions →', 'Fermer': 'Close', 'Défi de juillet': 'July Challenge', 'Aperçu iPhone': 'iPhone preview', 'Fond nu': 'Clean wallpaper', 'Télécharger le fond d’écran': 'Download the wallpaper',
     'Challenge 01 · Juillet 2026': 'Challenge 01 · July 2026', 'PASTELS À L’HUILE': 'OIL PASTELS',
     'Un premier mois pour apprendre la discipline : une peinture par jour, tout au long de juillet.': 'A first month to learn discipline: one painting a day, throughout July.',
@@ -292,7 +327,7 @@ function closeContact() {
     'Voir les deux versions du fond d’écran : Jour 09': 'View both versions of the wallpaper: Day 09', 'Voir les deux versions du fond d’écran : Jour 11': 'View both versions of the wallpaper: Day 11', 'Voir les deux versions du fond d’écran : Jour 12': 'View both versions of the wallpaper: Day 12', 'Voir les deux versions du fond d’écran : Jour 16': 'View both versions of the wallpaper: Day 16', 'Voir les deux versions du fond d’écran : Jour 23': 'View both versions of the wallpaper: Day 23',
     'Voir les deux versions du fond d’écran : Le batteur': 'View both versions of the wallpaper: The drummer', 'Voir les deux versions du fond d’écran : Le saxophoniste': 'View both versions of the wallpaper: The saxophonist', 'Voir les deux versions du fond d’écran : Le trompettiste': 'View both versions of the wallpaper: The trumpeter', 'Voir les deux versions du fond d’écran : Le pianiste': 'View both versions of the wallpaper: The pianist', 'Voir les deux versions du fond d’écran : Le violoniste': 'View both versions of the wallpaper: The violinist',
     'Fonds d’écran de la collection Jazz Band': 'Wallpapers from the Jazz Band collection', 'Fonds d’écran de la collection Juillet, mois des pastels': 'Wallpapers from the July, the month of pastels collection',
-    'Versions du fond d’écran': 'Wallpaper versions', 'Voir le fond d’écran précédent': 'View previous wallpaper', 'Voir le fond d’écran suivant': 'View next wallpaper'
+    'Ton adresse email': 'Your email address', 'ton@email.com': 'you@email.com', 'Versions du fond d’écran': 'Wallpaper versions', 'Voir le fond d’écran précédent': 'View previous wallpaper', 'Voir le fond d’écran suivant': 'View next wallpaper'
   };
   const titles = {
     'index.html': 'Artistocratie — Nino Minashvili · Painting & Drawing · Montréal', 'oeuvres.html': 'Works — Artistocratie · Nino Minashvili', 'artiste.html': 'The artist — Nino Minashvili · Artistocratie', 'defi-24h.html': 'One painting an hour for 24 hours — Artistocratie', 'pastels-huile.html': 'Oil pastels — Artistocratie', 'fonds-ecran.html': 'Download wallpapers — Artistocratie', 'roulette.html': 'Artist roulette — Artistocratie', 'collaborer.html': 'Collaborate — Artistocratie', 'appart-galerie.html': 'My apartment as a gallery — Artistocratie', 'carnet-voyage.html': 'Travel sketchbook — Artistocratie', 'edition-jazz.html': 'Jazz edition — Artistocratie', 'projets-en-cours.html': 'Projects in progress — Artistocratie', 'my-dream.html': 'My Dream — Artistocratie', '404.html': 'Page not found — Artistocratie'
