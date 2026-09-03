@@ -285,8 +285,6 @@ function closeContact() {
     'Le batteur': 'The drummer', 'Le saxophoniste': 'The saxophonist', 'Le trompettiste': 'The trumpeter', 'Le pianiste': 'The pianist', 'Le violoniste': 'The violinist',
     'Jazz Band · Le batteur': 'Jazz Band · The drummer', 'Jazz Band · Le saxophoniste': 'Jazz Band · The saxophonist', 'Jazz Band · Le trompettiste': 'Jazz Band · The trumpeter', 'Jazz Band · Le pianiste': 'Jazz Band · The pianist', 'Jazz Band · Le violoniste': 'Jazz Band · The violinist',
     'Fond d’écran': 'Wallpaper',
-    'Laisse-moi ton adresse et le fond d’écran est à toi.': 'Leave me your address and the wallpaper is yours.',
-    'Tu rejoins la même liste que la boutique : quelques nouvelles, jamais de spam.': 'You join the same list as the shop: a few pieces of news, never any spam.',
     'Recevoir le fond d’écran': 'Get the wallpaper', 'Un instant…': 'One moment…',
     'Une seule inscription : ensuite, tous les fonds d’écran sont en accès libre.': 'One sign-up only: after that, every wallpaper is free to take.',
     'Cette adresse ne semble pas valide.': 'This address does not look valid.',

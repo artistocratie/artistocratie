@@ -315,7 +315,6 @@
   .wallpaper-viewer-image { display: block; width: auto; height: min(64svh, 760px); max-width: min(90vw, 500px); object-fit: contain; }
   .wallpaper-gate { display: flex; flex-direction: column; align-items: center; gap: .9rem; width: min(430px, 100%); margin-top: 1.35rem; text-align: center; }
   .wallpaper-gate[hidden] { display: none; }
-  .wallpaper-gate-intro { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 17px; line-height: 1.6; color: rgba(255, 253, 248, .88); }
   .wallpaper-gate-row { display: flex; gap: .5rem; width: 100%; }
   .wallpaper-gate-row input { flex: 1 1 auto; min-width: 0; border: 1px solid rgba(255, 253, 248, .38); background: transparent; color: #fffdf8; font: 400 14px 'Inter', sans-serif; padding: .85rem 1rem; }
   .wallpaper-gate-row input::placeholder { color: rgba(255, 253, 248, .45); }
