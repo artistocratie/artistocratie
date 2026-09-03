@@ -248,8 +248,14 @@ function closeContact() {
     "Accède à l'intégralité de mes œuvres, celles que je ne montre pas sur les réseaux. Pièces intimes, pleines de sentiments, qui ne se montrent pas à n'importe qui.": 'Get access to all my works, including the ones I do not share on social media. Intimate pieces, full of feeling, not shown to just anyone.',
     'Rejoins le mouvement': 'Join the movement', "Je déteste les spams autant que toi. Un email de temps en temps, rien de plus.": 'I hate spam as much as you do. An email once in a while, nothing more.', '— Galerie privée —': '— Private gallery —',
     'La galerie': 'The gallery', "EXPLORER L'UNIVERS": 'EXPLORE THE UNIVERSE', '— l\'univers —': '— the universe —', 'Défi des 24h': '24-hour challenge', 'DÉFI DES 24H': '24-HOUR CHALLENGE', 'JUILLET · UNE PEINTURE PAR JOUR': 'JULY · ONE PAINTING A DAY', "Pastels à l'huile": 'Oil pastels', 'Collaborer ?': 'Collaborate?',
-    'Retour au Défi de juillet': 'Back to the July Challenge', 'À emporter · Défi du mois de Juillet': 'Take it with you · July Challenge', 'UN CADEAU POUR TOI': 'A GIFT FOR YOU',
-    'Six fragments peints au fil du mois : une peinture par jour, tout au long de juillet. Choisis celui qui te suit aujourd’hui, télécharge-le, puis fais-lui une place sur ton écran.': 'Six fragments painted over the month: one painting a day throughout July. Choose the one that follows you today, download it, and make room for it on your screen.',
+    'Retour au Défi de juillet': 'Back to the July Challenge', 'À emporter · Deux collections': 'Take it with you · Two collections', 'UN CADEAU POUR TOI': 'A GIFT FOR YOU',
+    'Le Jazz Band et le défi du mois de juillet, en fonds d’écran. Choisis celui qui te suit aujourd’hui, télécharge-le, puis fais-lui une place sur ton écran.': 'The Jazz Band and the July challenge, as wallpapers. Choose the one that follows you today, download it, and make room for it on your screen.',
+    'Collection · Édition jazz': 'Collection · Jazz edition', 'Cinq musiciens, cinq caractères. Choisis celui qui joue sur ton écran.': 'Five musicians, five characters. Pick the one that plays on your screen.',
+    'Collection · Défi du mois de Juillet': 'Collection · July Challenge', 'JUILLET, MOIS DES PASTELS': 'JULY, THE MONTH OF PASTELS', 'Juillet, mois des pastels': 'July, the month of pastels',
+    'Six fragments peints au fil du mois : une peinture par jour, tout au long de juillet.': 'Six fragments painted over the month: one painting a day throughout July.',
+    'Le batteur': 'The drummer', 'Le saxophoniste': 'The saxophonist', 'Le trompettiste': 'The trumpeter', 'Le pianiste': 'The pianist', 'Le violoniste': 'The violinist',
+    'Jazz Band · Le batteur': 'Jazz Band · The drummer', 'Jazz Band · Le saxophoniste': 'Jazz Band · The saxophonist', 'Jazz Band · Le trompettiste': 'Jazz Band · The trumpeter', 'Jazz Band · Le pianiste': 'Jazz Band · The pianist', 'Jazz Band · Le violoniste': 'Jazz Band · The violinist',
+    'Fond d’écran': 'Wallpaper',
     'Voir les deux versions →': 'View both versions →', 'Fermer': 'Close', 'Défi de juillet': 'July Challenge', 'Aperçu iPhone': 'iPhone preview', 'Fond nu': 'Clean wallpaper', 'Télécharger le fond d’écran': 'Download the wallpaper',
     'Challenge 01 · Juillet 2026': 'Challenge 01 · July 2026', 'PASTELS À L’HUILE': 'OIL PASTELS',
     'Un premier mois pour apprendre la discipline : une peinture par jour, tout au long de juillet.': 'A first month to learn discipline: one painting a day, throughout July.',
@@ -282,8 +288,10 @@ function closeContact() {
     'Salle introuvable': 'Room not found', "CETTE ŒUVRE N'EXISTE PAS": 'THIS WORK DOES NOT EXIST', '« Le silence aussi est une trace. Cette page n’a jamais été peinte — ou elle a déjà été retirée du musée. »': '“Silence, too, leaves a trace. This page was never painted — or it has already been removed from the museum.”'
   };
   const attributes = {
-    'Navigation principale': 'Main navigation', 'Séries et projets': 'Series and projects', 'Défi des 24h': '24-hour challenge', 'Juillet — une peinture par jour': 'July — one painting a day', 'Fonds d’écran Artistocratie': 'Artistocratie wallpapers', 'Fermer': 'Close', 'Voir les deux versions du fond d’écran, jour 01': 'View both versions of the wallpaper, day 01',
-    'Voir les deux versions du fond d’écran, jour 09': 'View both versions of the wallpaper, day 09', 'Voir les deux versions du fond d’écran, jour 11': 'View both versions of the wallpaper, day 11', 'Voir les deux versions du fond d’écran, jour 12': 'View both versions of the wallpaper, day 12', 'Voir les deux versions du fond d’écran, jour 16': 'View both versions of the wallpaper, day 16', 'Voir les deux versions du fond d’écran, jour 23': 'View both versions of the wallpaper, day 23',
+    'Navigation principale': 'Main navigation', 'Séries et projets': 'Series and projects', 'Défi des 24h': '24-hour challenge', 'Juillet — une peinture par jour': 'July — one painting a day', 'Fonds d’écran Artistocratie': 'Artistocratie wallpapers', 'Fermer': 'Close', 'Voir les deux versions du fond d’écran : Jour 01': 'View both versions of the wallpaper: Day 01',
+    'Voir les deux versions du fond d’écran : Jour 09': 'View both versions of the wallpaper: Day 09', 'Voir les deux versions du fond d’écran : Jour 11': 'View both versions of the wallpaper: Day 11', 'Voir les deux versions du fond d’écran : Jour 12': 'View both versions of the wallpaper: Day 12', 'Voir les deux versions du fond d’écran : Jour 16': 'View both versions of the wallpaper: Day 16', 'Voir les deux versions du fond d’écran : Jour 23': 'View both versions of the wallpaper: Day 23',
+    'Voir les deux versions du fond d’écran : Le batteur': 'View both versions of the wallpaper: The drummer', 'Voir les deux versions du fond d’écran : Le saxophoniste': 'View both versions of the wallpaper: The saxophonist', 'Voir les deux versions du fond d’écran : Le trompettiste': 'View both versions of the wallpaper: The trumpeter', 'Voir les deux versions du fond d’écran : Le pianiste': 'View both versions of the wallpaper: The pianist', 'Voir les deux versions du fond d’écran : Le violoniste': 'View both versions of the wallpaper: The violinist',
+    'Fonds d’écran de la collection Jazz Band': 'Wallpapers from the Jazz Band collection', 'Fonds d’écran de la collection Juillet, mois des pastels': 'Wallpapers from the July, the month of pastels collection',
     'Versions du fond d’écran': 'Wallpaper versions', 'Voir le fond d’écran précédent': 'View previous wallpaper', 'Voir le fond d’écran suivant': 'View next wallpaper'
   };
   const titles = {
@@ -296,7 +304,7 @@ function closeContact() {
     const key = value.trim();
     if (!key) return value;
     if (text[key]) return `${leading}${text[key]}${trailing}`;
-    if (/^Défi de juillet · Jour \d+$/.test(key)) return `${leading}${key.replace('Défi de juillet · Jour', 'July Challenge · Day')}${trailing}`;
+    if (/^Juillet, mois des pastels · Jour \d+$/.test(key)) return `${leading}${key.replace('Juillet, mois des pastels · Jour', 'July, the month of pastels · Day')}${trailing}`;
     if (/^Jour \d+$/.test(key)) return `${leading}${key.replace('Jour', 'Day')}${trailing}`;
     if (/^Juillet 2026 · pastel à l’huile sur papier$/.test(key)) return `${leading}July 2026 · oil pastel on paper${trailing}`;
     if (/^\d+(e|er) œuvre du challenge : une peinture par jour, tout au long de juillet\.$/.test(key)) return `${leading}${key.replace(/^(\d+)(e|er) œuvre.*$/, '$1 work from the challenge: one painting a day throughout July.')}${trailing}`;
