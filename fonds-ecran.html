@@ -187,8 +187,12 @@
   let activeIndex = 0;
   let lastTrigger = null;
   let currentView = 'preview';
+  // Porte désactivée le 2026-09-03 : Shopify refuse les inscriptions envoyées
+  // depuis un autre domaine, les adresses se perdaient en silence. Repasser à
+  // true quand la collecte passera par Supabase.
+  const PORTE_ACTIVE = false;
   // Si le module d'infolettre n'a pas pu se charger, on n'enferme pas le cadeau.
-  const libre = () => !window.artistocratieInfolettre || window.artistocratieInfolettre.estInscrit();
+  const libre = () => !PORTE_ACTIVE || !window.artistocratieInfolettre || window.artistocratieInfolettre.estInscrit();
   const trackWallpaper = (eventName, trigger, extra = {}) => {
     if (typeof trackAnalyticsEvent !== 'function' || !trigger) return;
     const base = {
